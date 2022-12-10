@@ -7,8 +7,14 @@
  ***************************************************************************/
 #include "standartlabel.h"
 
-StandartLabel::StandartLabel(QWidget* parent)
-    :MenuLabel(parent)
+StandartLabel::StandartLabel(const QString labelName, QWidget* parent)
+    :MenuLabel(labelName, parent)
 {
+    labelColor = QColor("#335180");
 
+    QPalette pal = label->palette();
+    pal.setColor(label->backgroundRole(), labelColor);
+    label->setPalette(pal);
 }
+
+

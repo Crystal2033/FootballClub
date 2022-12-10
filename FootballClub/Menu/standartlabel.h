@@ -9,11 +9,13 @@
 #define STANDARTLABEL_H
 
 #include "menulabel.h"
+#include <QLabel>
 
 class StandartLabel : public MenuLabel
 {
 public:
-    StandartLabel(QWidget* parent = nullptr);
+    StandartLabel(const QString labelName, QWidget* parent = nullptr);
+private:
 };
 
 #endif // STANDARTLABEL_H

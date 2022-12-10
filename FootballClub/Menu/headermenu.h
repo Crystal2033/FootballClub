@@ -9,6 +9,8 @@
 #define HEADERMENU_H
 
 #include "Menu/menulabel.h"
+#include "Menu/standartlabel.h"
+#include "Menu/authorizationlabel.h"
 #include <QWidget>
 #include <QList>
 

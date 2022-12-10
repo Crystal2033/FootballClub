@@ -13,7 +13,9 @@
 class AuthorizationLabel : public MenuLabel
 {
 public:
-    AuthorizationLabel(QWidget* parent = nullptr);
+    AuthorizationLabel(const QString labelName, QWidget* parent = nullptr);
+private:
+
 };
 
 #endif // AUTHORIZATIONLABEL_H

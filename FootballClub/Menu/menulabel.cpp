@@ -7,8 +7,24 @@
  ***************************************************************************/
 #include "menulabel.h"
 
-MenuLabel::MenuLabel(QWidget *parent)
+MenuLabel::MenuLabel(QString labelName, QWidget *parent)
     : QWidget{parent}
 {
+    label = new QLabel(labelName);
+    label->setAlignment(Qt::AlignCenter);
+    label->adjustSize();
+}
 
+void MenuLabel::setChosen(const bool chosenStatus)
+{
+    isChosen = chosenStatus;
+}
+
+void MenuLabel::createStyles()
+{
+    label->setStyleSheet("color: white"
+                         "font-size: 25px;"
+                         "font-weight: bold;"
+                         ""
+                         "");
 }

@@ -7,8 +7,13 @@
  ***************************************************************************/
 #include "authorizationlabel.h"
 
-AuthorizationLabel::AuthorizationLabel(QWidget* parent):
-    MenuLabel(parent)
+AuthorizationLabel::AuthorizationLabel(const QString labelName, QWidget* parent):
+    MenuLabel(labelName, parent)
 {
+    labelColor = QColor("#52637E");
 
+    QPalette pal = label->palette();
+    pal.setColor(label->backgroundRole(), labelColor);
+    label->setPalette(pal);
 }
+

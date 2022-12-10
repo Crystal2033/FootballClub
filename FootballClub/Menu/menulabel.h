@@ -9,13 +9,19 @@
 #define MENULABEL_H
 
 #include <QWidget>
-
+#include <QLabel>
+typedef enum {CHOSEN, NOT_CHOSEN} CHOSEN_TYPE;
 class MenuLabel : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MenuLabel(QWidget *parent = nullptr);
-
+    explicit MenuLabel(const QString labelName, QWidget *parent = nullptr);
+    void setChosen(const bool chosenStatus);
+protected:
+    bool isChosen = false;
+    QLabel* label;
+    QColor labelColor;
+    virtual void createStyles();
 signals:
 
 };

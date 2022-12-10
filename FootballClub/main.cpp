@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+    w.setStyleSheet("MainWindow{background-color: #30415B}");
     w.show();
     return a.exec();
 }
