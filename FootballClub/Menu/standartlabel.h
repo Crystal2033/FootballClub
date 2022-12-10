@@ -15,7 +15,11 @@ class StandartLabel : public MenuLabel
 {
 public:
     StandartLabel(const QString labelName, QWidget* parent = nullptr);
+private slots:
+    void onLabelClicked();
 private:
+
+
 };
 
 #endif // STANDARTLABEL_H

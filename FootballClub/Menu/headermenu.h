@@ -13,16 +13,21 @@
 #include "Menu/authorizationlabel.h"
 #include <QWidget>
 #include <QList>
+#include <QBoxLayout>
+#include <PatternObserver/observer.h>
 
-class HeaderMenu : public QWidget
+class HeaderMenu : public QWidget, public InterfaceObserver
 {
     Q_OBJECT
 public:
     explicit HeaderMenu(QWidget *parent = nullptr);
-
+    ~HeaderMenu();
+    void updateByObserver();
 
 private:
+    QHBoxLayout* horLay = nullptr;
     void createMenu();
+    void insertLabelsInLayout();
     void addMenuLabel(MenuLabel* const& menuLabel);
     QList<MenuLabel*> menuLabels;
 

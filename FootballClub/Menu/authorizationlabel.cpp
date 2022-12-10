@@ -10,10 +10,26 @@
 AuthorizationLabel::AuthorizationLabel(const QString labelName, QWidget* parent):
     MenuLabel(labelName, parent)
 {
-    labelColor = QColor("#52637E");
+    createStyles();
+    baseColor = QColor("#52637E");
+    labelColor = baseColor;
 
-    QPalette pal = label->palette();
-    pal.setColor(label->backgroundRole(), labelColor);
-    label->setPalette(pal);
+    setBackgroundLabelColor();
+    mainLay->addWidget(label);
+    setLayout(mainLay);
+
+    connect(this, &MenuLabel::clicked, this, &AuthorizationLabel::onLabelClicked);
 }
+
+void AuthorizationLabel::onLabelClicked()
+{
+    notifyObservers();
+    isChosen = true;
+
+    labelColor = QColor("#0F315B");
+    setBackgroundLabelColor();
+    label->setFrameStyle(QFrame::WinPanel | QFrame::Sunken);
+}
+
+
 

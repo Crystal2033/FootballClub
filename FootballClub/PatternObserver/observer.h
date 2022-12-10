@@ -13,7 +13,7 @@ class InterfaceObserver
 {
 public:
     virtual ~InterfaceObserver() = default;
-    virtual void update() = 0;
+    virtual void updateByObserver() = 0;
 };
 
 #endif // OBSERVER_H

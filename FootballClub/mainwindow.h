@@ -9,8 +9,9 @@
 #define MAINWINDOW_H
 
 #include "DataBase/database.h"
-
+#include "Menu/headermenu.h"
 #include <QMainWindow>
+#include <QBoxLayout>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,6 +27,8 @@ public:
 
 private:
     DataBase* database = nullptr;
+    HeaderMenu* headerMenu = nullptr;
+    QVBoxLayout* mainLay = nullptr;
     Ui::MainWindow *ui;
 
     bool connectToDatabase();

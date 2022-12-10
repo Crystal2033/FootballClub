@@ -14,6 +14,8 @@ class AuthorizationLabel : public MenuLabel
 {
 public:
     AuthorizationLabel(const QString labelName, QWidget* parent = nullptr);
+private slots:
+    void onLabelClicked();
 private:
 
 };

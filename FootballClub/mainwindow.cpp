@@ -13,8 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connectToDatabase();
-
+    //connectToDatabase();
+    mainLay = new QVBoxLayout;
+    this->centralWidget()->setLayout(mainLay);
+    headerMenu = new HeaderMenu;
+    mainLay->addWidget(headerMenu);
 }
 
 MainWindow::~MainWindow()
