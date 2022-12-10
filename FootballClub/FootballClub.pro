@@ -10,21 +10,23 @@ CONFIG += c++17
 SOURCES += \
     DataBase/database.cpp \
     InfoNotes/playernote.cpp \
-    Menu/authorizationlabel.cpp \
+    Menu/Labels/authorizationlabel.cpp \
+    Menu/Labels/menulabel.cpp \
+    Menu/Labels/standartlabel.cpp \
     Menu/headermenu.cpp \
-    Menu/menulabel.cpp \
-    Menu/standartlabel.cpp \
     main.cpp \
     mainwindow.cpp \
 
 HEADERS += \
     DataBase/database.h \
+    Enums.h \
+    Enums/Enums.h \
     InfoNotes/Note.h \
     InfoNotes/playernote.h \
-    Menu/authorizationlabel.h \
+    Menu/Labels/authorizationlabel.h \
+    Menu/Labels/menulabel.h \
+    Menu/Labels/standartlabel.h \
     Menu/headermenu.h \
-    Menu/menulabel.h \
-    Menu/standartlabel.h \
     PatternObserver/observer.h \
     PatternObserver/subject.h \
     mainwindow.h \

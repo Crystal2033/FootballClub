@@ -16,14 +16,18 @@ MainWindow::MainWindow(QWidget *parent)
     //connectToDatabase();
     mainLay = new QVBoxLayout;
     this->centralWidget()->setLayout(mainLay);
-    headerMenu = new HeaderMenu;
-    mainLay->addWidget(headerMenu);
+    createHeaderMenu();
 }
 
 MainWindow::~MainWindow()
 {
     delete database;
     delete ui;
+}
+
+void MainWindow::updateByObserver(const REQUEST_TYPE requestStatus)
+{
+    qInfo() << "chosen status is:" << headerMenu->getChosenDataType();
 }
 
 bool MainWindow::connectToDatabase() //should be called ine time in
@@ -35,5 +39,12 @@ bool MainWindow::connectToDatabase() //should be called ine time in
         database = new DataBase;
     }
     return database->createConnection("QPSQL", "FootballClub", "postgres", "gomer2002");
+}
+
+void MainWindow::createHeaderMenu()
+{
+    headerMenu = new HeaderMenu;
+    headerMenu->addObserver(this);
+    mainLay->addWidget(headerMenu);
 }
 

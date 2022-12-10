@@ -17,7 +17,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public InterfaceObserver
 {
     Q_OBJECT
 
@@ -30,7 +30,9 @@ private:
     HeaderMenu* headerMenu = nullptr;
     QVBoxLayout* mainLay = nullptr;
     Ui::MainWindow *ui;
+    void updateByObserver(const REQUEST_TYPE requestStatus) override;
 
     bool connectToDatabase();
+    void createHeaderMenu();
 };
 #endif // MAINWINDOW_H

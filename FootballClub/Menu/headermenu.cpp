@@ -6,7 +6,8 @@
  *                                                                         *
  ***************************************************************************/
 #include "headermenu.h"
-
+#include "Labels/standartlabel.h"
+#include "Labels/authorizationlabel.h"
 
 HeaderMenu::HeaderMenu(QWidget *parent)
     : QWidget{parent}
@@ -24,25 +25,58 @@ HeaderMenu::~HeaderMenu()
     delete horLay;
 }
 
-void HeaderMenu::updateByObserver()
+void HeaderMenu::updateByObserver(const REQUEST_TYPE requestStatus)
 {
-    for(auto menuLabel : menuLabels){
-        menuLabel->setChosen(false);
-        menuLabel->setBaseColor();
+    if(requestStatus == SET_FALSE_IN_LABELS){
+        for(auto menuLabel : menuLabels){
+            menuLabel->setChosenAndChangeColor(false);
+        }
+    }
+    else if(requestStatus == SEND_CHOSEN_DATA_TYPE){
+        for(auto menuLabel : menuLabels){
+            if(menuLabel->getIsChosen()){
+                chosenDataType = menuLabel->getLabelType();
+                break;
+            }
+        }
+        notifyObservers(requestStatus); //Notify mainwindow
+    }
+
+
+
+}
+
+void HeaderMenu::addObserver(InterfaceObserver *observer)
+{
+    observers.append(observer);
+}
+
+void HeaderMenu::removeObserver(InterfaceObserver *observer)
+{
+    QList<InterfaceObserver*>::ConstIterator it = observers.constBegin();
+    for (; it != observers.constEnd(); ++it) {
+        if (*it == observer) {
+            observers.erase(it);
+            return;
+        }
     }
 }
 
+LABEL_TYPE HeaderMenu::getChosenDataType() const
+{
+    return chosenDataType;
+}
+
 void HeaderMenu::createMenu()
-{//TODO: probably can to do addMenuLabel(new StandartLabel("Club"));
-
-
-    addMenuLabel(new StandartLabel("Club"));
-    addMenuLabel(new StandartLabel("Players"));
-    addMenuLabel(new StandartLabel("Coaches"));
-    addMenuLabel(new StandartLabel("Matches"));
-    addMenuLabel(new StandartLabel("Tournaments"));
-    addMenuLabel(new StandartLabel("Goals"));
-    addMenuLabel(new AuthorizationLabel("Authorization"));
+{
+    addMenuLabel(new StandartLabel("Club", CLUB));
+    addMenuLabel(new StandartLabel("Teams", TEAMS));
+    addMenuLabel(new StandartLabel("Players", PLAYERS));
+    addMenuLabel(new StandartLabel("Coaches", COACHES));
+    addMenuLabel(new StandartLabel("Matches", MATCHES));
+    addMenuLabel(new StandartLabel("Tournaments", TOURNS));
+    addMenuLabel(new StandartLabel("Goals", GOALS));
+    addMenuLabel(new AuthorizationLabel("Authorization", AUTHO));
 
     insertLabelsInLayout();
 }
@@ -58,4 +92,11 @@ void HeaderMenu::addMenuLabel(MenuLabel* const& menuLabel)
 {
     menuLabels.append(menuLabel);
     menuLabel->addObserver(this);
+}
+
+void HeaderMenu::notifyObservers(const REQUEST_TYPE requestStatus)
+{
+    for (auto obs : observers) {
+        obs->updateByObserver(requestStatus);
+    }
 }

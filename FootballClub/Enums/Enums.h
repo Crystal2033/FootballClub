@@ -1,23 +1,12 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 10.12.2022 by Kulikov Pavel                             *
+ *   Copyright (C) 11.12.2022 by Kulikov Pavel                             *
  *                                                                         *
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#ifndef AUTHORIZATIONLABEL_H
-#define AUTHORIZATIONLABEL_H
-
-#include "menulabel.h"
-
-class AuthorizationLabel : public MenuLabel
-{
-public:
-    AuthorizationLabel(const QString labelName, QWidget* parent = nullptr);
-private slots:
-    void onLabelClicked();
-private:
-
-};
-
-#endif // AUTHORIZATIONLABEL_H
+#ifndef ENUMS_H
+#define ENUMS_H
+typedef enum {PLAYERS, COACHES, MATCHES, TOURNS, GOALS, CLUB, TEAMS, AUTHO} LABEL_TYPE;
+typedef enum {SET_FALSE_IN_LABELS, SEND_CHOSEN_DATA_TYPE} REQUEST_TYPE;
+#endif // ENUMS_H

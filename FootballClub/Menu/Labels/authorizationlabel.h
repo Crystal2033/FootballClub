@@ -5,21 +5,20 @@
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#ifndef STANDARTLABEL_H
-#define STANDARTLABEL_H
+#ifndef AUTHORIZATIONLABEL_H
+#define AUTHORIZATIONLABEL_H
 
 #include "menulabel.h"
-#include <QLabel>
 
-class StandartLabel : public MenuLabel
+class AuthorizationLabel : public MenuLabel
 {
 public:
-    StandartLabel(const QString labelName, QWidget* parent = nullptr);
+    AuthorizationLabel(const QString labelName, const LABEL_TYPE labelType, QWidget* parent = nullptr);
+    void setChosenAndChangeColor(const bool status);
 private slots:
     void onLabelClicked();
 private:
 
-
 };
 
-#endif // STANDARTLABEL_H
+#endif // AUTHORIZATIONLABEL_H

@@ -1,23 +1,26 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 21.08.2022 by Kulikov Pavel                                 *
+ *   Copyright (C) 10.12.2022 by Kulikov Pavel                             *
  *                                                                         *
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#ifndef SUBJECT_H
-#define SUBJECT_H
-#pragma once
-#include "PatternObserver/observer.h"
+#ifndef STANDARTLABEL_H
+#define STANDARTLABEL_H
 
-class InterfaceSubject
+#include "menulabel.h"
+#include <QLabel>
+
+class StandartLabel : public MenuLabel
 {
 public:
-    virtual ~InterfaceSubject() = default;
-    virtual void addObserver(InterfaceObserver* observer) = 0;
-    virtual void removeObserver(InterfaceObserver* observer) = 0;
-    virtual void notifyObservers(const REQUEST_TYPE requestStatus) = 0;
+    StandartLabel(const QString labelName, const LABEL_TYPE labelType, QWidget* parent = nullptr);
+    void setChosenAndChangeColor(const bool status);
+private slots:
+    void onLabelClicked();
+private:
+
+
 };
 
-
-#endif // SUBJECT_H
+#endif // STANDARTLABEL_H

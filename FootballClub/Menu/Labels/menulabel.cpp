@@ -7,7 +7,7 @@
  ***************************************************************************/
 #include "menulabel.h"
 
-MenuLabel::MenuLabel(QString labelName, QWidget *parent)
+MenuLabel::MenuLabel(QString labelName, const LABEL_TYPE labelType, QWidget *parent)
     : QWidget{parent}
 {
     label = new QLabel(labelName);
@@ -15,17 +15,17 @@ MenuLabel::MenuLabel(QString labelName, QWidget *parent)
     label->setAutoFillBackground(true);
     label->setFixedHeight(70);
     label->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
+    this->labelType = labelType;
     mainLay = new QVBoxLayout;
-
-
 }
 
-void MenuLabel::setChosen(const bool chosenStatus)
+void MenuLabel::setChosenAndChangeColor(const bool chosenStatus)
 {
     isChosen = chosenStatus;
 }
 
-QString MenuLabel::getText()
+
+QString MenuLabel::getText() const
 {
     return label->text();
 }
@@ -43,13 +43,6 @@ void MenuLabel::setBackgroundLabelColor()
     QPalette pal = label->palette();
     pal.setColor(label->backgroundRole(), labelColor);
     label->setPalette(pal);
-}
-
-void MenuLabel::setBaseColor()
-{
-    labelColor = baseColor;
-    label->setFrameStyle(QFrame::WinPanel | QFrame::Raised);
-    setBackgroundLabelColor();
 }
 
 void MenuLabel::mousePressEvent(QMouseEvent *event)
@@ -75,9 +68,19 @@ void MenuLabel::removeObserver(InterfaceObserver *observer)
     }
 }
 
-void MenuLabel::notifyObservers()
+bool MenuLabel::getIsChosen() const
+{
+    return isChosen;
+}
+
+LABEL_TYPE MenuLabel::getLabelType() const
+{
+    return labelType;
+}
+
+void MenuLabel::notifyObservers(const REQUEST_TYPE requestStatus)
 {
     for (auto obs : observers) {
-        obs->updateByObserver();
+        obs->updateByObserver(requestStatus);
     }
 }
