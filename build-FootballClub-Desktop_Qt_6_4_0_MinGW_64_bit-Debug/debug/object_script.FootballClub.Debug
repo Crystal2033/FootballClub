@@ -1,0 +1,11 @@
+debug/database.o
+debug/playernote.o
+debug/headermenu.o
+debug/menulabel.o
+debug/standartlabel.o
+debug/main.o
+debug/mainwindow.o
+debug/moc_Note.o
+debug/moc_headermenu.o
+debug/moc_menulabel.o
+debug/moc_mainwindow.o

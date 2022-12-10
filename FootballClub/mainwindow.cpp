@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connectToDatabase();
-    qInfo() << ui->calendarWidget->selectedDate();
 
 }
 

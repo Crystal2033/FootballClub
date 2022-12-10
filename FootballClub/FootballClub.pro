@@ -9,14 +9,25 @@ CONFIG += c++17
 
 SOURCES += \
     DataBase/database.cpp \
+    InfoNotes/playernote.cpp \
+    Menu/authorizationlabel.cpp \
+    Menu/headermenu.cpp \
+    Menu/menulabel.cpp \
+    Menu/standartlabel.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
 
 HEADERS += \
     DataBase/database.h \
+    InfoNotes/Note.h \
+    InfoNotes/playernote.h \
+    Menu/authorizationlabel.h \
+    Menu/headermenu.h \
+    Menu/menulabel.h \
+    Menu/standartlabel.h \
     PatternObserver/observer.h \
     PatternObserver/subject.h \
-    mainwindow.h
+    mainwindow.h \
 
 FORMS += \
     mainwindow.ui
