@@ -18,6 +18,9 @@ HeaderMenu::HeaderMenu(QWidget *parent)
 
 HeaderMenu::~HeaderMenu()
 {
+    for(auto label : menuLabels){
+        delete label;
+    }
     delete horLay;
 }
 
@@ -31,21 +34,15 @@ void HeaderMenu::updateByObserver()
 
 void HeaderMenu::createMenu()
 {//TODO: probably can to do addMenuLabel(new StandartLabel("Club"));
-    MenuLabel* clubLabel = new StandartLabel("Club");
-    MenuLabel* playersLabel = new StandartLabel("Players");
-    MenuLabel* coachingStaff = new StandartLabel("Coaches");
-    MenuLabel* gamesLabel = new StandartLabel("Matches");
-    MenuLabel* tournsLabel = new StandartLabel("Tournaments");
-    MenuLabel* goalsLabel = new StandartLabel("Goals");
-    MenuLabel* authoLabel = new AuthorizationLabel("Authorization");
 
-    addMenuLabel(clubLabel);
-    addMenuLabel(playersLabel);
-    addMenuLabel(coachingStaff);
-    addMenuLabel(gamesLabel);
-    addMenuLabel(tournsLabel);
-    addMenuLabel(goalsLabel);
-    addMenuLabel(authoLabel);
+
+    addMenuLabel(new StandartLabel("Club"));
+    addMenuLabel(new StandartLabel("Players"));
+    addMenuLabel(new StandartLabel("Coaches"));
+    addMenuLabel(new StandartLabel("Matches"));
+    addMenuLabel(new StandartLabel("Tournaments"));
+    addMenuLabel(new StandartLabel("Goals"));
+    addMenuLabel(new AuthorizationLabel("Authorization"));
 
     insertLabelsInLayout();
 }
