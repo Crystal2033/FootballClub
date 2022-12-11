@@ -14,7 +14,6 @@ MainWindow::MainWindow(WindowManager* manager, QWidget *parent)
 {
     windowManager = manager;
     ui->setupUi(this);
-    //connectToDatabase();
     mainLay = new QVBoxLayout;
     this->centralWidget()->setLayout(mainLay);
     createHeaderMenu();
@@ -22,22 +21,10 @@ MainWindow::MainWindow(WindowManager* manager, QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete database;
     delete ui;
 }
 
 
-
-bool MainWindow::connectToDatabase() //should be called ine time in
-{
-    if(database != nullptr){
-        return false;
-    }
-    else{
-        database = new DataBase;
-    }
-    return database->createConnection("QPSQL", "FootballClub", "postgres", "gomer2002");
-}
 
 void MainWindow::createHeaderMenu()
 {

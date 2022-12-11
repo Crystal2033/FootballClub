@@ -9,15 +9,21 @@
 #define WINDOWMANAGER_H
 #pragma once
 #include "mainwindow.h"
+#include "DataBase/database.h"
 
 class WindowManager : public InterfaceObserver
 {
 public:
     WindowManager();
+    ~WindowManager();
     void show();
 private:
-    void updateByObserver(const REQUEST_TYPE requestStatus) override;
+    DataBase* database = nullptr;
     MainWindow* window = nullptr;
+
+    bool connectToDatabase();
+    void updateByObserver(const REQUEST_TYPE requestStatus) override;
+
 };
 
 #endif // WINDOWMANAGER_H

@@ -8,7 +8,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "DataBase/database.h"
 #include "Menu/headermenu.h"
 #include <QMainWindow>
 #include <QBoxLayout>
@@ -28,14 +27,12 @@ public:
     ~MainWindow();
 
 private:
-    DataBase* database = nullptr;
+
     HeaderMenu* headerMenu = nullptr;
     QVBoxLayout* mainLay = nullptr;
     Ui::MainWindow *ui;
     WindowManager* windowManager = nullptr;
 
-
-    bool connectToDatabase();
     void createHeaderMenu();
 
     friend class WindowManager;
