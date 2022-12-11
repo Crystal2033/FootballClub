@@ -16,6 +16,7 @@ SOURCES += \
     Menu/headermenu.cpp \
     main.cpp \
     mainwindow.cpp \
+    windowmanager.cpp
 
 HEADERS += \
     DataBase/database.h \
@@ -30,6 +31,7 @@ HEADERS += \
     PatternObserver/observer.h \
     PatternObserver/subject.h \
     mainwindow.h \
+    windowmanager.h
 
 FORMS += \
     mainwindow.ui

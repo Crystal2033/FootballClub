@@ -8,10 +8,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(WindowManager* manager, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    windowManager = manager;
     ui->setupUi(this);
     //connectToDatabase();
     mainLay = new QVBoxLayout;
@@ -25,10 +26,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::updateByObserver(const REQUEST_TYPE requestStatus)
-{
-    qInfo() << "chosen status is:" << headerMenu->getChosenDataType();
-}
+
 
 bool MainWindow::connectToDatabase() //should be called ine time in
 {
@@ -44,7 +42,7 @@ bool MainWindow::connectToDatabase() //should be called ine time in
 void MainWindow::createHeaderMenu()
 {
     headerMenu = new HeaderMenu;
-    headerMenu->addObserver(this);
+    headerMenu->addObserver((InterfaceObserver*)windowManager);
     mainLay->addWidget(headerMenu);
 }
 

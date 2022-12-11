@@ -39,7 +39,7 @@ void HeaderMenu::updateByObserver(const REQUEST_TYPE requestStatus)
                 break;
             }
         }
-        notifyObservers(requestStatus); //Notify mainwindow
+        notifyObservers(requestStatus); //Notify WindowManager
     }
 
 

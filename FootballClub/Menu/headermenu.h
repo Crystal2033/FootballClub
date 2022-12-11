@@ -15,8 +15,8 @@
 #include <PatternObserver/observer.h>
 
 class HeaderMenu : public QWidget, public InterfaceObserver, public InterfaceSubject
-{//OBSERVER FOR MENU LABELS, SUBJECT FOR MAINWINDOW. Observer to change label color if chosen and uncolor other.
- //Subject to send chosen label type to mainwindow
+{//OBSERVER FOR MENU LABELS, SUBJECT FOR WindowManager. Observer to change label color if chosen and uncolor other.
+ //Subject to send chosen label type to WindowManager
     Q_OBJECT
 public:
     explicit HeaderMenu(QWidget *parent = nullptr);

@@ -13,16 +13,18 @@
 #include <QMainWindow>
 #include <QBoxLayout>
 
+class WindowManager;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow, public InterfaceObserver
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(WindowManager* manager ,QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
@@ -30,9 +32,12 @@ private:
     HeaderMenu* headerMenu = nullptr;
     QVBoxLayout* mainLay = nullptr;
     Ui::MainWindow *ui;
-    void updateByObserver(const REQUEST_TYPE requestStatus) override;
+    WindowManager* windowManager = nullptr;
+
 
     bool connectToDatabase();
     void createHeaderMenu();
+
+    friend class WindowManager;
 };
 #endif // MAINWINDOW_H
