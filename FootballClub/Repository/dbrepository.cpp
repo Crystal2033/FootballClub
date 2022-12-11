@@ -5,26 +5,23 @@
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#include "windowmanager.h"
+#include "dbrepository.h"
 
-WindowManager::WindowManager()
+DBRepository::DBRepository()
 {
-    window = new MainWindow(this);
-    window->setStyleSheet("MainWindow{background-color: #30415B}");
-    connectToDatabase();
+//    if(!createConnection()){
+//        exit(-1);
+//    }
 }
 
-WindowManager::~WindowManager()
+DBRepository::~DBRepository()
 {
-    delete database;
+    if(database != nullptr){
+        delete database;
+    }
 }
 
-void WindowManager::show()
-{
-    window->show();
-}
-
-bool WindowManager::connectToDatabase()
+bool DBRepository::createConnection()
 {
     if(database != nullptr){
         return false;
@@ -33,9 +30,4 @@ bool WindowManager::connectToDatabase()
         database = new DataBase;
     }
     return database->createConnection("QPSQL", "FootballClub", "postgres", "gomer2002");
-}
-
-void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus)
-{
-    qInfo() << "Found: " << this->window->headerMenu->getChosenDataType();
 }

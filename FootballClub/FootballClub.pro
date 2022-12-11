@@ -14,13 +14,14 @@ SOURCES += \
     Menu/Labels/menulabel.cpp \
     Menu/Labels/standartlabel.cpp \
     Menu/headermenu.cpp \
+    Repository/dbrepository.cpp \
+    WindowManager/windowmanager.cpp \
+    datademonstrator.cpp \
     main.cpp \
     mainwindow.cpp \
-    windowmanager.cpp
 
 HEADERS += \
     DataBase/database.h \
-    Enums.h \
     Enums/Enums.h \
     InfoNotes/Note.h \
     InfoNotes/playernote.h \
@@ -30,8 +31,10 @@ HEADERS += \
     Menu/headermenu.h \
     PatternObserver/observer.h \
     PatternObserver/subject.h \
+    Repository/dbrepository.h \
+    WindowManager/windowmanager.h \
+    datademonstrator.h \
     mainwindow.h \
-    windowmanager.h
 
 FORMS += \
     mainwindow.ui

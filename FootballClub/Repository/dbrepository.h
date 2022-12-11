@@ -5,25 +5,18 @@
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#ifndef WINDOWMANAGER_H
-#define WINDOWMANAGER_H
-#pragma once
-#include "mainwindow.h"
+#ifndef DBREPOSITORY_H
+#define DBREPOSITORY_H
 #include "DataBase/database.h"
 
-class WindowManager : public InterfaceObserver
-{
+class DBRepository
+{//class for database requests
 public:
-    WindowManager();
-    ~WindowManager();
-    void show();
+    DBRepository();
+    ~DBRepository();
 private:
     DataBase* database = nullptr;
-    MainWindow* window = nullptr;
-
-    bool connectToDatabase();
-    void updateByObserver(const REQUEST_TYPE requestStatus) override;
-
+    bool createConnection();
 };
 
-#endif // WINDOWMANAGER_H
+#endif // DBREPOSITORY_H

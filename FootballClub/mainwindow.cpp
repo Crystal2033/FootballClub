@@ -17,6 +17,7 @@ MainWindow::MainWindow(WindowManager* manager, QWidget *parent)
     mainLay = new QVBoxLayout;
     this->centralWidget()->setLayout(mainLay);
     createHeaderMenu();
+    createDataDemonstrator();
 }
 
 MainWindow::~MainWindow()
@@ -30,6 +31,12 @@ void MainWindow::createHeaderMenu()
 {
     headerMenu = new HeaderMenu;
     headerMenu->addObserver((InterfaceObserver*)windowManager);
-    mainLay->addWidget(headerMenu);
+    mainLay->addWidget(headerMenu, 0, Qt::AlignTop);
+}
+
+void MainWindow::createDataDemonstrator()
+{
+    dataDemonstrator = new DataDemonstrator(mainLay);
+
 }
 

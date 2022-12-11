@@ -9,6 +9,7 @@
 #define MAINWINDOW_H
 
 #include "Menu/headermenu.h"
+#include "datademonstrator.h"
 #include <QMainWindow>
 #include <QBoxLayout>
 
@@ -32,8 +33,10 @@ private:
     QVBoxLayout* mainLay = nullptr;
     Ui::MainWindow *ui;
     WindowManager* windowManager = nullptr;
+    DataDemonstrator* dataDemonstrator = nullptr;
 
     void createHeaderMenu();
+    void createDataDemonstrator();
 
     friend class WindowManager;
 };
