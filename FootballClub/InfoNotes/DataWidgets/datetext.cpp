@@ -5,23 +5,9 @@
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#ifndef LABEL_H
-#define LABEL_H
+#include "datetext.h"
 
-#include "textfield.h"
-
-
-
-class Label : public TextField
+DateText::DateText()
 {
-public:
-    Label(const QString& text);
-private:
-    QBoxLayout* lay = nullptr;
-    QLabel* label = nullptr;
-    void setStyles();
-    void setText(const QString& text);
 
-};
-
-#endif // LABEL_H
+}

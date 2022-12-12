@@ -10,6 +10,7 @@ CONFIG += c++17
 SOURCES += \
     DataBase/database.cpp \
     InfoNotes/DataWidgets/calendar.cpp \
+    InfoNotes/DataWidgets/datetext.cpp \
     InfoNotes/DataWidgets/label.cpp \
     InfoNotes/DataWidgets/lineedit.cpp \
     InfoNotes/DataWidgets/textfield.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     DataBase/database.h \
     Enums/Enums.h \
     InfoNotes/DataWidgets/calendar.h \
+    InfoNotes/DataWidgets/datetext.h \
     InfoNotes/DataWidgets/label.h \
     InfoNotes/DataWidgets/lineedit.h \
     InfoNotes/DataWidgets/textfield.h \
@@ -51,3 +53,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources.qrc
