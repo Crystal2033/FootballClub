@@ -16,12 +16,21 @@ Calendar::Calendar()
     lay->addWidget(saveBtn);
     setLayout(lay);
     connect(saveBtn, &QPushButton::clicked, this, &Calendar::onSaveDateClick);
-    show();
+}
 
+QDate Calendar::getChosenDate() const
+{
+    return chosenDate;
+}
+
+void Calendar::setCurrentDate(const QDate &date)
+{
+    calendar->setSelectedDate(date);
 }
 
 void Calendar::onSaveDateClick()
 {
-    qInfo() << calendar->selectedDate();
-    //calendar->show();
+    chosenDate = calendar->selectedDate();
+    close();
+    emit dateSaved();
 }

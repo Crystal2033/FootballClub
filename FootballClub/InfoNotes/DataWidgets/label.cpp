@@ -18,7 +18,7 @@ Label::Label(const QString& text)
 
 void Label::setStyles()
 {
-    label->setStyleSheet("color: #DEB887;"
+    label->setStyleSheet("color: #212F3C;"
                          "font-size: 20px;"
                          "font-family: Goudy Old Style;"
                          "font-weight: bold;");

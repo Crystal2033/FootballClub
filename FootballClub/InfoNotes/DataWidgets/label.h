@@ -16,11 +16,12 @@ class Label : public TextField
 {
 public:
     Label(const QString& text);
+    void setText(const QString& text);
 private:
     QBoxLayout* lay = nullptr;
     QLabel* label = nullptr;
     void setStyles();
-    void setText(const QString& text);
+
 
 };
 

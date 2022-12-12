@@ -13,14 +13,20 @@
 
 class Calendar : public TextField
 {
+    Q_OBJECT
 public:
     Calendar();
+    QDate getChosenDate() const;
+    void setCurrentDate(const QDate& date);
 private:
+    QDate chosenDate;
     QCalendarWidget* calendar = nullptr;
     QPushButton* saveBtn = nullptr;
     QBoxLayout* lay = nullptr;
 private slots:
     void onSaveDateClick();
+signals:
+    void dateSaved();
 
 };
 
