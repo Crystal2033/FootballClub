@@ -41,6 +41,16 @@ void DBRepository::testPrint()
     else{
         qInfo() << "good";
     }
+    QSqlRecord rec = query.record();
+    QString team1;
+    QString team2;
+    QString score;
+    while(query.next()){
+        team1 = query.value(rec.indexOf("team1")).toString();
+        score = query.value(rec.indexOf("finalscore")).toString();
+        team2 = query.value(rec.indexOf("team2")).toString();
+        qInfo() << team1 << score << team2;
+    }
 }
 
 bool DBRepository::createConnection()
