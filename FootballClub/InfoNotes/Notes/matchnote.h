@@ -14,7 +14,7 @@ class MatchNote : public Note
 {
 public:
     MatchNote();
-    private:
+private:
 
 
 };

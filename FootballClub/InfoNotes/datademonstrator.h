@@ -11,7 +11,7 @@
 #include <QWidget>
 #include <QScrollArea>
 #include <QBoxLayout>
-#include "InfoNotes/Note.h"
+#include "InfoNotes/Notes/Note.h"
 
 class DataDemonstrator : public QWidget
 {

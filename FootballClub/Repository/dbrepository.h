@@ -14,9 +14,13 @@ class DBRepository
 public:
     DBRepository();
     ~DBRepository();
+
 private:
+    QString getMatchReadOnlyRequest() const;
+    void testPrint();
     DataBase* database = nullptr;
     bool createConnection();
+    friend class WindowManager;
 };
 
 #endif // DBREPOSITORY_H

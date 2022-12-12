@@ -9,9 +9,9 @@
 #define MAINWINDOW_H
 
 #include "Menu/headermenu.h"
-#include "datademonstrator.h"
 #include <QMainWindow>
 #include <QBoxLayout>
+#include <InfoNotes/datademonstrator.h>
 
 class WindowManager;
 
