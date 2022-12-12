@@ -7,10 +7,10 @@
  ***************************************************************************/
 #include "label.h"
 
-Label::Label()
+Label::Label(const QString& text)
 {
     lay = new QHBoxLayout;
-    label = new QLabel("Unknown");
+    label = new QLabel(text);
     lay->addWidget(label);
     setLayout(lay);
     setStyles();

@@ -9,11 +9,19 @@
 #define CALENDAR_H
 
 #include "textfield.h"
+#include <QCalendarWidget>
 
 class Calendar : public TextField
 {
 public:
     Calendar();
+private:
+    QCalendarWidget* calendar = nullptr;
+    QPushButton* saveBtn = nullptr;
+    QBoxLayout* lay = nullptr;
+private slots:
+    void onSaveDateClick();
+
 };
 
 #endif // CALENDAR_H

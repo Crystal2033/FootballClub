@@ -9,6 +9,12 @@
 #define TEXTFIELD_H
 
 #include <QWidget>
+#include <QBoxLayout>
+#include <QLabel>
+#include <QComboBox>
+#include <QCalendar>
+#include <QLineEdit>
+#include <QPushButton>
 
 class TextField : public QWidget
 {

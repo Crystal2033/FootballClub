@@ -14,6 +14,14 @@ class LineEdit : public TextField
 {
 public:
     LineEdit();
+private:
+    QLineEdit* lineEdit = nullptr;
+    QBoxLayout* lay = nullptr;
+
+    void setText(const QString& text);
+    QString getText() const;
+    void setStyles();
+
 };
 
 #endif // LINEEDIT_H
