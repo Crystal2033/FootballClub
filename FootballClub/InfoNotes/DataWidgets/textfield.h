@@ -1,13 +1,23 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 11.12.2022 by Kulikov Pavel                             *
+ *   Copyright (C) 12.12.2022 by Kulikov Pavel                             *
  *                                                                         *
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#ifndef ENUMS_H
-#define ENUMS_H
-typedef enum {PLAYERS, COACHES, MATCHES, TOURNS, GOALS, CLUB, TEAMS, AUTHO} LABEL_TYPE;
-typedef enum {SET_FALSE_IN_LABELS, SEND_CHOSEN_DATA_TYPE} REQUEST_TYPE;
-typedef enum {LABEL, LINE_EDIT, DROP_LIST, CALENDAR}TEXT_FIELD_TYPE;
-#endif // ENUMS_H
+#ifndef TEXTFIELD_H
+#define TEXTFIELD_H
+
+#include <QWidget>
+
+class TextField : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit TextField(QWidget *parent = nullptr);
+
+signals:
+
+};
+
+#endif // TEXTFIELD_H

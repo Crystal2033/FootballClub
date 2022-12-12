@@ -22,7 +22,7 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     scrollArea->setWidgetResizable(true);
 
     scrollArea->setStyleSheet(""
-                              "background-color: #AB5252;"
+                              "background-color: #008B8B;"
                               ""
                               ""
                               "");

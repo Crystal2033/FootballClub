@@ -9,6 +9,10 @@ CONFIG += c++17
 
 SOURCES += \
     DataBase/database.cpp \
+    InfoNotes/DataWidgets/calendar.cpp \
+    InfoNotes/DataWidgets/label.cpp \
+    InfoNotes/DataWidgets/lineedit.cpp \
+    InfoNotes/DataWidgets/textfield.cpp \
     InfoNotes/playernote.cpp \
     Menu/Labels/authorizationlabel.cpp \
     Menu/Labels/menulabel.cpp \
@@ -23,6 +27,10 @@ SOURCES += \
 HEADERS += \
     DataBase/database.h \
     Enums/Enums.h \
+    InfoNotes/DataWidgets/calendar.h \
+    InfoNotes/DataWidgets/label.h \
+    InfoNotes/DataWidgets/lineedit.h \
+    InfoNotes/DataWidgets/textfield.h \
     InfoNotes/Note.h \
     InfoNotes/playernote.h \
     Menu/Labels/authorizationlabel.h \

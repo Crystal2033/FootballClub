@@ -16,6 +16,7 @@ class PlayerNote : public Note
 public:
     void extend() override;
     PlayerNote(QWidget* parent = nullptr);
+private:
 
 signals:
 

@@ -36,6 +36,7 @@ void MainWindow::createHeaderMenu()
 
 void MainWindow::createDataDemonstrator()
 {
+    mainLay->setContentsMargins(20, 10, 20, 10);
     dataDemonstrator = new DataDemonstrator(mainLay);
 
 }
