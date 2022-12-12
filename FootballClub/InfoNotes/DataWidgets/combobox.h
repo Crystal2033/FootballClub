@@ -1,17 +1,27 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 09.12.2022 by Kulikov Pavel                             *
+ *   Copyright (C) 12.12.2022 by Kulikov Pavel                             *
  *                                                                         *
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#include <QApplication>
-#include <WindowManager/windowmanager.h>
+#ifndef COMBOBOX_H
+#define COMBOBOX_H
 
-int main(int argc, char *argv[])
+#include "textfield.h"
+
+class ComboBox : public TextField
 {
-    QApplication a(argc, argv);
-    WindowManager windowManager;
-    windowManager.show();
-    return a.exec();
-}
+    Q_OBJECT
+public:
+    ComboBox();
+    QString getChosenData() const;
+    void setBoxItems(const QStringList& stringList);
+    void setCurrentItem(const QString& text);
+private:
+    QBoxLayout* lay = nullptr;
+    QComboBox* comboBox = nullptr;
+    void setStyles();
+};
+
+#endif // COMBOBOX_H

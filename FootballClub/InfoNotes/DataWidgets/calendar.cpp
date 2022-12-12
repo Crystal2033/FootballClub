@@ -20,6 +20,9 @@ Calendar::Calendar()
 
 QDate Calendar::getChosenDate() const
 {
+    if(chosenDate.isNull()){
+        QMessageBox::critical(nullptr, "Wrong data", "Check your date better");
+    }
     return chosenDate;
 }
 

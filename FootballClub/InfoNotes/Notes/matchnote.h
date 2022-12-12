@@ -1,17 +1,22 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 09.12.2022 by Kulikov Pavel                             *
+ *   Copyright (C) 12.12.2022 by Kulikov Pavel                             *
  *                                                                         *
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#include <QApplication>
-#include <WindowManager/windowmanager.h>
+#ifndef MATCHNOTE_H
+#define MATCHNOTE_H
 
-int main(int argc, char *argv[])
+#include "Note.h"
+
+class MatchNote : public Note
 {
-    QApplication a(argc, argv);
-    WindowManager windowManager;
-    windowManager.show();
-    return a.exec();
-}
+public:
+    MatchNote();
+    private:
+
+
+};
+
+#endif // MATCHNOTE_H

@@ -10,18 +10,20 @@ CONFIG += c++17
 SOURCES += \
     DataBase/database.cpp \
     InfoNotes/DataWidgets/calendar.cpp \
+    InfoNotes/DataWidgets/combobox.cpp \
     InfoNotes/DataWidgets/datetext.cpp \
     InfoNotes/DataWidgets/label.cpp \
     InfoNotes/DataWidgets/lineedit.cpp \
     InfoNotes/DataWidgets/textfield.cpp \
-    InfoNotes/playernote.cpp \
+    InfoNotes/Notes/matchnote.cpp \
+    InfoNotes/Notes/playernote.cpp \
+    InfoNotes/datademonstrator.cpp \
     Menu/Labels/authorizationlabel.cpp \
     Menu/Labels/menulabel.cpp \
     Menu/Labels/standartlabel.cpp \
     Menu/headermenu.cpp \
     Repository/dbrepository.cpp \
     WindowManager/windowmanager.cpp \
-    datademonstrator.cpp \
     main.cpp \
     mainwindow.cpp \
 
@@ -29,12 +31,16 @@ HEADERS += \
     DataBase/database.h \
     Enums/Enums.h \
     InfoNotes/DataWidgets/calendar.h \
+    InfoNotes/DataWidgets/combobox.h \
     InfoNotes/DataWidgets/datetext.h \
     InfoNotes/DataWidgets/label.h \
     InfoNotes/DataWidgets/lineedit.h \
     InfoNotes/DataWidgets/textfield.h \
     InfoNotes/Note.h \
-    InfoNotes/playernote.h \
+    InfoNotes/Notes/Note.h \
+    InfoNotes/Notes/matchnote.h \
+    InfoNotes/Notes/playernote.h \
+    InfoNotes/datademonstrator.h \
     Menu/Labels/authorizationlabel.h \
     Menu/Labels/menulabel.h \
     Menu/Labels/standartlabel.h \
@@ -43,7 +49,6 @@ HEADERS += \
     PatternObserver/subject.h \
     Repository/dbrepository.h \
     WindowManager/windowmanager.h \
-    datademonstrator.h \
     mainwindow.h \
 
 FORMS += \

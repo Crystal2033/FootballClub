@@ -5,31 +5,39 @@
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#include "lineedit.h"
+#include "combobox.h"
 
-LineEdit::LineEdit()
+ComboBox::ComboBox()
 {
     lay = new QHBoxLayout;
-    lineEdit = new QLineEdit("Unknown");
-    lay->addWidget(lineEdit);
+    comboBox = new QComboBox();
+    lay->addWidget(comboBox);
     setLayout(lay);
     setStyles();
-
 }
 
-void LineEdit::setText(const QString &text)
+QString ComboBox::getChosenData() const
 {
-    lineEdit->setText(text);
+    return comboBox->currentText();
 }
 
-QString LineEdit::getText() const
+void ComboBox::setBoxItems(const QStringList &stringList)
 {
-    return lineEdit->text();
+    if(stringList.isEmpty()){
+        QMessageBox::critical(nullptr, "Bad combo box", "String list is empty");
+    }
+    comboBox->clear();
+    comboBox->addItems(stringList);
 }
 
-void LineEdit::setStyles()
+void ComboBox::setCurrentItem(const QString& text)
 {
-    lineEdit->setStyleSheet("color: #212F3C;"
+    comboBox->setCurrentText(text);
+}
+
+void ComboBox::setStyles()
+{
+    comboBox->setStyleSheet("color: #212F3C;"
                             "font-size: 20px;"
                             "font-family: Goudy Old Style;"
                             "font-weight: bold;");
