@@ -11,6 +11,7 @@
 #include <QWidget>
 #include <QScrollArea>
 #include <QBoxLayout>
+#include <QtSql>
 #include "InfoNotes/Notes/Note.h"
 
 class DataDemonstrator : public QWidget
@@ -18,10 +19,13 @@ class DataDemonstrator : public QWidget
     Q_OBJECT
 public:
     explicit DataDemonstrator(QBoxLayout* parentLay, QWidget *parent = nullptr);
+    void showData(const QList<Note*>& notes);
+
+    void deleteDataFromList();
 private:
     QScrollArea* scrollArea = nullptr;
     QBoxLayout* layout = nullptr;
-    //QList<Note*> listOfNotes;
+    QList<Note*> listOfNotes;
 
 signals:
 

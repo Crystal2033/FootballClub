@@ -9,8 +9,8 @@
 #define WINDOWMANAGER_H
 #pragma once
 #include "mainwindow.h"
-#include "DataBase/database.h"
 #include "Repository/dbrepository.h"
+#include "InfoNotes/Notes/matchnote.h"
 
 class WindowManager : public InterfaceObserver
 {
@@ -24,6 +24,7 @@ private:
     DBRepository* repository = nullptr;
     void updateByObserver(const REQUEST_TYPE requestStatus) override;
 
+    void createMatchesData();
 };
 
 #endif // WINDOWMANAGER_H

@@ -1,17 +1,24 @@
 /***************************************************************************
  *                                                                         *
- *   Copyright (C) 09.12.2022 by Kulikov Pavel                             *
+ *   Copyright (C) 14.12.2022 by Kulikov Pavel                             *
  *                                                                         *
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#include <QApplication>
-#include "WindowManager/windowmanager.h"
-
-int main(int argc, char *argv[])
+#include "Note.h"
+Note::Note(QWidget *parent)
+    :QWidget(parent)
 {
-    QApplication a(argc, argv);
-    WindowManager windowManager;
-    windowManager.show();
-    return a.exec();
+    modifyButton = new QPushButton("Modify");
+    modifyButton->setIcon(QIcon(":/pictures/Pics/modifyData.png"));
 }
+
+//void Note::setNoteViewType(const NOTE_VIEW_TYPE type)
+//{
+//    noteViewType = type;
+//}
+
+//NOTE_VIEW_TYPE Note::getNoteViewTytpe() const
+//{
+//    return noteViewType;
+//}

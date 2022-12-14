@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/pictures">
         <file>Pics/calendarIcon.jpg</file>
+        <file>Pics/modifyData.png</file>
     </qresource>
 </RCC>

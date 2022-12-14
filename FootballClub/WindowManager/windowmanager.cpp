@@ -7,6 +7,8 @@
  ***************************************************************************/
 #include "windowmanager.h"
 
+
+
 WindowManager::WindowManager()
 {
     window = new MainWindow(this);
@@ -29,5 +31,47 @@ void WindowManager::show()
 
 void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus)
 {
-    qInfo() << "Found: " << this->window->headerMenu->getChosenDataType();
+    switch (this->window->headerMenu->getChosenDataType()) {
+    case PLAYERS:
+        qInfo() << "PLAYERS";
+        break;
+    case COACHES:
+        qInfo() << "COACHES";
+        break;
+    case MATCHES:
+        qInfo() << "MATCHES";
+        createMatchesData();
+        break;
+    case TOURNS:
+        qInfo() << "TOURNS";
+        break;
+    case GOALS:
+        qInfo() << "GOALS";
+        break;
+    case CLUB:
+        qInfo() << "CLUB";
+        break;
+    case TEAMS:
+        qInfo() << "TEAMS";
+        break;
+    case AUTHO:
+        qInfo() << "AUTHO";
+        break;
+
+    default:
+        break;
+    }
+}
+
+void WindowManager::createMatchesData()
+{
+    QSqlQuery* query = repository->getMatchesQuery();
+    QSqlRecord record = query->record();
+    QList<Note*> listOfMatchesInfo;
+    while(query->next()){
+        listOfMatchesInfo.push_back(new MatchNote(*query, record));
+    }
+
+    this->window->dataDemonstrator->showData(listOfMatchesInfo);
+
 }

@@ -16,7 +16,9 @@ public:
     ~DBRepository();
 
 private:
-    QString getMatchReadOnlyRequest() const;
+    QSqlQuery* getMatchesQuery() const;
+    QString getMatchesSQLRequest() const;
+
     void testPrint();
     DataBase* database = nullptr;
     bool createConnection();

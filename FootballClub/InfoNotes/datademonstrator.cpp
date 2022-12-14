@@ -31,9 +31,22 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 
     parentLay->addWidget(scrollArea);
 
-//    for(int i = 0; i < 100; i++){
-//        QPushButton* button = new QPushButton(QString::number(i));
-//        button->setStyleSheet("background-color:green;");
-//        layout->addWidget(button);
-//    }
+}
+
+void DataDemonstrator::showData(const QList<Note*> &notes)
+{
+    deleteDataFromList();
+
+    listOfNotes = notes;
+    for(unsigned i = 0; i < listOfNotes.size(); i++){
+        layout->addWidget(listOfNotes[i]);
+    }
+}
+
+void DataDemonstrator::deleteDataFromList()
+{
+    for(unsigned i = 0; i < listOfNotes.size(); i++){
+        delete listOfNotes[i];
+    }
+    listOfNotes.clear();
 }

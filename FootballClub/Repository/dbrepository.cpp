@@ -21,7 +21,21 @@ DBRepository::~DBRepository()
     }
 }
 
-QString DBRepository::getMatchReadOnlyRequest() const
+QSqlQuery* DBRepository::getMatchesQuery() const
+{
+    QSqlQuery* query = new QSqlQuery;
+    if(!query->exec(getMatchesSQLRequest())){
+        QMessageBox::critical(nullptr, "Matches request to database error",
+                              "There is a problem with sending request about matches information.");
+        return nullptr;
+    }
+    else{
+        return query;
+    }
+
+}
+
+QString DBRepository::getMatchesSQLRequest() const
 {
     return  "select gameid, team1, teamType1, finalscore, club.club_name as team2, team.name as teamType2, stadium.name as stadium,"
             "gameDate, tournament.name as tournName, tourn_stage.name as stage "
@@ -41,7 +55,7 @@ QString DBRepository::getMatchReadOnlyRequest() const
 void DBRepository::testPrint()
 {
     QSqlQuery query;
-    if(!query.exec(getMatchReadOnlyRequest())){
+    if(!query.exec(getMatchesSQLRequest())){
         qInfo() << "Bad request";
     }
     else{

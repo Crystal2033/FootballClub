@@ -7,7 +7,8 @@
  ***************************************************************************/
 #include "matchnote.h"
 
-MatchNote::MatchNote(QSqlQuery& query, QSqlRecord & record)
+MatchNote::MatchNote(QSqlQuery& query, QSqlRecord & record, QWidget* parent)
+    :Note(parent)
 {
     recordId = query.value(record.indexOf("gameid")).toInt();
     team1 = new Label(query.value(record.indexOf("team1")).toString());
@@ -20,6 +21,29 @@ MatchNote::MatchNote(QSqlQuery& query, QSqlRecord & record)
     tournament = new Label(query.value(record.indexOf("tourname")).toString());
     stage = new Label(query.value(record.indexOf("stage")).toString());
 
+    globalLay = new QHBoxLayout;
+    leftWidgetsLay = new QVBoxLayout;
+    middleWidgetsLay = new QVBoxLayout;
+    rightWidgetsLay = new QVBoxLayout;
+
+    globalLay->addLayout(leftWidgetsLay);
+    globalLay->addLayout(middleWidgetsLay);
+    globalLay->addLayout(rightWidgetsLay);
+    setLayout(globalLay);
+
+    leftWidgetsLay->addWidget(team1);
+    leftWidgetsLay->addWidget(teamType1);
+
+    middleWidgetsLay->addWidget(tournament);
+    middleWidgetsLay->addWidget(stage);
+    middleWidgetsLay->addWidget(finalScore);
+    middleWidgetsLay->addWidget(gameDate);
+    middleWidgetsLay->addWidget(stadium);
+
+    rightWidgetsLay->addWidget(team2);
+    rightWidgetsLay->addWidget(teamType2);
+
+    rightWidgetsLay->addWidget(modifyButton, 0, Qt::AlignBottom);
 }
 
 void MatchNote::extend()
@@ -29,5 +53,5 @@ void MatchNote::extend()
 
 void MatchNote::modifyNoteView()
 {
-
+    //TODO:
 }
