@@ -13,13 +13,14 @@
 class LineEdit : public TextField
 {
 public:
-    LineEdit();
+    LineEdit(const QString& text);
+    void setText(const QString& text);
+    QString getText() const;
 private:
     QLineEdit* lineEdit = nullptr;
     QBoxLayout* lay = nullptr;
 
-    void setText(const QString& text);
-    QString getText() const;
+
     void setStyles();
 
 };

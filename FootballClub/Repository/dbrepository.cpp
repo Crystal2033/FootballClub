@@ -23,13 +23,19 @@ DBRepository::~DBRepository()
 
 QString DBRepository::getMatchReadOnlyRequest() const
 {
-    return  "select gameid, team1, finalscore, club.club_name as team2, stadium.name as stadium, gameDate"
-            " from"
-            " (select game.id as gameid, club.club_name as team1, game.final_score as finalscore, game.second_team as team2, game.starts_at as gameDate, game.stadium_id as stadiumid"
-            " from club, game, team, stadium where game.first_team=team.id and team.club_id=club.id and game.stadium_id=stadium.id) as subReq,"
-            " team, club, stadium "
-            "where subReq.team2=team.id and team.club_id=club.id and stadiumid=stadium.id"
-            " order by gameDate asc;";
+    return  "select gameid, team1, teamType1, finalscore, club.club_name as team2, team.name as teamType2, stadium.name as stadium,"
+            "gameDate, tournament.name as tournName, tourn_stage.name as stage "
+            "from club, stadium,"
+            "(select game.id as gameid, club.club_name as team1, team.name as teamType1, game.final_score as finalscore,"
+            "game.second_team as team2, game.starts_at as gameDate, game.stadium_id as stadiumid,"
+            "game.tourn_id as tournId, game.stage_id as tournStageId "
+            "from club, game, team, stadium "
+            "where game.first_team=team.id and team.club_id=club.id and game.stadium_id=stadium.id) as subReq "
+            "left join tournament on tournId=tournament.id "
+            "left join tourn_stage on subReq.tournStageId=tourn_stage.id "
+            "left join team on team2 = team.id "
+            "where subReq.team2=team.id and team.club_id=club.id and stadiumid=stadium.id "
+            "order by gameDate asc;";
 }
 
 void DBRepository::testPrint()

@@ -7,7 +7,7 @@
  ***************************************************************************/
 #include <QApplication>
 #include <WindowManager/windowmanager.h>
-
+#include "InfoNotes/DataWidgets/datetext.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

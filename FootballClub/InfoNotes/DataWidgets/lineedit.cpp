@@ -7,10 +7,10 @@
  ***************************************************************************/
 #include "lineedit.h"
 
-LineEdit::LineEdit()
+LineEdit::LineEdit(const QString& text)
 {
     lay = new QHBoxLayout;
-    lineEdit = new QLineEdit("Unknown");
+    lineEdit = new QLineEdit(text);
     lay->addWidget(lineEdit);
     setLayout(lay);
     setStyles();

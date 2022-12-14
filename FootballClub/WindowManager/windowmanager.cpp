@@ -13,7 +13,6 @@ WindowManager::WindowManager()
     window->setStyleSheet("MainWindow{background-color: #30415B}");
 
     repository = new DBRepository;
-    qInfo() << repository->getMatchReadOnlyRequest();
     repository->testPrint();
 }
 

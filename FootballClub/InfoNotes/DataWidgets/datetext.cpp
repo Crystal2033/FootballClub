@@ -6,17 +6,19 @@
  *                                                                         *
  ***************************************************************************/
 #include "datetext.h"
+#include <QDateTime>
+#include <QDate>
 
-DateText::DateText()
+DateText::DateText(const QString & text)
 {
     lay = new QHBoxLayout;
-    label = new Label("Unknown");
+    lineEdit = new LineEdit(text);
     calendar = new Calendar;
     callCalendarBtn = new QPushButton;
     callCalendarBtn->setIcon(QIcon(":/pictures/Pics/calendarIcon.jpg"));
     callCalendarBtn->setFixedSize(40, 40);
 
-    lay->addWidget(label);
+    lay->addWidget(lineEdit);
     lay->addWidget(callCalendarBtn);
     setLayout(lay);
     connect(callCalendarBtn, &QPushButton::clicked, this, &DateText::onCallCalendarBtnClicked);
@@ -31,5 +33,8 @@ void DateText::onCallCalendarBtnClicked()
 
 void DateText::onSavedDateEmission()
 {
-    label->setText(calendar->getChosenDate().toString(Qt::DateFormat::TextDate));
+    QDateTime date = QDateTime::fromString(lineEdit->getText(), "yyyy-MM-dd hh:mm:ss");
+    QString outputDateTime = calendar->getChosenDate().toString("yyyy-MM-dd") + " " + date.time().toString("hh:mm:ss");
+    qInfo() << outputDateTime;
+    lineEdit->setText(outputDateTime);
 }

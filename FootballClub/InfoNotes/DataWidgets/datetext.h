@@ -10,15 +10,15 @@
 
 #include "textfield.h"
 #include "calendar.h"
-#include "label.h"
+#include "lineedit.h"
 
 class DateText : public TextField
 {
 public:
-    DateText();
+    DateText(const QString & text);
 private:
     QBoxLayout* lay = nullptr;
-    Label* label = nullptr;
+    LineEdit* lineEdit = nullptr;
     QPushButton* callCalendarBtn = nullptr;
     Calendar* calendar = nullptr;
 private slots:
