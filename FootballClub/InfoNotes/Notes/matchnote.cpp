@@ -7,8 +7,10 @@
  ***************************************************************************/
 #include "matchnote.h"
 
+#include "InfoNotes/DataWidgets/label.h"
+
 MatchNote::MatchNote(QSqlQuery& query, QSqlRecord & record, QWidget* parent)
-    :Note(parent)
+    :BaseNote(parent)
 {
     recordId = query.value(record.indexOf("gameid")).toInt();
     team1 = new Label(query.value(record.indexOf("team1")).toString());

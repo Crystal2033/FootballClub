@@ -13,7 +13,7 @@ void PlayerNote::extend()
 }
 
 PlayerNote::PlayerNote(QWidget *parent)
-    :Note(parent)
+    :BaseNote(parent)
 {
 
 }

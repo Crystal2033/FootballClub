@@ -11,7 +11,7 @@
 #include "Menu/headermenu.h"
 #include <QMainWindow>
 #include <QBoxLayout>
-#include <InfoNotes/datademonstrator.h>
+#include "InfoNotes/datademonstrator.h"
 
 class WindowManager;
 

@@ -8,22 +8,17 @@
 #ifndef MATCHNOTE_H
 #define MATCHNOTE_H
 
-#include "Note.h"
+#include "BaseNote.h"
 
 #include <QSqlQuery>
 #include <QSqlRecord>
-#include "InfoNotes/DataWidgets/calendar.h"
-#include "InfoNotes/DataWidgets/combobox.h"
-#include "InfoNotes/DataWidgets/datetext.h"
-#include "InfoNotes/DataWidgets/label.h"
-#include "InfoNotes/DataWidgets/lineedit.h"
 #include "InfoNotes/DataWidgets/textfield.h"
 
-class MatchNote : public Note
+class MatchNote : public BaseNote
 {
 public:
     MatchNote(QSqlQuery& query, QSqlRecord & record, QWidget* parent = nullptr);
-
+    ~MatchNote() = default;
 private:
     void extend() override;
     void modifyNoteView() override;

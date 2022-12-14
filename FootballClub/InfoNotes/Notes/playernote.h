@@ -9,9 +9,9 @@
 #define PLAYERNOTE_H
 
 #include <QWidget>
-#include "Note.h"
+#include "BaseNote.h"
 
-class PlayerNote : public Note
+class PlayerNote : public BaseNote
 {
 public:
     void extend() override;

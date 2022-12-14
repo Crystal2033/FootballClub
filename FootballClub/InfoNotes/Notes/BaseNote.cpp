@@ -5,8 +5,8 @@
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#include "Note.h"
-Note::Note(QWidget *parent)
+#include "BaseNote.h"
+BaseNote::BaseNote(QWidget *parent)
     :QWidget(parent)
 {
     modifyButton = new QPushButton("Modify");

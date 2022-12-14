@@ -12,20 +12,20 @@
 #include <QScrollArea>
 #include <QBoxLayout>
 #include <QtSql>
-#include "InfoNotes/Notes/Note.h"
+class BaseNote;
 
 class DataDemonstrator : public QWidget
 {
     Q_OBJECT
 public:
     explicit DataDemonstrator(QBoxLayout* parentLay, QWidget *parent = nullptr);
-    void showData(const QList<Note*>& notes);
+    void showData(const QList<BaseNote*>& notes);
 
     void deleteDataFromList();
 private:
     QScrollArea* scrollArea = nullptr;
     QBoxLayout* layout = nullptr;
-    QList<Note*> listOfNotes;
+    QList<BaseNote*> listOfNotes;
 
 signals:
 

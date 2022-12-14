@@ -3,13 +3,13 @@
 #include <QWidget>
 #include "Enums/Enums.h"
 
-class Note : public QWidget{
+class BaseNote : public QWidget{
     Q_OBJECT
 public:
-    Note(QWidget *parent = nullptr);
-    //void setNoteViewType(const NOTE_VIEW_TYPE type);
-    //NOTE_VIEW_TYPE getNoteViewTytpe() const;
-    //virtual ~Note() = default;
+    BaseNote(QWidget *parent = nullptr);
+    void setNoteViewType(const NOTE_VIEW_TYPE type);
+    NOTE_VIEW_TYPE getNoteViewTytpe() const;
+    virtual ~BaseNote() = default;
 protected:
     unsigned recordId;
     QBoxLayout* globalLay = nullptr;

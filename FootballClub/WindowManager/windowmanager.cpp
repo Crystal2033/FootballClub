@@ -6,8 +6,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "windowmanager.h"
-
-
+#include "InfoNotes/Notes/matchnote.h"
 
 WindowManager::WindowManager()
 {
@@ -67,7 +66,7 @@ void WindowManager::createMatchesData()
 {
     QSqlQuery* query = repository->getMatchesQuery();
     QSqlRecord record = query->record();
-    QList<Note*> listOfMatchesInfo;
+    QList<BaseNote*> listOfMatchesInfo;
     while(query->next()){
         listOfMatchesInfo.push_back(new MatchNote(*query, record));
     }

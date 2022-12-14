@@ -10,7 +10,6 @@
 #pragma once
 #include "mainwindow.h"
 #include "Repository/dbrepository.h"
-#include "InfoNotes/Notes/matchnote.h"
 
 class WindowManager : public InterfaceObserver
 {

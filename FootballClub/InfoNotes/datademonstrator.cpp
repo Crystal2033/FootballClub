@@ -33,13 +33,13 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 
 }
 
-void DataDemonstrator::showData(const QList<Note*> &notes)
+void DataDemonstrator::showData(const QList<BaseNote*> &notes)
 {
     deleteDataFromList();
 
     listOfNotes = notes;
     for(unsigned i = 0; i < listOfNotes.size(); i++){
-        layout->addWidget(listOfNotes[i]);
+        layout->addWidget((QWidget*)listOfNotes[i]);
     }
 }
 
