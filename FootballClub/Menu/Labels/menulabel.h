@@ -38,8 +38,8 @@ protected:
     void createStyles();
     void setBackgroundLabelColor();
 
-    void mousePressEvent(QMouseEvent* event);
-    void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr);
+    void mousePressEvent(QMouseEvent* event) override;
+    void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
 private:
 

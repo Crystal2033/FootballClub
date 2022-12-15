@@ -18,6 +18,11 @@ MainWindow::MainWindow(WindowManager* manager, QWidget *parent)
     this->centralWidget()->setLayout(mainLay);
     createHeaderMenu();
     createDataDemonstrator();
+    this->setWindowIcon(QIcon(":/pictures/Pics/psg-icon.png"));
+    this->setStyleSheet("MainWindow{background: qlineargradient( x1:0 y1:0, x2:1 y2:1, stop:0 #355471, stop:1 #1D91AD);}");
+
+
+    this->setWindowTitle("PSG DataBase");
 }
 
 MainWindow::~MainWindow()

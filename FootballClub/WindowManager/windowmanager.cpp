@@ -11,7 +11,6 @@
 WindowManager::WindowManager()
 {
     window = new MainWindow(this);
-    window->setStyleSheet("MainWindow{background-color: #30415B;}");
     repository = new DBRepository;
 }
 

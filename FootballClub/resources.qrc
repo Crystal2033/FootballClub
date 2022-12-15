@@ -2,5 +2,8 @@
     <qresource prefix="/pictures">
         <file>Pics/calendarIcon.jpg</file>
         <file>Pics/modifyData.png</file>
+        <file>Pics/psg-icon.png</file>
+        <file>Pics/user.png</file>
+        <file>Pics/userChosen.png</file>
     </qresource>
 </RCC>

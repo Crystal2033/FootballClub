@@ -15,6 +15,9 @@ class AuthorizationLabel : public MenuLabel
 public:
     AuthorizationLabel(const QString labelName, const LABEL_TYPE labelType, QWidget* parent = nullptr);
     void setChosenAndChangeColor(const bool status);
+    bool isAdmin;
+    QIcon currentIcon;
+    void setIsAdmin(const bool isAdmin);
 private slots:
     void onLabelClicked();
 private:
