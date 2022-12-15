@@ -18,14 +18,14 @@ BaseNote::BaseNote(QWidget *parent)
     saveChangesButton->setStyleSheet("background-color: darkgreen;"
                                      "color:white;"
                                      "font-size: 20px;"
-                                     "font-wight: bold;"
+                                     "font-weight: bold;"
                                      "");
 
     cancelSaving = new QPushButton("Cancel modifying");
     cancelSaving->setStyleSheet("background-color: darkred;"
                                 "color:white;"
                                 "font-size: 20px;"
-                                "font-wight: bold;"
+                                "font-weight: bold;"
                                 "");
 }
 
