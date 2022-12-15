@@ -27,6 +27,12 @@ DateTimeText::DateTimeText(const QString & text)
     connect(calendar, &Calendar::dateSaved, this, &DateTimeText::onSavedDateEmission);
 }
 
+QString DateTimeText::getText() const
+{
+    qInfo() << "DateTimeText::getText()";
+    return lineEdit->getText();
+}
+
 void DateTimeText::onCallCalendarBtnClicked()
 {
     calendar->setWindowModality(Qt::WindowModal);

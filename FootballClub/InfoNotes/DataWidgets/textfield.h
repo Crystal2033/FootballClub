@@ -22,6 +22,7 @@ class TextField : public QWidget
     Q_OBJECT
 public:
     explicit TextField(QWidget *parent = nullptr);
+    virtual QString getText() const = 0;
 
 signals:
 

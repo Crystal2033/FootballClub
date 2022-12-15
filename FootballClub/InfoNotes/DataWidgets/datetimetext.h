@@ -21,6 +21,7 @@ private:
     LineEdit* lineEdit = nullptr;
     QPushButton* callCalendarBtn = nullptr;
     Calendar* calendar = nullptr;
+    QString getText() const override;
 private slots:
     void onCallCalendarBtnClicked();
     void onSavedDateEmission();

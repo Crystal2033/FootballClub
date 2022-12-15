@@ -27,6 +27,7 @@ void LineEdit::setText(const QString &text)
 
 QString LineEdit::getText() const
 {
+    qInfo() << "LineEdit::getText()";
     return lineEdit->text();
 }
 

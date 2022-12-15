@@ -68,7 +68,13 @@ QSqlQuery *DBRepository::getStadiumNamesQuery() const
 
 bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap)
 {
+    for(auto note : fieldsMap){
+        qInfo() << note.second->getText();
+    }
+    qInfo() << fieldsMap.find("stadium")->second->getText();
     //TODO: GETTIND ALL IDS WE NEED AND INSERTING USING PREPARE AND BINDVALUE
+    //select id from stadium where name=:stadium_name
+    //query.bindValue(":stadium_name", fieldsMap.get("stadium"));
 }
 
 

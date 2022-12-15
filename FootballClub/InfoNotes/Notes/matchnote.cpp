@@ -34,8 +34,6 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
     tournament = new Label(query.value(record.indexOf("tournname")).toString());
     stage = new Label(query.value(record.indexOf("stage")).toString());
 
-    insertFieldsInList();
-
     globalLay = new QVBoxLayout;
 
     tournLay = new QHBoxLayout;
@@ -167,6 +165,7 @@ void MatchNote::onSaveChangesClicked()
 {
     setSaveCancelButtonsVisability(false);
     modifyButton->setVisible(true);
+    insertFieldsInMap();
     notifyObservers(MATCH_UPDATE, this);
 
 }
@@ -189,6 +188,7 @@ void MatchNote::setStyles()
 
 void MatchNote::insertFieldsInMap()
 {
+    fieldsMap.clear();
     fieldsMap.insert(std::make_pair("team1", team1));
     fieldsMap.insert(std::make_pair("teamtype", teamType1));
     fieldsMap.insert(std::make_pair("team2", team2));

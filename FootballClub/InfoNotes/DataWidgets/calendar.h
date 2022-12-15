@@ -11,13 +11,14 @@
 #include "textfield.h"
 #include <QCalendarWidget>
 
-class Calendar : public TextField
+class Calendar : public QWidget
 {
     Q_OBJECT
 public:
     Calendar();
     QDate getChosenDate() const;
     void setCurrentDate(const QDate& date);
+
 private:
     QDate chosenDate;
     QCalendarWidget* calendar = nullptr;

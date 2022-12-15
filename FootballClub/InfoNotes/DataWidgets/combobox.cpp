@@ -18,11 +18,6 @@ ComboBox::ComboBox(const QStringList& stringList)
     this->stringList = stringList;
 }
 
-QString ComboBox::getChosenData() const
-{
-    return comboBox->currentText();
-}
-
 void ComboBox::setBoxItems(const QStringList &stringList)
 {
     if(stringList.isEmpty()){
@@ -40,6 +35,12 @@ void ComboBox::setCurrentItem(const QString& text)
 QStringList ComboBox::getStringList() const
 {
     return stringList;
+}
+
+QString ComboBox::getText() const
+{
+    qInfo() << "ComboBox::getText()";
+    return comboBox->currentText();
 }
 
 void ComboBox::setStyles()

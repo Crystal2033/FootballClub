@@ -15,7 +15,7 @@ class LineEdit : public TextField
 public:
     LineEdit(const QString& text, QValidator* validator = nullptr);
     void setText(const QString& text);
-    QString getText() const;
+    QString getText() const override;
 private:
     QLineEdit* lineEdit = nullptr;
     QBoxLayout* lay = nullptr;

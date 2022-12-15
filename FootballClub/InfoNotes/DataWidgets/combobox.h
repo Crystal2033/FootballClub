@@ -15,11 +15,11 @@ class ComboBox : public TextField
     Q_OBJECT
 public:
     ComboBox(const QStringList& stringList);
-    QString getChosenData() const;
     QStringList stringList;
     void setBoxItems(const QStringList& stringList);
     void setCurrentItem(const QString& text);
     QStringList getStringList() const;
+    QString getText() const override;
 private:
     QBoxLayout* lay = nullptr;
     QComboBox* comboBox = nullptr;
