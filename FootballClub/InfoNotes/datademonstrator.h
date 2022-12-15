@@ -20,6 +20,7 @@ class DataDemonstrator : public QWidget
 public:
     explicit DataDemonstrator(QBoxLayout* parentLay, QWidget *parent = nullptr);
     void showData(const QList<BaseNote*>& notes);
+    void setVisibleScrollArea(const bool visibility);
 
     void deleteDataFromList();
 private:

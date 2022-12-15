@@ -11,8 +11,7 @@
 WindowManager::WindowManager()
 {
     window = new MainWindow(this);
-    window->setStyleSheet("MainWindow{background-color: #30415B}");
-
+    window->setStyleSheet("MainWindow{background-color: #30415B;}");
     repository = new DBRepository;
 }
 
@@ -32,28 +31,32 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
     if(requestStatus == SEND_CHOSEN_DATA_TYPE){
         switch (this->window->headerMenu->getChosenDataType()) {
         case PLAYERS:
+            this->window->dataDemonstrator->setVisibleScrollArea(true);
             qInfo() << "PLAYERS";
             break;
         case COACHES:
+            this->window->dataDemonstrator->setVisibleScrollArea(true);
             qInfo() << "COACHES";
             break;
         case MATCHES:
+            this->window->dataDemonstrator->setVisibleScrollArea(true);
             qInfo() << "MATCHES";
             createMatchesData();
             break;
-        case TOURNS:
-            qInfo() << "TOURNS";
-            break;
         case GOALS:
+            this->window->dataDemonstrator->setVisibleScrollArea(true);
             qInfo() << "GOALS";
             break;
         case CLUB:
+            this->window->dataDemonstrator->setVisibleScrollArea(false);
             qInfo() << "CLUB";
             break;
         case TEAMS:
+            this->window->dataDemonstrator->setVisibleScrollArea(true);
             qInfo() << "TEAMS";
             break;
         case AUTHO:
+            this->window->dataDemonstrator->setVisibleScrollArea(false);
             qInfo() << "AUTHO";
             break;
 

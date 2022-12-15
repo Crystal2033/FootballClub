@@ -44,6 +44,11 @@ void DataDemonstrator::showData(const QList<BaseNote*> &notes)
     }
 }
 
+void DataDemonstrator::setVisibleScrollArea(const bool visibility)
+{
+    scrollArea->setVisible(visibility);
+}
+
 void DataDemonstrator::deleteDataFromList()
 {
     for(unsigned i = 0; i < listOfNotes.size(); i++){
