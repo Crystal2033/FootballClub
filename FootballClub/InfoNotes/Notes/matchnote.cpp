@@ -39,7 +39,7 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
 
     tournLay = new QHBoxLayout;
     stageLay = new QHBoxLayout;
-    teamsType = new QHBoxLayout;
+    teamsTypeLay = new QHBoxLayout;
     teamsAndScoreLay = new QHBoxLayout;
     stadiumLay = new QHBoxLayout;
     dateLay = new QHBoxLayout;
@@ -47,7 +47,7 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
 
     tournLay->addWidget(tournament, 0, Qt::AlignCenter);
     stageLay->addWidget(stage, 0, Qt::AlignCenter);
-    teamsType->addWidget(teamType1, 0, Qt::AlignCenter);
+    teamsTypeLay->addWidget(teamType1, 0, Qt::AlignCenter);
     teamsAndScoreLay->addWidget(team1, 0, Qt::AlignCenter);
     teamsAndScoreLay->addWidget(finalScore, 0, Qt::AlignCenter);
     teamsAndScoreLay->addWidget(team2, 0, Qt::AlignCenter);
@@ -62,7 +62,7 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
 
     globalLay->addLayout(tournLay);
     globalLay->addLayout(stageLay);
-    globalLay->addLayout(teamsType);
+    globalLay->addLayout(teamsTypeLay);
     globalLay->addLayout(teamsAndScoreLay);
     globalLay->addLayout(stadiumLay);
     globalLay->addLayout(dateLay);
@@ -79,15 +79,35 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
 
 void MatchNote::setTournamentComboList(QSqlQuery &query)
 {
-    QSqlRecord record = query.record();
-    QStringList stringList;
-    while(query.next()){
-        stringList << query.value(record.indexOf("name")).toString();
-    }
-    qInfo() << stringList;
-    delete tournament;
-    tournament = new ComboBox(stringList);
+    fromLabelToComboList(query, "name", tournament);
     tournLay->addWidget(tournament, 0, Qt::AlignCenter);
+}
+
+void MatchNote::setStagesComboList(QSqlQuery &query)
+{
+    fromLabelToComboList(query, "name", stage);
+
+    stageLay->addWidget(stage, 0, Qt::AlignCenter);
+}
+
+void MatchNote::setTeamTypesComboList(QSqlQuery &query)
+{
+    fromLabelToComboList(query, "name", teamType1);
+
+    teamsTypeLay->addWidget(teamType1, 0, Qt::AlignCenter);
+}
+
+void MatchNote::setClubsComboList(QSqlQuery &query)
+{
+    fromLabelToComboList(query, "name", team1);
+    fromLabelToComboList(query, "name", team2);
+}
+
+
+
+void MatchNote::fromLabelToLineEdit(QSqlQuery &query, const QString columnName, TextField *&textField)
+{
+
 }
 
 MatchNote::~MatchNote()
@@ -103,7 +123,7 @@ void MatchNote::extend()
 void MatchNote::modifyNoteView()
 {
     setSaveCancelButtonsVisability(true);
-
+    modifyButton->setVisible(false);
     notifyObservers(MATCH_TOURNS, this); //getting list of names for combobox
     notifyObservers(MATCH_STAGES, this);
     notifyObservers(MATCH_TEAM_TYPES, this);
@@ -115,12 +135,14 @@ void MatchNote::modifyNoteView()
 void MatchNote::onSaveChangesClicked()
 {
     setSaveCancelButtonsVisability(false);
+    modifyButton->setVisible(true);
     qInfo() << "Save changes";
 }
 
 void MatchNote::onCancelModifyingClicked()
 {
     setSaveCancelButtonsVisability(false);
+    modifyButton->setVisible(true);
     qInfo() << "Cancel saving";
 }
 

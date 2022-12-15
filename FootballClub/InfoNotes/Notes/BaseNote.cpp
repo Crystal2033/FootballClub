@@ -6,6 +6,9 @@
  *                                                                         *
  ***************************************************************************/
 #include "BaseNote.h"
+#include "InfoNotes/DataWidgets/label.h"
+#include "InfoNotes/DataWidgets/combobox.h"
+
 BaseNote::BaseNote(QWidget *parent)
     :QWidget(parent)
 {
@@ -77,5 +80,23 @@ void BaseNote::setSaveCancelButtonsVisability(const bool visability)
 {
     cancelSaving->setVisible(visability);
     saveChangesButton->setVisible(visability);
+}
+
+void BaseNote::fromLabelToComboList(QSqlQuery &query, const QString columnName, TextField *&textField)
+{
+    QSqlRecord record = query.record();
+    QStringList stringList;
+    while(query.next()){
+        stringList << query.value(record.indexOf(columnName)).toString();
+    }
+    qInfo() << stringList;
+
+    Label* lbl = (Label*) textField;
+    QString lastValue = lbl->getText();
+    delete textField;
+
+    textField = new ComboBox(stringList);
+    ComboBox* temp = (ComboBox*) textField;
+    temp->setCurrentItem(lastValue);
 }
 

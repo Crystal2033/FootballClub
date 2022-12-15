@@ -38,7 +38,7 @@ void ComboBox::setCurrentItem(const QString& text)
 
 void ComboBox::setStyles()
 {
-    comboBox->setStyleSheet("color: #212F3C;"
+    comboBox->setStyleSheet("color: white;"
                             "font-size: 20px;"
                             "font-family: Goudy Old Style;"
                             "font-weight: bold;");

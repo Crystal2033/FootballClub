@@ -18,12 +18,21 @@ class MatchNote : public BaseNote
 {
 public:
     MatchNote(QSqlQuery& query, QWidget* parent = nullptr);
+    void fromLabelToComboList(QSqlQuery& query, const QString columnName,
+                              TextField*& textField);
+    void fromLabelToLineEdit(QSqlQuery& query, const QString columnName,
+                             TextField*& textField);
+
     void setTournamentComboList(QSqlQuery& query);
+    void setStagesComboList(QSqlQuery& query);
+    void setTeamTypesComboList(QSqlQuery& query);
+    void setClubsComboList(QSqlQuery& query);
+
     ~MatchNote();
 private:
     QBoxLayout* tournLay;
     QBoxLayout* stageLay;
-    QBoxLayout* teamsType;
+    QBoxLayout* teamsTypeLay;
     QBoxLayout* teamsAndScoreLay;
     QBoxLayout* stadiumLay;
     QBoxLayout* dateLay;

@@ -28,3 +28,8 @@ void Label::setText(const QString &text)
 {
     label->setText(text);
 }
+
+QString Label::getText() const
+{
+    return label->text();
+}

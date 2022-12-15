@@ -20,13 +20,24 @@ private:
     QSqlQuery* getQuery(const QString request) const;
     //GET QUERIES
     QSqlQuery* getMatchesQuery() const;
-    QSqlQuery* getMatchTournamentsQuery(const int id=0) const;
+    QSqlQuery* getMatchTournamentsQuery() const;
+    QSqlQuery* getMatchStagesQuery() const;
+    QSqlQuery* getMatchTeamTypesQuery() const;
+    QSqlQuery* getMatchClubsQuery() const;
+
+
+
 
 
 
     //SQL REQUESTS
     QString getMatchesSQLRequest() const;
     QString getMatchTournsSQLRequest() const;
+    QString getMatchStagesSQLRequest() const;
+    QString getMatchTeamTypesSQLRequest() const;
+    QString getMatchClubsSQLRequest() const;
+
+
 
 
 

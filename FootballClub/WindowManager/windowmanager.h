@@ -26,6 +26,9 @@ private:
 
     void createMatchesData();
     void sendMatchTournaments(MatchNote* const& note);
+    void sendMatchStages(MatchNote* const& note);
+    void sendMatchTeamTypes(MatchNote* const& note);
+    void sendMatchClubs(MatchNote* const& note);
 };
 
 #endif // WINDOWMANAGER_H

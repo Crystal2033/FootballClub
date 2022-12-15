@@ -13,7 +13,7 @@
 class LineEdit : public TextField
 {
 public:
-    LineEdit(const QString& text);
+    LineEdit(const QString& text, QValidator* validator = nullptr);
     void setText(const QString& text);
     QString getText() const;
 private:

@@ -41,10 +41,26 @@ QSqlQuery* DBRepository::getMatchesQuery() const
     return getQuery(getMatchesSQLRequest());
 }
 
-QSqlQuery *DBRepository::getMatchTournamentsQuery(const int id) const
+QSqlQuery *DBRepository::getMatchTournamentsQuery() const
 {
     return getQuery(getMatchTournsSQLRequest());
 }
+
+QSqlQuery *DBRepository::getMatchStagesQuery() const
+{
+    return getQuery(getMatchStagesSQLRequest());
+}
+
+QSqlQuery *DBRepository::getMatchTeamTypesQuery() const
+{
+    return getQuery(getMatchTeamTypesSQLRequest());
+}
+
+QSqlQuery *DBRepository::getMatchClubsQuery() const
+{
+    return getQuery(getMatchClubsSQLRequest());
+}
+
 
 
 
@@ -56,18 +72,23 @@ QSqlQuery *DBRepository::getMatchTournamentsQuery(const int id) const
 
 QString DBRepository::getMatchesSQLRequest() const
 {
-    return  "select gameid, team1, teamType1, finalscore, club.club_name as team2, team.name as teamType2, stadium.name as stadium,"
+    return  "select gameid, team1, teamType1, finalscore, club.club_name as team2,"
+            "team_type.name as teamType2, stadium.name as stadium,"
             "gameDate, tournament.name as tournName, tourn_stage.name as stage "
             "from club, stadium,"
-            "(select game.id as gameid, club.club_name as team1, team.name as teamType1, game.final_score as finalscore,"
+            "(select game.id as gameid, club.club_name as team1, club.id as team1id,"
+            " team_type.name as teamType1, game.final_score as finalscore,"
             "game.second_team as team2, game.starts_at as gameDate, game.stadium_id as stadiumid,"
             "game.tourn_id as tournId, game.stage_id as tournStageId "
-            "from club, game, team, stadium "
-            "where game.first_team=team.id and team.club_id=club.id and game.stadium_id=stadium.id) as subReq "
+            "from club, game, team, stadium, team_type "
+            "where game.first_team=team.id and team.club_id=club.id "
+            "and game.stadium_id=stadium.id and team.team_type_id=team_type.id) as subReq "
             "left join tournament on tournId=tournament.id "
             "left join tourn_stage on subReq.tournStageId=tourn_stage.id "
             "left join team on team2 = team.id "
-            "where subReq.team2=team.id and team.club_id=club.id and stadiumid=stadium.id "
+            "left join team_type on team_type.id = team.team_type_id "
+            "where subReq.team2=team.id and team.club_id=club.id and "
+            "stadiumid=stadium.id and (subReq.team1id=1 or club.id=1) "
             "order by gameDate asc;";
 }
 
@@ -75,6 +96,23 @@ QString DBRepository::getMatchTournsSQLRequest() const
 {
     return "select name from tournament;";
 }
+
+QString DBRepository::getMatchStagesSQLRequest() const
+{
+    return "select name from tourn_stage;";
+}
+
+QString DBRepository::getMatchTeamTypesSQLRequest() const
+{
+    return "select name from team_type;";
+}
+
+QString DBRepository::getMatchClubsSQLRequest() const
+{
+    return "select club_name as name from club;";
+}
+
+
 
 void DBRepository::testPrint()
 {

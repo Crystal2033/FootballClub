@@ -7,10 +7,11 @@
  ***************************************************************************/
 #include "lineedit.h"
 
-LineEdit::LineEdit(const QString& text)
+LineEdit::LineEdit(const QString& text, QValidator* validator)
 {
     lay = new QHBoxLayout;
     lineEdit = new QLineEdit(text);
+    lineEdit->setValidator(validator);
     lay->addWidget(lineEdit);
     setLayout(lay);
     setStyles();

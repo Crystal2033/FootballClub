@@ -2,8 +2,10 @@
 #include <QBoxLayout>
 #include <QPushButton>
 #include <QWidget>
+#include "InfoNotes/DataWidgets/textfield.h"
 #include "PatternObserver/subject.h"
 #include "Enums/Enums.h"
+#include <QtSql>
 
 
 class BaseNote : public QWidget, public InterfaceSubject {
@@ -30,6 +32,11 @@ protected:
     virtual void extend() = 0;
     virtual void modifyNoteView() = 0;
     void setSaveCancelButtonsVisability(const bool visability);
+
+    void fromLabelToComboList(QSqlQuery& query, const QString columnName,
+                              TextField*& textField);
+    void fromLabelToLineEdit(QSqlQuery& query, const QString columnName,
+                             TextField*& textField);
 };
 
 

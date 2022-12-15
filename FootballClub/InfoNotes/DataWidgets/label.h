@@ -17,6 +17,7 @@ class Label : public TextField
 public:
     Label(const QString& text);
     void setText(const QString& text);
+    QString getText() const;
 private:
     QBoxLayout* lay = nullptr;
     QLabel* label = nullptr;
