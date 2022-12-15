@@ -29,7 +29,6 @@ DateTimeText::DateTimeText(const QString & text)
 
 QString DateTimeText::getText() const
 {
-    qInfo() << "DateTimeText::getText()";
     return lineEdit->getText();
 }
 

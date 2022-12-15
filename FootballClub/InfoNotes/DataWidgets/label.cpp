@@ -31,6 +31,5 @@ void Label::setText(const QString &text)
 
 QString Label::getText() const
 {
-    qInfo() << "Label::getText()";
     return label->text();
 }

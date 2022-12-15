@@ -39,7 +39,6 @@ QStringList ComboBox::getStringList() const
 
 QString ComboBox::getText() const
 {
-    qInfo() << "ComboBox::getText()";
     return comboBox->currentText();
 }
 

@@ -85,7 +85,6 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         sendStadiumNames(matchNote);
     }
     else if(requestStatus == MATCH_UPDATE){
-        qInfo() << "Update";
         MatchNote* matchNote = (MatchNote*) note;
         repository->saveMatchData(matchNote->getFieldsMap());
     }
