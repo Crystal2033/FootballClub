@@ -8,6 +8,10 @@
 #include "BaseNote.h"
 #include "InfoNotes/DataWidgets/label.h"
 #include "InfoNotes/DataWidgets/combobox.h"
+#include <QValidator>
+#include <QRegularExpressionValidator>
+#include <QRegularExpression>
+#include "InfoNotes/DataWidgets/lineedit.h"
 
 BaseNote::BaseNote(QWidget *parent)
     :QWidget(parent)
@@ -82,14 +86,14 @@ void BaseNote::setSaveCancelButtonsVisability(const bool visability)
     saveChangesButton->setVisible(visability);
 }
 
-void BaseNote::fromLabelToComboList(QSqlQuery &query, const QString columnName, TextField *&textField)
+void BaseNote::fromLabelToComboList(QSqlQuery &query, const QString columnName,
+                                    TextField *&textField)
 {
     QSqlRecord record = query.record();
     QStringList stringList;
     while(query.next()){
         stringList << query.value(record.indexOf(columnName)).toString();
     }
-    qInfo() << stringList;
 
     Label* lbl = (Label*) textField;
     QString lastValue = lbl->getText();
@@ -97,6 +101,16 @@ void BaseNote::fromLabelToComboList(QSqlQuery &query, const QString columnName, 
 
     textField = new ComboBox(stringList);
     ComboBox* temp = (ComboBox*) textField;
+
     temp->setCurrentItem(lastValue);
+}
+
+
+void BaseNote::fromLabelToLineEdit(TextField *&textField, QValidator* validator)
+{
+    Label* lbl = (Label*)textField;
+    QString lastValue = lbl->getText();
+    delete textField;
+    textField= new LineEdit(lastValue, validator);
 }
 

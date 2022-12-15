@@ -78,7 +78,7 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
     }
     else if(requestStatus == MATCH_CLUBS){
         MatchNote* matchNote = (MatchNote*) note;
-        sendMatchTeamTypes(matchNote);
+        sendMatchClubs(matchNote);
     }
 
 }
@@ -130,9 +130,9 @@ void WindowManager::sendMatchTeamTypes(MatchNote * const &note)
 
 void WindowManager::sendMatchClubs(MatchNote * const &note)
 {
-    QSqlQuery* query = repository->getMatchTeamTypesQuery();
+    QSqlQuery* query = repository->getMatchClubsQuery();
     if(query != nullptr){
-        note->setTeamTypesComboList(*query);
+        note->setClubsComboList(*query);
         delete query;
     }
 }

@@ -18,10 +18,6 @@ class MatchNote : public BaseNote
 {
 public:
     MatchNote(QSqlQuery& query, QWidget* parent = nullptr);
-    void fromLabelToComboList(QSqlQuery& query, const QString columnName,
-                              TextField*& textField);
-    void fromLabelToLineEdit(QSqlQuery& query, const QString columnName,
-                             TextField*& textField);
 
     void setTournamentComboList(QSqlQuery& query);
     void setStagesComboList(QSqlQuery& query);

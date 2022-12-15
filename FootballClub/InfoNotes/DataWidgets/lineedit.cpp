@@ -12,6 +12,7 @@ LineEdit::LineEdit(const QString& text, QValidator* validator)
     lay = new QHBoxLayout;
     lineEdit = new QLineEdit(text);
     lineEdit->setValidator(validator);
+    lineEdit->setAlignment(Qt::AlignCenter);
     lay->addWidget(lineEdit);
     setLayout(lay);
     setStyles();

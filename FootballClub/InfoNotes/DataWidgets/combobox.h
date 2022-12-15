@@ -16,8 +16,10 @@ class ComboBox : public TextField
 public:
     ComboBox(const QStringList& stringList);
     QString getChosenData() const;
+    QStringList stringList;
     void setBoxItems(const QStringList& stringList);
     void setCurrentItem(const QString& text);
+    QStringList getStringList() const;
 private:
     QBoxLayout* lay = nullptr;
     QComboBox* comboBox = nullptr;

@@ -35,8 +35,7 @@ protected:
 
     void fromLabelToComboList(QSqlQuery& query, const QString columnName,
                               TextField*& textField);
-    void fromLabelToLineEdit(QSqlQuery& query, const QString columnName,
-                             TextField*& textField);
+    void fromLabelToLineEdit(TextField*& textField, QValidator* validator=nullptr);
 };
 
 

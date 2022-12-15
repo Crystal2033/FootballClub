@@ -15,6 +15,7 @@ ComboBox::ComboBox(const QStringList& stringList)
     setLayout(lay);
     setStyles();
     setBoxItems(stringList);
+    this->stringList = stringList;
 }
 
 QString ComboBox::getChosenData() const
@@ -34,6 +35,11 @@ void ComboBox::setBoxItems(const QStringList &stringList)
 void ComboBox::setCurrentItem(const QString& text)
 {
     comboBox->setCurrentText(text);
+}
+
+QStringList ComboBox::getStringList() const
+{
+    return stringList;
 }
 
 void ComboBox::setStyles()

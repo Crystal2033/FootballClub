@@ -99,16 +99,31 @@ void MatchNote::setTeamTypesComboList(QSqlQuery &query)
 
 void MatchNote::setClubsComboList(QSqlQuery &query)
 {
+
     fromLabelToComboList(query, "name", team1);
-    fromLabelToComboList(query, "name", team2);
+
+    QRegularExpression regularExpr("[\\d]*:[\\d]*");
+    QValidator *validator = new QRegularExpressionValidator(regularExpr);
+    fromLabelToLineEdit(finalScore, validator);
+
+    Label* lbl = (Label*) team2;
+    QString lastValue = lbl->getText();
+    ComboBox* firstTeam = (ComboBox*)team1;
+    QStringList stringList = firstTeam->getStringList();
+    delete team2;
+
+    team2 = new ComboBox(stringList);
+    ComboBox* temp = (ComboBox*) team2;
+
+    temp->setCurrentItem(lastValue);
+
+    teamsAndScoreLay->addWidget(team1, 0, Qt::AlignCenter);
+    teamsAndScoreLay->addWidget(finalScore, 0, Qt::AlignCenter);
+    teamsAndScoreLay->addWidget(team2, 0, Qt::AlignCenter);
 }
 
 
 
-void MatchNote::fromLabelToLineEdit(QSqlQuery &query, const QString columnName, TextField *&textField)
-{
-
-}
 
 MatchNote::~MatchNote()
 {
