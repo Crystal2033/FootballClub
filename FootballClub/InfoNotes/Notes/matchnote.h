@@ -21,9 +21,6 @@ public:
     void setTournamentComboList(QSqlQuery& query);
     ~MatchNote();
 private:
-    void extend() override;
-    void modifyNoteView() override;
-
     QBoxLayout* tournLay;
     QBoxLayout* stageLay;
     QBoxLayout* teamsType;
@@ -44,6 +41,12 @@ private:
     TextField* stage = nullptr;
 
     void setStyles();
+
+private slots:
+    void extend() override;
+    void modifyNoteView() override;
+    void onSaveChangesClicked();
+    void onCancelSavingClicked();
 };
 
 #endif // MATCHNOTE_H

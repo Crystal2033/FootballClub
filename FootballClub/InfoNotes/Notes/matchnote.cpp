@@ -53,6 +53,11 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
     teamsAndScoreLay->addWidget(team2, 0, Qt::AlignCenter);
     stadiumLay->addWidget(stadium, 0, Qt::AlignCenter);
     dateLay->addWidget(gameDate, 0, Qt::AlignCenter);
+
+    buttonsLay->addWidget(cancelSaving, 0, Qt::AlignCenter);
+    cancelSaving->setVisible(false);
+    buttonsLay->addWidget(saveChangesButton, 0, Qt::AlignCenter);
+    saveChangesButton->setVisible(false);
     buttonsLay->addWidget(modifyButton, 0, Qt::AlignRight);
 
     globalLay->addLayout(tournLay);
@@ -66,6 +71,9 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
     setLayout(globalLay);
 
     connect(modifyButton, &QPushButton::clicked, this, &MatchNote::modifyNoteView);
+    connect(saveChangesButton, &QPushButton::clicked, this, &MatchNote::onSaveChangesClicked);
+    connect(cancelSaving, &QPushButton::clicked, this, &MatchNote::onCancelSavingClicked);
+
     setStyles();
 }
 
@@ -94,13 +102,25 @@ void MatchNote::extend()
 
 void MatchNote::modifyNoteView()
 {
-    modifyButton->hide();
-    notifyObservers(MATCH_TOURNS, this);
+    cancelSaving->setVisible(true);
+    saveChangesButton->setVisible(true);
+
+    notifyObservers(MATCH_TOURNS, this); //getting list of names for combobox
     notifyObservers(MATCH_STAGES, this);
     notifyObservers(MATCH_TEAM_TYPES, this);
     notifyObservers(MATCH_CLUBS, this);
     notifyObservers(MATCH_STADIUMS, this);
 
+}
+
+void MatchNote::onSaveChangesClicked()
+{
+    qInfo() << "Save changes";
+}
+
+void MatchNote::onCancelSavingClicked()
+{
+    qInfo() << "Cancel saving";
 }
 
 void MatchNote::setStyles()
