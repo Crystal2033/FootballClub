@@ -29,6 +29,7 @@ protected:
     NOTE_VIEW_TYPE noteViewType = READ;
     virtual void extend() = 0;
     virtual void modifyNoteView() = 0;
+    void setSaveCancelButtonsVisability(const bool visability);
 };
 
 

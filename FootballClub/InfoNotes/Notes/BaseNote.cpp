@@ -73,3 +73,9 @@ void BaseNote::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote *note)
     }
 }
 
+void BaseNote::setSaveCancelButtonsVisability(const bool visability)
+{
+    cancelSaving->setVisible(visability);
+    saveChangesButton->setVisible(visability);
+}
+

@@ -46,7 +46,7 @@ private slots:
     void extend() override;
     void modifyNoteView() override;
     void onSaveChangesClicked();
-    void onCancelSavingClicked();
+    void onCancelModifyingClicked();
 };
 
 #endif // MATCHNOTE_H

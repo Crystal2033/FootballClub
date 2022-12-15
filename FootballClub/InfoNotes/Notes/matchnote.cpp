@@ -72,7 +72,7 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
 
     connect(modifyButton, &QPushButton::clicked, this, &MatchNote::modifyNoteView);
     connect(saveChangesButton, &QPushButton::clicked, this, &MatchNote::onSaveChangesClicked);
-    connect(cancelSaving, &QPushButton::clicked, this, &MatchNote::onCancelSavingClicked);
+    connect(cancelSaving, &QPushButton::clicked, this, &MatchNote::onCancelModifyingClicked);
 
     setStyles();
 }
@@ -102,8 +102,7 @@ void MatchNote::extend()
 
 void MatchNote::modifyNoteView()
 {
-    cancelSaving->setVisible(true);
-    saveChangesButton->setVisible(true);
+    setSaveCancelButtonsVisability(true);
 
     notifyObservers(MATCH_TOURNS, this); //getting list of names for combobox
     notifyObservers(MATCH_STAGES, this);
@@ -115,11 +114,13 @@ void MatchNote::modifyNoteView()
 
 void MatchNote::onSaveChangesClicked()
 {
+    setSaveCancelButtonsVisability(false);
     qInfo() << "Save changes";
 }
 
-void MatchNote::onCancelSavingClicked()
+void MatchNote::onCancelModifyingClicked()
 {
+    setSaveCancelButtonsVisability(false);
     qInfo() << "Cancel saving";
 }
 
