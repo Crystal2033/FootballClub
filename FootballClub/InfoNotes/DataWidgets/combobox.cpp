@@ -7,13 +7,14 @@
  ***************************************************************************/
 #include "combobox.h"
 
-ComboBox::ComboBox()
+ComboBox::ComboBox(const QStringList& stringList)
 {
     lay = new QHBoxLayout;
     comboBox = new QComboBox();
     lay->addWidget(comboBox);
     setLayout(lay);
     setStyles();
+    setBoxItems(stringList);
 }
 
 QString ComboBox::getChosenData() const

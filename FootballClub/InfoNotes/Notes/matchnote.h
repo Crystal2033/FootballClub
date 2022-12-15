@@ -17,7 +17,8 @@
 class MatchNote : public BaseNote
 {
 public:
-    MatchNote(QSqlQuery& query, QSqlRecord & record, QWidget* parent = nullptr);
+    MatchNote(QSqlQuery& query, QWidget* parent = nullptr);
+    void setTournamentComboList(QSqlQuery& query);
     ~MatchNote();
 private:
     void extend() override;
@@ -41,8 +42,6 @@ private:
     TextField* gameDate = nullptr;
     TextField* tournament = nullptr;
     TextField* stage = nullptr;
-
-    QPushButton* saveChangesButton;
 
     void setStyles();
 };

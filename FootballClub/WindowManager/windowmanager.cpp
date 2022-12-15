@@ -61,8 +61,10 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
             break;
         }
     }
-    else if(requestStatus == SEND_CHOSEN_DATA_TYPE){
-
+    else if(requestStatus == MATCH_TOURNS){
+        MatchNote* matchNote = (MatchNote*) note;
+        sendMatchTournaments(matchNote);
+        qInfo() << "Update";
     }
 
 }
@@ -70,15 +72,26 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
 void WindowManager::createMatchesData()
 {
     QSqlQuery* query = repository->getMatchesQuery();
-    QSqlRecord record = query->record();
-    QList<BaseNote*> listOfMatchesInfo;
+    if(query != nullptr){
+        QList<BaseNote*> listOfMatchesInfo;
 
-    while(query->next()){
-        MatchNote* matchNote = new MatchNote(*query, record);
-        matchNote->addObserver(this);
-        listOfMatchesInfo.push_back(matchNote);
+        while(query->next()){
+            MatchNote* matchNote = new MatchNote(*query);
+            matchNote->addObserver(this);
+            listOfMatchesInfo.push_back(matchNote);
+        }
+
+        this->window->dataDemonstrator->showData(listOfMatchesInfo);
+        delete query;
     }
 
-    this->window->dataDemonstrator->showData(listOfMatchesInfo);
-    delete query;
+}
+
+void WindowManager::sendMatchTournaments(MatchNote* const& note)
+{
+    QSqlQuery* query = repository->getMatchTournamentsQuery();
+    if(query != nullptr){
+        note->setTournamentComboList(*query);
+        delete query;
+    }
 }

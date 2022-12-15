@@ -14,7 +14,7 @@ class ComboBox : public TextField
 {
     Q_OBJECT
 public:
-    ComboBox();
+    ComboBox(const QStringList& stringList);
     QString getChosenData() const;
     void setBoxItems(const QStringList& stringList);
     void setCurrentItem(const QString& text);

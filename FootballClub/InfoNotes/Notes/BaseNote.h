@@ -24,6 +24,8 @@ protected:
     unsigned recordId;
     QBoxLayout* globalLay = nullptr;
     QPushButton* modifyButton = nullptr;
+    QPushButton* saveChangesButton = nullptr;
+    QPushButton* cancelSaving = nullptr;
     NOTE_VIEW_TYPE noteViewType = READ;
     virtual void extend() = 0;
     virtual void modifyNoteView() = 0;

@@ -21,19 +21,38 @@ DBRepository::~DBRepository()
     }
 }
 
-QSqlQuery* DBRepository::getMatchesQuery() const
+QSqlQuery *DBRepository::getQuery(const QString request) const
 {
+    qInfo() << request;
     QSqlQuery* query = new QSqlQuery;
-    if(!query->exec(getMatchesSQLRequest())){
+    if(!query->exec(request)){
         QMessageBox::critical(nullptr, "Matches request to database error",
                               "There is a problem with sending request about matches information.");
         return nullptr;
     }
     else{
+        qInfo() << "Success request";
         return query;
     }
-
 }
+
+QSqlQuery* DBRepository::getMatchesQuery() const
+{
+    return getQuery(getMatchesSQLRequest());
+}
+
+QSqlQuery *DBRepository::getMatchTournamentsQuery(const int id) const
+{
+    return getQuery(getMatchTournsSQLRequest());
+}
+
+
+
+
+
+
+
+
 
 QString DBRepository::getMatchesSQLRequest() const
 {
@@ -50,6 +69,11 @@ QString DBRepository::getMatchesSQLRequest() const
             "left join team on team2 = team.id "
             "where subReq.team2=team.id and team.club_id=club.id and stadiumid=stadium.id "
             "order by gameDate asc;";
+}
+
+QString DBRepository::getMatchTournsSQLRequest() const
+{
+    return "select name from tournament;";
 }
 
 void DBRepository::testPrint()

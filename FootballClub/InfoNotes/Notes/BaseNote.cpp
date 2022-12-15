@@ -10,9 +10,23 @@ BaseNote::BaseNote(QWidget *parent)
     :QWidget(parent)
 {
     modifyButton = new QPushButton;
-    modifyButton->setFixedSize(80, 60);
+    modifyButton->setFixedSize(75, 55);
     modifyButton->setIconSize(QSize(0.75 * modifyButton->size().width(), 0.75 * modifyButton->size().height()));
     modifyButton->setIcon(QIcon(":/pictures/Pics/modifyData.png"));
+
+    saveChangesButton = new QPushButton("Save changes");
+    saveChangesButton->setStyleSheet("background-color: darkgreen;"
+                                     "color:white;"
+                                     "font-size: 20px;"
+                                     "font-wight: bold;"
+                                     "");
+
+    cancelSaving = new QPushButton("Cancel modifying");
+    cancelSaving->setStyleSheet("background-color: darkred;"
+                                "color:white;"
+                                "font-size: 20px;"
+                                "font-wight: bold;"
+                                "");
 }
 
 void BaseNote::setNoteViewType(const NOTE_VIEW_TYPE type)

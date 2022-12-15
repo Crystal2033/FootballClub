@@ -6,14 +6,15 @@
  *                                                                         *
  ***************************************************************************/
 #include "matchnote.h"
+#include "InfoNotes/DataWidgets/combobox.h"
 #include "InfoNotes/DataWidgets/label.h"
 
 #include <QDateTime>
 
-MatchNote::MatchNote(QSqlQuery& query, QSqlRecord & record, QWidget* parent)
+MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
     :BaseNote(parent)
 {
-
+    QSqlRecord record = query.record();
     recordId = query.value(record.indexOf("gameid")).toInt();
     team1 = new Label(query.value(record.indexOf("team1")).toString());
 
@@ -68,6 +69,19 @@ MatchNote::MatchNote(QSqlQuery& query, QSqlRecord & record, QWidget* parent)
     setStyles();
 }
 
+void MatchNote::setTournamentComboList(QSqlQuery &query)
+{
+    QSqlRecord record = query.record();
+    QStringList stringList;
+    while(query.next()){
+        stringList << query.value(record.indexOf("name")).toString();
+    }
+    qInfo() << stringList;
+    delete tournament;
+    tournament = new ComboBox(stringList);
+    tournLay->addWidget(tournament, 0, Qt::AlignCenter);
+}
+
 MatchNote::~MatchNote()
 {
     removeObservers();
@@ -80,6 +94,12 @@ void MatchNote::extend()
 
 void MatchNote::modifyNoteView()
 {
+    modifyButton->hide();
+    notifyObservers(MATCH_TOURNS, this);
+    notifyObservers(MATCH_STAGES, this);
+    notifyObservers(MATCH_TEAM_TYPES, this);
+    notifyObservers(MATCH_CLUBS, this);
+    notifyObservers(MATCH_STADIUMS, this);
 
 }
 

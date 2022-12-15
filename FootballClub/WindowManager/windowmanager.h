@@ -10,6 +10,7 @@
 #pragma once
 #include "mainwindow.h"
 #include "Repository/dbrepository.h"
+#include "InfoNotes/Notes/matchnote.h"
 
 class WindowManager : public InterfaceObserver
 {
@@ -24,6 +25,7 @@ private:
     void updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
     void createMatchesData();
+    void sendMatchTournaments(MatchNote* const& note);
 };
 
 #endif // WINDOWMANAGER_H

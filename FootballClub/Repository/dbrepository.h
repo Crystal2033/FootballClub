@@ -17,8 +17,18 @@ public:
     ~DBRepository();
 
 private:
+    QSqlQuery* getQuery(const QString request) const;
+    //GET QUERIES
     QSqlQuery* getMatchesQuery() const;
+    QSqlQuery* getMatchTournamentsQuery(const int id=0) const;
+
+
+
+    //SQL REQUESTS
     QString getMatchesSQLRequest() const;
+    QString getMatchTournsSQLRequest() const;
+
+
 
     void testPrint();
     DataBase* database = nullptr;
