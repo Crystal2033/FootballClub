@@ -66,22 +66,34 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
     }
     else if(requestStatus == MATCH_TOURNS){
         MatchNote* matchNote = (MatchNote*) note;
-        sendMatchTournaments(matchNote);
+        sendTournamentNames(matchNote);
     }
     else if(requestStatus == MATCH_STAGES){
         MatchNote* matchNote = (MatchNote*) note;
-        sendMatchStages(matchNote);
+        sendStageNames(matchNote);
     }
     else if(requestStatus == MATCH_TEAM_TYPES){
         MatchNote* matchNote = (MatchNote*) note;
-        sendMatchTeamTypes(matchNote);
+        sendTeamTypeNames(matchNote);
     }
     else if(requestStatus == MATCH_CLUBS){
         MatchNote* matchNote = (MatchNote*) note;
-        sendMatchClubs(matchNote);
+        sendClubNames(matchNote);
+    }
+    else if(requestStatus == MATCH_STADIUMS){
+        MatchNote* matchNote = (MatchNote*) note;
+        sendStadiumNames(matchNote);
+    }
+    else if(requestStatus == MATCH_UPDATE){
+        MatchNote* matchNote = (MatchNote*) note;
     }
 
 }
+
+
+
+
+
 
 void WindowManager::createMatchesData()
 {
@@ -101,38 +113,47 @@ void WindowManager::createMatchesData()
 
 }
 
-void WindowManager::sendMatchTournaments(MatchNote* const& note)
+void WindowManager::sendTournamentNames(MatchNote* const& note)
 {
-    QSqlQuery* query = repository->getMatchTournamentsQuery();
+    QSqlQuery* query = repository->getTournNamesQuery();
     if(query != nullptr){
         note->setTournamentComboList(*query);
         delete query;
     }
 }
 
-void WindowManager::sendMatchStages(MatchNote * const &note)
+void WindowManager::sendStageNames(MatchNote * const &note)
 {
-    QSqlQuery* query = repository->getMatchStagesQuery();
+    QSqlQuery* query = repository->getStageNamesQuery();
     if(query != nullptr){
         note->setStagesComboList(*query);
         delete query;
     }
 }
 
-void WindowManager::sendMatchTeamTypes(MatchNote * const &note)
+void WindowManager::sendTeamTypeNames(MatchNote * const &note)
 {
-    QSqlQuery* query = repository->getMatchTeamTypesQuery();
+    QSqlQuery* query = repository->getTeamTypeNamesQuery();
     if(query != nullptr){
         note->setTeamTypesComboList(*query);
         delete query;
     }
 }
 
-void WindowManager::sendMatchClubs(MatchNote * const &note)
+void WindowManager::sendClubNames(MatchNote * const &note)
 {
-    QSqlQuery* query = repository->getMatchClubsQuery();
+    QSqlQuery* query = repository->getClubNamesQuery();
     if(query != nullptr){
         note->setClubsComboList(*query);
+        delete query;
+    }
+}
+
+void WindowManager::sendStadiumNames(MatchNote * const &note)
+{
+    QSqlQuery* query = repository->getStadiumNamesQuery();
+    if(query != nullptr){
+        note->setStadiumsComboList(*query);
         delete query;
     }
 }

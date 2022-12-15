@@ -25,10 +25,11 @@ private:
     void updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
     void createMatchesData();
-    void sendMatchTournaments(MatchNote* const& note);
-    void sendMatchStages(MatchNote* const& note);
-    void sendMatchTeamTypes(MatchNote* const& note);
-    void sendMatchClubs(MatchNote* const& note);
+    void sendTournamentNames(MatchNote* const& note);
+    void sendStageNames(MatchNote* const& note);
+    void sendTeamTypeNames(MatchNote* const& note);
+    void sendClubNames(MatchNote* const& note);
+    void sendStadiumNames(MatchNote* const& note);
 };
 
 #endif // WINDOWMANAGER_H

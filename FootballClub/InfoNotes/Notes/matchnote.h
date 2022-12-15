@@ -13,6 +13,7 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include "InfoNotes/DataWidgets/textfield.h"
+#include <map>
 
 class MatchNote : public BaseNote
 {
@@ -23,9 +24,11 @@ public:
     void setStagesComboList(QSqlQuery& query);
     void setTeamTypesComboList(QSqlQuery& query);
     void setClubsComboList(QSqlQuery& query);
-
+    void setStadiumsComboList(QSqlQuery& query);
+    std::map<QString, TextField*> getFieldsMap() const;
     ~MatchNote();
 private:
+    std::map<QString, TextField*> fieldsMap;
     QBoxLayout* tournLay;
     QBoxLayout* stageLay;
     QBoxLayout* teamsTypeLay;
@@ -46,6 +49,7 @@ private:
     TextField* stage = nullptr;
 
     void setStyles();
+    void insertFieldsInMap();
 
 private slots:
     void extend() override;

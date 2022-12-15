@@ -5,17 +5,17 @@
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#ifndef DATETEXT_H
-#define DATETEXT_H
+#ifndef DATETIMETEXT_H
+#define DATETIMETEXT_H
 #pragma once
 #include "textfield.h"
 #include "calendar.h"
 #include "lineedit.h"
 
-class DateText : public TextField
+class DateTimeText : public TextField
 {
 public:
-    DateText(const QString & text);
+    DateTimeText(const QString & text);
 private:
     QBoxLayout* lay = nullptr;
     LineEdit* lineEdit = nullptr;

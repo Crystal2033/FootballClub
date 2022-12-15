@@ -34,6 +34,7 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
     tournament = new Label(query.value(record.indexOf("tournname")).toString());
     stage = new Label(query.value(record.indexOf("stage")).toString());
 
+    insertFieldsInList();
 
     globalLay = new QVBoxLayout;
 
@@ -122,12 +123,25 @@ void MatchNote::setClubsComboList(QSqlQuery &query)
     teamsAndScoreLay->addWidget(team2, 0, Qt::AlignCenter);
 }
 
+void MatchNote::setStadiumsComboList(QSqlQuery &query)
+{
+    fromLabelToComboList(query, "name", stadium);
+
+    stadiumLay->addWidget(stadium, 0, Qt::AlignCenter);
+}
+
+std::map<QString, TextField *> MatchNote::getFieldsMap() const
+{
+    return fieldsMap;
+}
+
 
 
 
 MatchNote::~MatchNote()
 {
     removeObservers();
+    fieldsMap.clear();
 }
 
 void MatchNote::extend()
@@ -143,6 +157,8 @@ void MatchNote::modifyNoteView()
     notifyObservers(MATCH_STAGES, this);
     notifyObservers(MATCH_TEAM_TYPES, this);
     notifyObservers(MATCH_CLUBS, this);
+    fromLabelToDateTimeText(gameDate);
+    dateLay->addWidget(gameDate, 0, Qt::AlignCenter);
     notifyObservers(MATCH_STADIUMS, this);
 
 }
@@ -151,7 +167,8 @@ void MatchNote::onSaveChangesClicked()
 {
     setSaveCancelButtonsVisability(false);
     modifyButton->setVisible(true);
-    qInfo() << "Save changes";
+    notifyObservers(MATCH_UPDATE, this);
+
 }
 
 void MatchNote::onCancelModifyingClicked()
@@ -168,4 +185,16 @@ void MatchNote::setStyles()
                               "font-weight: bold;"
                               "font-family: Goudy Old Style;"
                               "");
+}
+
+void MatchNote::insertFieldsInMap()
+{
+    fieldsMap.insert(std::make_pair("team1", team1));
+    fieldsMap.insert(std::make_pair("teamtype", teamType1));
+    fieldsMap.insert(std::make_pair("team2", team2));
+    fieldsMap.insert(std::make_pair("finalscore", finalScore));
+    fieldsMap.insert(std::make_pair("stadium", stadium));
+    fieldsMap.insert(std::make_pair("gameDate", gameDate));
+    fieldsMap.insert(std::make_pair("tournament", tournament));
+    fieldsMap.insert(std::make_pair("stage", stage));
 }

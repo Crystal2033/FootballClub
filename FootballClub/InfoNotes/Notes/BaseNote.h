@@ -33,6 +33,7 @@ protected:
     virtual void modifyNoteView() = 0;
     void setSaveCancelButtonsVisability(const bool visability);
 
+    void fromLabelToDateTimeText(TextField*& textField);
     void fromLabelToComboList(QSqlQuery& query, const QString columnName,
                               TextField*& textField);
     void fromLabelToLineEdit(TextField*& textField, QValidator* validator=nullptr);

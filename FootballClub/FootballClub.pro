@@ -11,7 +11,7 @@ SOURCES += \
     DataBase/database.cpp \
     InfoNotes/DataWidgets/calendar.cpp \
     InfoNotes/DataWidgets/combobox.cpp \
-    InfoNotes/DataWidgets/datetext.cpp \
+    InfoNotes/DataWidgets/datetimetext.cpp \
     InfoNotes/DataWidgets/label.cpp \
     InfoNotes/DataWidgets/lineedit.cpp \
     InfoNotes/DataWidgets/textfield.cpp \
@@ -33,7 +33,7 @@ HEADERS += \
     Enums/Enums.h \
     InfoNotes/DataWidgets/calendar.h \
     InfoNotes/DataWidgets/combobox.h \
-    InfoNotes/DataWidgets/datetext.h \
+    InfoNotes/DataWidgets/datetimetext.h \
     InfoNotes/DataWidgets/label.h \
     InfoNotes/DataWidgets/lineedit.h \
     InfoNotes/DataWidgets/textfield.h \

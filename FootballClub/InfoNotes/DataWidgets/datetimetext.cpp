@@ -5,14 +5,16 @@
  *   https://github.com/Crystal2033                                        *
  *                                                                         *
  ***************************************************************************/
-#include "datetext.h"
+#include "datetimetext.h"
 #include <QDateTime>
 #include <QDate>
 
-DateText::DateText(const QString & text)
+DateTimeText::DateTimeText(const QString & text)
 {
+    QRegularExpression regularExpr("[1-2][0,9]\\d\\d-[0,1]\\d-[0-3]\\d\\s*[0-2]\\d:[0-5]\\d:[0-5]\\d");
+    QValidator *validator = new QRegularExpressionValidator(regularExpr);
     lay = new QHBoxLayout;
-    lineEdit = new LineEdit(text);
+    lineEdit = new LineEdit(text, validator);
     calendar = new Calendar;
     callCalendarBtn = new QPushButton;
     callCalendarBtn->setIcon(QIcon(":/pictures/Pics/calendarIcon.jpg"));
@@ -21,17 +23,17 @@ DateText::DateText(const QString & text)
     lay->addWidget(lineEdit);
     lay->addWidget(callCalendarBtn);
     setLayout(lay);
-    connect(callCalendarBtn, &QPushButton::clicked, this, &DateText::onCallCalendarBtnClicked);
-    connect(calendar, &Calendar::dateSaved, this, &DateText::onSavedDateEmission);
+    connect(callCalendarBtn, &QPushButton::clicked, this, &DateTimeText::onCallCalendarBtnClicked);
+    connect(calendar, &Calendar::dateSaved, this, &DateTimeText::onSavedDateEmission);
 }
 
-void DateText::onCallCalendarBtnClicked()
+void DateTimeText::onCallCalendarBtnClicked()
 {
     calendar->setWindowModality(Qt::WindowModal);
     calendar->show();
 }
 
-void DateText::onSavedDateEmission()
+void DateTimeText::onSavedDateEmission()
 {
     QDateTime date = QDateTime::fromString(lineEdit->getText(), "yyyy-MM-dd hh:mm:ss");
     QString outputDateTime = calendar->getChosenDate().toString("yyyy-MM-dd") + " " + date.time().toString("hh:mm:ss");

@@ -41,24 +41,34 @@ QSqlQuery* DBRepository::getMatchesQuery() const
     return getQuery(getMatchesSQLRequest());
 }
 
-QSqlQuery *DBRepository::getMatchTournamentsQuery() const
+QSqlQuery *DBRepository::getTournNamesQuery() const
 {
-    return getQuery(getMatchTournsSQLRequest());
+    return getQuery(getTournNamesSQLRequest());
 }
 
-QSqlQuery *DBRepository::getMatchStagesQuery() const
+QSqlQuery *DBRepository::getStageNamesQuery() const
 {
-    return getQuery(getMatchStagesSQLRequest());
+    return getQuery(getStageNamesSQLRequest());
 }
 
-QSqlQuery *DBRepository::getMatchTeamTypesQuery() const
+QSqlQuery *DBRepository::getTeamTypeNamesQuery() const
 {
-    return getQuery(getMatchTeamTypesSQLRequest());
+    return getQuery(getTeamTypeNamesSQLRequest());
 }
 
-QSqlQuery *DBRepository::getMatchClubsQuery() const
+QSqlQuery *DBRepository::getClubNamesQuery() const
 {
-    return getQuery(getMatchClubsSQLRequest());
+    return getQuery(getClubNamesSQLRequest());
+}
+
+QSqlQuery *DBRepository::getStadiumNamesQuery() const
+{
+    return getQuery(getStadiumNamesSQLRequest());
+}
+
+bool DBRepository::saveMatchData()
+{
+
 }
 
 
@@ -92,24 +102,34 @@ QString DBRepository::getMatchesSQLRequest() const
             "order by gameDate asc;";
 }
 
-QString DBRepository::getMatchTournsSQLRequest() const
+QString DBRepository::getTournNamesSQLRequest() const
 {
     return "select name from tournament;";
 }
 
-QString DBRepository::getMatchStagesSQLRequest() const
+QString DBRepository::getStageNamesSQLRequest() const
 {
     return "select name from tourn_stage;";
 }
 
-QString DBRepository::getMatchTeamTypesSQLRequest() const
+QString DBRepository::getTeamTypeNamesSQLRequest() const
 {
     return "select name from team_type;";
 }
 
-QString DBRepository::getMatchClubsSQLRequest() const
+QString DBRepository::getClubNamesSQLRequest() const
 {
     return "select club_name as name from club;";
+}
+
+QString DBRepository::getStadiumNamesSQLRequest() const
+{
+    return "select name from stadium;";
+}
+
+QString DBRepository::getMatchUpdateSQLRequest() const
+{
+    "update ";
 }
 
 

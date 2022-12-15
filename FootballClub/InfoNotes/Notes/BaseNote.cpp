@@ -12,6 +12,7 @@
 #include <QRegularExpressionValidator>
 #include <QRegularExpression>
 #include "InfoNotes/DataWidgets/lineedit.h"
+#include "InfoNotes/DataWidgets/datetimetext.h"
 
 BaseNote::BaseNote(QWidget *parent)
     :QWidget(parent)
@@ -84,6 +85,14 @@ void BaseNote::setSaveCancelButtonsVisability(const bool visability)
 {
     cancelSaving->setVisible(visability);
     saveChangesButton->setVisible(visability);
+}
+
+void BaseNote::fromLabelToDateTimeText(TextField *&textField)
+{
+    Label* lbl = (Label*)textField;
+    QString lastValue = lbl->getText();
+    delete textField;
+    textField= new DateTimeText(lastValue);
 }
 
 void BaseNote::fromLabelToComboList(QSqlQuery &query, const QString columnName,

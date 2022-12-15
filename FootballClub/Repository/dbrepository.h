@@ -20,10 +20,12 @@ private:
     QSqlQuery* getQuery(const QString request) const;
     //GET QUERIES
     QSqlQuery* getMatchesQuery() const;
-    QSqlQuery* getMatchTournamentsQuery() const;
-    QSqlQuery* getMatchStagesQuery() const;
-    QSqlQuery* getMatchTeamTypesQuery() const;
-    QSqlQuery* getMatchClubsQuery() const;
+    QSqlQuery* getTournNamesQuery() const;
+    QSqlQuery* getStageNamesQuery() const;
+    QSqlQuery* getTeamTypeNamesQuery() const;
+    QSqlQuery* getClubNamesQuery() const;
+    QSqlQuery* getStadiumNamesQuery() const;
+    bool saveMatchData();
 
 
 
@@ -32,10 +34,12 @@ private:
 
     //SQL REQUESTS
     QString getMatchesSQLRequest() const;
-    QString getMatchTournsSQLRequest() const;
-    QString getMatchStagesSQLRequest() const;
-    QString getMatchTeamTypesSQLRequest() const;
-    QString getMatchClubsSQLRequest() const;
+    QString getTournNamesSQLRequest() const;
+    QString getStageNamesSQLRequest() const;
+    QString getTeamTypeNamesSQLRequest() const;
+    QString getClubNamesSQLRequest() const;
+    QString getStadiumNamesSQLRequest() const;
+    QString getMatchUpdateSQLRequest() const;
 
 
 
