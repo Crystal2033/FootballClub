@@ -66,9 +66,9 @@ QSqlQuery *DBRepository::getStadiumNamesQuery() const
     return getQuery(getStadiumNamesSQLRequest());
 }
 
-bool DBRepository::saveMatchData()
+bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap)
 {
-
+    //TODO: GETTIND ALL IDS WE NEED AND INSERTING USING PREPARE AND BINDVALUE
 }
 
 

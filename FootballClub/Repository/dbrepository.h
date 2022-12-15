@@ -8,7 +8,9 @@
 #ifndef DBREPOSITORY_H
 #define DBREPOSITORY_H
 #pragma once
+#include "InfoNotes/DataWidgets/textfield.h"
 #include "DataBase/database.h"
+#include <map>
 
 class DBRepository
 {//class for database requests
@@ -25,7 +27,7 @@ private:
     QSqlQuery* getTeamTypeNamesQuery() const;
     QSqlQuery* getClubNamesQuery() const;
     QSqlQuery* getStadiumNamesQuery() const;
-    bool saveMatchData();
+    bool saveMatchData(const std::map<QString, TextField*>& fieldsMap);
 
 
 
