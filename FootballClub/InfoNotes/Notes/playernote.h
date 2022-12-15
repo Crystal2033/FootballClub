@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef PLAYERNOTE_H
 #define PLAYERNOTE_H
-
+#pragma once
 #include <QWidget>
 #include "BaseNote.h"
 

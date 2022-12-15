@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef COMBOBOX_H
 #define COMBOBOX_H
-
+#pragma once
 #include "textfield.h"
 
 class ComboBox : public TextField

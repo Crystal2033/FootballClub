@@ -7,13 +7,16 @@
  ***************************************************************************/
 #ifndef OBSERVER_H
 #define OBSERVER_H
-#include <QImage>
+
+#pragma once
 #include "Enums/Enums.h"
+
+class BaseNote;
 class InterfaceObserver
 {
 public:
     virtual ~InterfaceObserver() = default;
-    virtual void updateByObserver(const REQUEST_TYPE requestStatus) = 0;
+    virtual void updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note =nullptr) = 0;
 };
 
 #endif // OBSERVER_H

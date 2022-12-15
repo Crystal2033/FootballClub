@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef DATETEXT_H
 #define DATETEXT_H
-
+#pragma once
 #include "textfield.h"
 #include "calendar.h"
 #include "lineedit.h"

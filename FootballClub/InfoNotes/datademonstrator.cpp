@@ -7,12 +7,13 @@
  ***************************************************************************/
 #include "datademonstrator.h"
 #include <QPushButton>
+#include "InfoNotes/Notes/BaseNote.h"
 
 DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     : QWidget{parent}
 {
     layout = new QVBoxLayout;
-
+    layout->setSpacing(50);
     scrollArea = new QScrollArea();
     scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -23,7 +24,6 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 
     scrollArea->setStyleSheet(""
                               "background-color: #008B8B;"
-                              ""
                               ""
                               "");
     scrollArea->setWidget(this);
@@ -40,6 +40,7 @@ void DataDemonstrator::showData(const QList<BaseNote*> &notes)
     listOfNotes = notes;
     for(unsigned i = 0; i < listOfNotes.size(); i++){
         layout->addWidget((QWidget*)listOfNotes[i]);
+        listOfNotes[i]->show();
     }
 }
 

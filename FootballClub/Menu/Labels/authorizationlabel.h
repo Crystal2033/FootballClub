@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef AUTHORIZATIONLABEL_H
 #define AUTHORIZATIONLABEL_H
-
+#pragma once
 #include "menulabel.h"
 
 class AuthorizationLabel : public MenuLabel

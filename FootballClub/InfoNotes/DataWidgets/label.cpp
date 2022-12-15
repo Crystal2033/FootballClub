@@ -13,12 +13,12 @@ Label::Label(const QString& text)
     label = new QLabel(text);
     lay->addWidget(label);
     setLayout(lay);
-    setStyles();
+    //setStyles();
 }
 
 void Label::setStyles()
 {
-    label->setStyleSheet("color: #212F3C;"
+    label->setStyleSheet("color: white;"
                          "font-size: 20px;"
                          "font-family: Goudy Old Style;"
                          "font-weight: bold;");

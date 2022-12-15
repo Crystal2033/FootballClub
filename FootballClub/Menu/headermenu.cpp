@@ -23,9 +23,10 @@ HeaderMenu::~HeaderMenu()
         delete label;
     }
     delete horLay;
+    removeObservers();
 }
 
-void HeaderMenu::updateByObserver(const REQUEST_TYPE requestStatus)
+void HeaderMenu::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note)
 {
     if(requestStatus == SET_FALSE_IN_LABELS){
         for(auto menuLabel : menuLabels){
@@ -62,6 +63,11 @@ void HeaderMenu::removeObserver(InterfaceObserver *observer)
     }
 }
 
+void HeaderMenu::removeObservers()
+{
+    observers.clear();
+}
+
 LABEL_TYPE HeaderMenu::getChosenDataType() const
 {
     return chosenDataType;
@@ -94,7 +100,7 @@ void HeaderMenu::addMenuLabel(MenuLabel* const& menuLabel)
     menuLabel->addObserver(this);
 }
 
-void HeaderMenu::notifyObservers(const REQUEST_TYPE requestStatus)
+void HeaderMenu::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note)
 {
     for (auto obs : observers) {
         obs->updateByObserver(requestStatus);

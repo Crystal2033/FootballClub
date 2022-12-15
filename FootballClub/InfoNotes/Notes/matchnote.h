@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef MATCHNOTE_H
 #define MATCHNOTE_H
-
+#pragma once
 #include "BaseNote.h"
 
 #include <QSqlQuery>
@@ -18,13 +18,19 @@ class MatchNote : public BaseNote
 {
 public:
     MatchNote(QSqlQuery& query, QSqlRecord & record, QWidget* parent = nullptr);
-    ~MatchNote() = default;
+    ~MatchNote();
 private:
     void extend() override;
     void modifyNoteView() override;
-    QBoxLayout* leftWidgetsLay = nullptr;
-    QBoxLayout* middleWidgetsLay = nullptr;
-    QBoxLayout* rightWidgetsLay = nullptr;
+
+    QBoxLayout* tournLay;
+    QBoxLayout* stageLay;
+    QBoxLayout* teamsType;
+    QBoxLayout* teamsAndScoreLay;
+    QBoxLayout* stadiumLay;
+    QBoxLayout* dateLay;
+    QBoxLayout* buttonsLay;
+
 
     TextField* team1 = nullptr; //PSG
     TextField* teamType1 = nullptr; //MAIN OR YOUNG OR WOMEN
@@ -35,6 +41,10 @@ private:
     TextField* gameDate = nullptr;
     TextField* tournament = nullptr;
     TextField* stage = nullptr;
+
+    QPushButton* saveChangesButton;
+
+    void setStyles();
 };
 
 #endif // MATCHNOTE_H

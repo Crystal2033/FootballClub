@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#pragma once
 #include "Menu/headermenu.h"
 #include <QMainWindow>
 #include <QBoxLayout>

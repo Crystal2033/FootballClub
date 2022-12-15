@@ -9,16 +9,53 @@
 BaseNote::BaseNote(QWidget *parent)
     :QWidget(parent)
 {
-    modifyButton = new QPushButton("Modify");
+    modifyButton = new QPushButton;
+    modifyButton->setFixedSize(80, 60);
+    modifyButton->setIconSize(QSize(0.75 * modifyButton->size().width(), 0.75 * modifyButton->size().height()));
     modifyButton->setIcon(QIcon(":/pictures/Pics/modifyData.png"));
 }
 
-//void Note::setNoteViewType(const NOTE_VIEW_TYPE type)
-//{
-//    noteViewType = type;
-//}
+void BaseNote::setNoteViewType(const NOTE_VIEW_TYPE type)
+{
+    noteViewType = type;
+}
 
-//NOTE_VIEW_TYPE Note::getNoteViewTytpe() const
-//{
-//    return noteViewType;
-//}
+NOTE_VIEW_TYPE BaseNote::getNoteViewTytpe() const
+{
+    return noteViewType;
+}
+
+BaseNote::~BaseNote()
+{
+
+}
+
+
+void BaseNote::addObserver(InterfaceObserver *observer)
+{
+    this->observers.append(observer);
+}
+
+void BaseNote::removeObserver(InterfaceObserver *observer)
+{
+    QList<InterfaceObserver*>::ConstIterator it = observers.constBegin();
+    for (; it != observers.constEnd(); ++it) {
+        if (*it == observer) {
+            observers.erase(it);
+            return;
+        }
+    }
+}
+
+void BaseNote::removeObservers()
+{
+    observers.clear();
+}
+
+void BaseNote::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote *note)
+{
+    for (auto obs : observers) {
+        obs->updateByObserver(requestStatus, note);
+    }
+}
+

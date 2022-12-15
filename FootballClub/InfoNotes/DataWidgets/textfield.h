@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef TEXTFIELD_H
 #define TEXTFIELD_H
-
+#pragma once
 #include <QWidget>
 #include <QBoxLayout>
 #include <QLabel>

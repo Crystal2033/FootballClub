@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef CALENDAR_H
 #define CALENDAR_H
-
+#pragma once
 #include "textfield.h"
 #include <QCalendarWidget>
 

@@ -1,16 +1,26 @@
+#pragma once
 #include <QBoxLayout>
 #include <QPushButton>
 #include <QWidget>
+#include "PatternObserver/subject.h"
 #include "Enums/Enums.h"
 
-class BaseNote : public QWidget{
+
+class BaseNote : public QWidget, public InterfaceSubject {
     Q_OBJECT
 public:
     BaseNote(QWidget *parent = nullptr);
     void setNoteViewType(const NOTE_VIEW_TYPE type);
     NOTE_VIEW_TYPE getNoteViewTytpe() const;
-    virtual ~BaseNote() = default;
+    virtual ~BaseNote();
+    void addObserver(InterfaceObserver* observer) override;
+    void removeObserver(InterfaceObserver* observer) override;
+    void removeObservers() override;
+
+
 protected:
+    QList<InterfaceObserver*> observers;
+    void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
     unsigned recordId;
     QBoxLayout* globalLay = nullptr;
     QPushButton* modifyButton = nullptr;

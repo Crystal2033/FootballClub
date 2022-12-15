@@ -16,7 +16,8 @@ public:
     virtual ~InterfaceSubject() = default;
     virtual void addObserver(InterfaceObserver* observer) = 0;
     virtual void removeObserver(InterfaceObserver* observer) = 0;
-    virtual void notifyObservers(const REQUEST_TYPE requestStatus) = 0;
+    virtual void removeObservers() = 0;
+    virtual void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) = 0;
 };
 
 

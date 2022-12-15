@@ -7,6 +7,7 @@
  ***************************************************************************/
 #ifndef ENUMS_H
 #define ENUMS_H
+#pragma once
 typedef enum {PLAYERS, COACHES, MATCHES, TOURNS, GOALS, CLUB, TEAMS, AUTHO} LABEL_TYPE;
 typedef enum {SET_FALSE_IN_LABELS, SEND_CHOSEN_DATA_TYPE} REQUEST_TYPE;
 typedef enum {READ, MODIFY} NOTE_VIEW_TYPE;

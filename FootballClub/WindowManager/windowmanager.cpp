@@ -14,7 +14,6 @@ WindowManager::WindowManager()
     window->setStyleSheet("MainWindow{background-color: #30415B}");
 
     repository = new DBRepository;
-    repository->testPrint();
 }
 
 WindowManager::~WindowManager()
@@ -28,38 +27,44 @@ void WindowManager::show()
 }
 
 
-void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus)
+void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note)
 {
-    switch (this->window->headerMenu->getChosenDataType()) {
-    case PLAYERS:
-        qInfo() << "PLAYERS";
-        break;
-    case COACHES:
-        qInfo() << "COACHES";
-        break;
-    case MATCHES:
-        qInfo() << "MATCHES";
-        createMatchesData();
-        break;
-    case TOURNS:
-        qInfo() << "TOURNS";
-        break;
-    case GOALS:
-        qInfo() << "GOALS";
-        break;
-    case CLUB:
-        qInfo() << "CLUB";
-        break;
-    case TEAMS:
-        qInfo() << "TEAMS";
-        break;
-    case AUTHO:
-        qInfo() << "AUTHO";
-        break;
+    if(requestStatus == SEND_CHOSEN_DATA_TYPE){
+        switch (this->window->headerMenu->getChosenDataType()) {
+        case PLAYERS:
+            qInfo() << "PLAYERS";
+            break;
+        case COACHES:
+            qInfo() << "COACHES";
+            break;
+        case MATCHES:
+            qInfo() << "MATCHES";
+            createMatchesData();
+            break;
+        case TOURNS:
+            qInfo() << "TOURNS";
+            break;
+        case GOALS:
+            qInfo() << "GOALS";
+            break;
+        case CLUB:
+            qInfo() << "CLUB";
+            break;
+        case TEAMS:
+            qInfo() << "TEAMS";
+            break;
+        case AUTHO:
+            qInfo() << "AUTHO";
+            break;
 
-    default:
-        break;
+        default:
+            break;
+        }
     }
+    else if(requestStatus == SEND_CHOSEN_DATA_TYPE){
+
+    }
+
 }
 
 void WindowManager::createMatchesData()
@@ -67,10 +72,13 @@ void WindowManager::createMatchesData()
     QSqlQuery* query = repository->getMatchesQuery();
     QSqlRecord record = query->record();
     QList<BaseNote*> listOfMatchesInfo;
+
     while(query->next()){
-        listOfMatchesInfo.push_back(new MatchNote(*query, record));
+        MatchNote* matchNote = new MatchNote(*query, record);
+        matchNote->addObserver(this);
+        listOfMatchesInfo.push_back(matchNote);
     }
 
     this->window->dataDemonstrator->showData(listOfMatchesInfo);
-
+    delete query;
 }

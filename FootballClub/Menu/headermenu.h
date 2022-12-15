@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef HEADERMENU_H
 #define HEADERMENU_H
-
+#pragma once
 #include "Labels/menulabel.h"
 #include <QWidget>
 #include <QList>
@@ -22,10 +22,11 @@ public:
     explicit HeaderMenu(QWidget *parent = nullptr);
     ~HeaderMenu();
 
-    void updateByObserver(const REQUEST_TYPE requestStatus) override;
+    void updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
     void addObserver(InterfaceObserver* observer) override;
     void removeObserver(InterfaceObserver* observer) override;
+    void removeObservers() override;
     LABEL_TYPE getChosenDataType() const;
 
 
@@ -37,7 +38,7 @@ private:
     void addMenuLabel(MenuLabel* const& menuLabel);
     QList<MenuLabel*> menuLabels;
 
-    void notifyObservers(const REQUEST_TYPE requestStatus) override;
+    void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
     QList<InterfaceObserver*> observers;
 
 signals:

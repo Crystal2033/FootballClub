@@ -7,6 +7,7 @@
  ***************************************************************************/
 #ifndef DBREPOSITORY_H
 #define DBREPOSITORY_H
+#pragma once
 #include "DataBase/database.h"
 
 class DBRepository

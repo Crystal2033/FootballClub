@@ -21,7 +21,7 @@ private:
 
     MainWindow* window = nullptr;
     DBRepository* repository = nullptr;
-    void updateByObserver(const REQUEST_TYPE requestStatus) override;
+    void updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
     void createMatchesData();
 };

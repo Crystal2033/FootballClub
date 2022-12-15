@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef STANDARTLABEL_H
 #define STANDARTLABEL_H
-
+#pragma once
 #include "menulabel.h"
 #include <QLabel>
 

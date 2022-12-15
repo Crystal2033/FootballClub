@@ -68,6 +68,11 @@ void MenuLabel::removeObserver(InterfaceObserver *observer)
     }
 }
 
+void MenuLabel::removeObservers()
+{
+    observers.clear();
+}
+
 bool MenuLabel::getIsChosen() const
 {
     return isChosen;
@@ -78,7 +83,12 @@ LABEL_TYPE MenuLabel::getLabelType() const
     return labelType;
 }
 
-void MenuLabel::notifyObservers(const REQUEST_TYPE requestStatus)
+MenuLabel::~MenuLabel()
+{
+    removeObservers();
+}
+
+void MenuLabel::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note)
 {
     for (auto obs : observers) {
         obs->updateByObserver(requestStatus);

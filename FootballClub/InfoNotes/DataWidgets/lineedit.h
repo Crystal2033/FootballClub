@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef LINEEDIT_H
 #define LINEEDIT_H
-
+#pragma once
 #include "textfield.h"
 
 class LineEdit : public TextField

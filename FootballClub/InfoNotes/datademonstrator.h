@@ -7,7 +7,7 @@
  ***************************************************************************/
 #ifndef DATADEMONSTRATOR_H
 #define DATADEMONSTRATOR_H
-
+#pragma once
 #include <QWidget>
 #include <QScrollArea>
 #include <QBoxLayout>
