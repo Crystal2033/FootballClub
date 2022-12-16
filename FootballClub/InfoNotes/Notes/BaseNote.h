@@ -18,13 +18,15 @@ public:
     void addObserver(InterfaceObserver* observer) override;
     void removeObserver(InterfaceObserver* observer) override;
     void removeObservers() override;
+    void setRecordId(const unsigned value);
+    unsigned getRecordId() const;
 
 
 protected:
     QList<InterfaceObserver*> observers;
     std::map<TextField**, QString> valuesBeforeAction;
     void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
-    unsigned recordId;
+    unsigned recordId = 0;
     QBoxLayout* globalLay = nullptr;
     QPushButton* modifyButton = nullptr;
     QPushButton* saveChangesButton = nullptr;

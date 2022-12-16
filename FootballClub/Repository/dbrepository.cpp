@@ -67,9 +67,53 @@ QSqlQuery *DBRepository::getStadiumNamesQuery() const
     return getQuery(getStadiumNamesSQLRequest());
 }
 
-bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap)
+bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap, const unsigned id)
 {
-    //todo!
+    qInfo() << "curr note id is : " << id;
+    if(id <= 0){
+        return false;
+    }
+    QSqlQuery query;
+    query.prepare(getMatchUpdateSQLRequest());
+
+    ComboBox* stadiumClubComboBox = (ComboBox*)fieldsMap.find("stadium")->second;
+    unsigned stadiumId = stadiumClubComboBox->getIdByValue(fieldsMap.find("stadium")->second->getText());
+
+    ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("team1")->second;
+    unsigned firstTeamId = firstClubComboBox->getIdByValue(fieldsMap.find("team1")->second->getText());
+
+    ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("team2")->second;
+    unsigned secondTeamId = secondClubComboBox->getIdByValue(fieldsMap.find("team2")->second->getText());
+
+    QString finalScore = fieldsMap.find("finalscore")->second->getText();
+
+    ComboBox* stageClubComboBox = (ComboBox*)fieldsMap.find("stage")->second;
+    unsigned stageId = stageClubComboBox->getIdByValue(fieldsMap.find("stage")->second->getText());
+
+    QString gameDate = fieldsMap.find("gameDate")->second->getText();
+
+    ComboBox* tournamentComboBox = (ComboBox*)fieldsMap.find("tournament")->second;
+    unsigned tournId = tournamentComboBox->getIdByValue(fieldsMap.find("tournament")->second->getText());
+
+
+    query.bindValue(":id", id);
+    query.bindValue(":stadium_id", stadiumId);
+    query.bindValue(":first_team", firstTeamId);
+    query.bindValue(":second_team", secondTeamId);
+    query.bindValue(":final_score", finalScore);
+    query.bindValue(":stage_id", stageId);
+    query.bindValue(":starts_at", gameDate);
+    query.bindValue(":tourn_id", tournId);
+
+    if(!query.exec()){
+        QMessageBox::critical(nullptr, "Matches request to database error",
+                              "There is a problem with sending request about matches information.");
+        return false;
+    }
+    else{
+        qInfo() << "Success request";
+        return true;
+    }
 }
 
 int DBRepository::postMatchData(const std::map<QString, TextField *> &fieldsMap) //return inserted id
@@ -81,20 +125,39 @@ int DBRepository::postMatchData(const std::map<QString, TextField *> &fieldsMap)
     unsigned stadiumId = stadiumClubComboBox->getIdByValue(fieldsMap.find("stadium")->second->getText());
 
     ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("team1")->second;
-    unsigned stadiumId = firstClubComboBox->getIdByValue(fieldsMap.find("team1")->second->getText());
+    unsigned firstTeamId = firstClubComboBox->getIdByValue(fieldsMap.find("team1")->second->getText());
 
     ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("team2")->second;
-    unsigned stadiumId = secondClubComboBox->getIdByValue(fieldsMap.find("team2")->second->getText());
+    unsigned secondTeamId = secondClubComboBox->getIdByValue(fieldsMap.find("team2")->second->getText());
+
+    QString finalScore = fieldsMap.find("finalscore")->second->getText();
 
     ComboBox* stageClubComboBox = (ComboBox*)fieldsMap.find("stage")->second;
-    unsigned stadiumId = stageClubComboBox->getIdByValue(fieldsMap.find("stage")->second->getText());
+    unsigned stageId = stageClubComboBox->getIdByValue(fieldsMap.find("stage")->second->getText());
+
+    QString gameDate = fieldsMap.find("gameDate")->second->getText();
 
     ComboBox* tournamentComboBox = (ComboBox*)fieldsMap.find("tournament")->second;
-    unsigned stadiumId = tournamentComboBox->getIdByValue(fieldsMap.find("tournament")->second->getText());
-    //query.bindValue(":some_column_name", "FooBar");
-//    query.exec();
+    unsigned tournId = tournamentComboBox->getIdByValue(fieldsMap.find("tournament")->second->getText());
 
-    //qDebug() << "Last ID was:" << query.lastInsertId();
+
+    query.bindValue(":stadium_id", stadiumId);
+    query.bindValue(":first_team", firstTeamId);
+    query.bindValue(":second_team", secondTeamId);
+    query.bindValue(":final_score", finalScore);
+    query.bindValue(":stage_id", stageId);
+    query.bindValue(":starts_at", gameDate);
+    query.bindValue(":tourn_id", tournId);
+
+    if(!query.exec()){
+        QMessageBox::critical(nullptr, "Matches request to database error",
+                              "There is a problem with sending request about matches information.");
+        return 0;
+    }
+    else{
+        qInfo() << "Success request";
+        return query.lastInsertId().toInt();
+    }
 }
 
 
@@ -155,7 +218,10 @@ QString DBRepository::getStadiumNamesSQLRequest() const
 
 QString DBRepository::getMatchUpdateSQLRequest() const
 {
-    //"update game set s";
+    return "update game set stadium_id=:stadium_id, first_team=:first_team, "
+           "second_team=:second_team, final_score=:final_score, "
+           "stage_id=:stage_id, starts_at=:starts_at, tourn_id=:tourn_id "
+           "where id=:id;";
 }
 
 QString DBRepository::getMatchPostSQLRequest() const

@@ -27,7 +27,7 @@ private:
     QSqlQuery* getTeamTypeNamesQuery() const;
     QSqlQuery* getClubNamesQuery() const;
     QSqlQuery* getStadiumNamesQuery() const;
-    bool saveMatchData(const std::map<QString, TextField*>& fieldsMap);
+    bool saveMatchData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
     int postMatchData(const std::map<QString, TextField*>& fieldsMap);
 
 

@@ -30,6 +30,9 @@ public:
 private:
 
     HeaderMenu* headerMenu = nullptr;
+    QLabel* labelForIcon =  nullptr;
+    QIcon logoIcon;
+    QHBoxLayout* logoClubAndHeaderLay = nullptr;
     QVBoxLayout* mainLay = nullptr;
     Ui::MainWindow *ui;
     WindowManager* windowManager = nullptr;

@@ -15,6 +15,13 @@ MainWindow::MainWindow(WindowManager* manager, QWidget *parent)
     windowManager = manager;
     ui->setupUi(this);
     mainLay = new QVBoxLayout;
+    logoClubAndHeaderLay = new QHBoxLayout;
+    labelForIcon = new QLabel();
+    logoIcon = QIcon(":/pictures/Pics/psg-icon.png");
+
+    labelForIcon->setPixmap(logoIcon.pixmap(100, 100));
+    logoClubAndHeaderLay->addWidget(labelForIcon, 1, Qt::AlignTop);
+    mainLay->addLayout(logoClubAndHeaderLay);
     this->centralWidget()->setLayout(mainLay);
     createHeaderMenu();
     createDataDemonstrator();
@@ -36,7 +43,7 @@ void MainWindow::createHeaderMenu()
 {
     headerMenu = new HeaderMenu;
     headerMenu->addObserver((InterfaceObserver*)windowManager);
-    mainLay->addWidget(headerMenu, 0, Qt::AlignTop);
+    logoClubAndHeaderLay->addWidget(headerMenu, 10, Qt::AlignTop);
 }
 
 void MainWindow::createDataDemonstrator()

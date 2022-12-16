@@ -36,7 +36,6 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
         stage = new Label(query->value(record.indexOf("stage")).toString());
     }
     else{
-        recordId = 0;
         team1 = new Label("");
 
         teamType1 = new Label(""); //Taking one because second teams have to has the same type

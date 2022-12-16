@@ -105,7 +105,7 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
     }
     else if(requestStatus == MATCH_UPDATE){
         MatchNote* matchNote = (MatchNote*) note;
-        repository->saveMatchData(matchNote->getFieldsMap());
+        repository->saveMatchData(matchNote->getFieldsMap(), note->getRecordId());
     }
 
 }
@@ -240,8 +240,13 @@ void WindowManager::sendStadiumNames(MatchNote * const &note)
     }
 }
 
+void WindowManager::updateMatchNote(MatchNote * const &note)
+{
+    //repository->saveMatchData(note->getFieldsMap(), note->getRecordId());
+}
+
 void WindowManager::postMatchNote(MatchNote *note)
 {
-    repository->postMatchData(note->getFieldsMap());
+    note->setRecordId(repository->postMatchData(note->getFieldsMap()));
 }
 

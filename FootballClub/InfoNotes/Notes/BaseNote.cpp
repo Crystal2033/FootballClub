@@ -85,6 +85,17 @@ void BaseNote::removeObservers()
     observers.clear();
 }
 
+void BaseNote::setRecordId(const unsigned value)
+{
+    recordId = value;
+    qInfo() << "New ID: " << recordId;
+}
+
+unsigned BaseNote::getRecordId() const
+{
+    return recordId;
+}
+
 void BaseNote::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote *note)
 {
     for (auto obs : observers) {
