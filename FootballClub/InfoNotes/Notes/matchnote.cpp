@@ -66,15 +66,18 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     stadiumLay = new QHBoxLayout;
     dateLay = new QHBoxLayout;
     buttonsLay = new QHBoxLayout;
+    deleteNoteButtonLay = new QHBoxLayout;
 
     setAllDataOnLayout();
 
+    deleteNoteButtonLay->addWidget(deleteNoteButton, 0, Qt::AlignRight);
     buttonsLay->addWidget(cancelSaving, 0, Qt::AlignCenter);
     cancelSaving->setVisible(false);
     buttonsLay->addWidget(saveChangesButton, 0, Qt::AlignCenter);
     saveChangesButton->setVisible(false);
     buttonsLay->addWidget(modifyButton, 0, Qt::AlignRight);
 
+    globalLay->addLayout(deleteNoteButtonLay);
     globalLay->addLayout(tournLay);
     globalLay->addLayout(stageLay);
     globalLay->addLayout(teamsTypeLay);
@@ -172,6 +175,7 @@ void MatchNote::onSaveChangesClicked()
         notifyObservers(MATCH_UPDATE, this);
         setSaveCancelButtonsVisability(false);
         modifyButton->setVisible(true);
+        setStyles();
     }
 }
 
@@ -181,6 +185,7 @@ void MatchNote::onCancelModifyingClicked()
     modifyButton->setVisible(true);
     setSavedDataBack();
     transformNoteInLabelView();
+    setStyles();
 }
 
 void MatchNote::setStyles()
@@ -238,12 +243,9 @@ void MatchNote::setSavedDataBack()
 {
     if(!valuesBeforeAction.empty()){
         for(auto textField : valuesBeforeAction){
-             qInfo() << textField;
-            textField.first->setText(textField.second);
+            (*textField.first)->setText(textField.second);
         }
-
     }
-
 }
 
 void MatchNote::transformNoteInLabelView()
@@ -258,7 +260,6 @@ void MatchNote::transformNoteInLabelView()
     fromDataWidgetToLabel(stage, stage->getText());
 
     setAllDataOnLayout();
-
 }
 
 void MatchNote::setAllDataOnLayout()

@@ -28,7 +28,8 @@ void WindowManager::show()
 void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note)
 {
     if(requestStatus == SEND_CHOSEN_DATA_TYPE){
-        switch (this->window->headerMenu->getChosenDataType()) {
+        LABEL_TYPE chosenDataType = this->window->headerMenu->getChosenDataType();
+        switch (chosenDataType) {
         case PLAYERS:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
             qInfo() << "PLAYERS";
@@ -40,7 +41,7 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         case MATCHES:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
             qInfo() << "MATCHES";
-            createMatchesData();
+            createData(chosenDataType, EXIST);
             break;
         case GOALS:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
@@ -95,23 +96,81 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
 
 
 
-void WindowManager::createMatchesData()
+void WindowManager::createData(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus)
 {
-    QSqlQuery* query = repository->getMatchesQuery();
+    QSqlQuery* query = getNeededQuery(dataType, existStatus);
     if(query != nullptr){
-        QList<BaseNote*> listOfMatchesInfo;
+        QList<BaseNote*> listOfNotesInfo;
 
         while(query->next()){
-            MatchNote* matchNote = new MatchNote(query);
-            matchNote->addObserver(this);
-            listOfMatchesInfo.push_back(matchNote);
+            BaseNote* note = createNoteBasedOnType(dataType, query);
+            note->addObserver(this);
+            listOfNotesInfo.push_back(note);
         }
-
-        this->window->dataDemonstrator->showData(listOfMatchesInfo);
+        this->window->dataDemonstrator->showData(listOfNotesInfo, dataType);
         delete query;
+    }
+    else{
+
+    }
+}
+
+QSqlQuery *WindowManager::getNeededQuery(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus)
+{
+    if(existStatus == NOT_EXIST){
+        return nullptr;
+    }
+    else{
+        switch (dataType) {
+        case PLAYERS:
+            break;
+        case COACHES:
+            break;
+        case MATCHES:
+            return repository->getMatchesQuery();
+            break;
+        case GOALS:
+            break;
+        case CLUB:
+            break;
+        case TEAMS:
+            break;
+        case AUTHO:
+
+            break;
+
+        default:
+            break;
+        }
     }
 
 }
+
+BaseNote *WindowManager::createNoteBasedOnType(const LABEL_TYPE &dataType, QSqlQuery* const& query)
+{
+    switch (dataType) {
+    case PLAYERS:
+        break;
+    case COACHES:
+        break;
+    case MATCHES:
+        return new MatchNote(query);
+        break;
+    case GOALS:
+        break;
+    case CLUB:
+        break;
+    case TEAMS:
+        break;
+    case AUTHO:
+
+        break;
+
+    default:
+        break;
+    }
+}
+
 
 void WindowManager::sendTournamentNames(MatchNote* const& note)
 {
@@ -156,4 +215,9 @@ void WindowManager::sendStadiumNames(MatchNote * const &note)
         note->setStadiumsComboList(*query);
         delete query;
     }
+}
+
+void WindowManager::onAddNoteButtonClicked()
+{
+
 }

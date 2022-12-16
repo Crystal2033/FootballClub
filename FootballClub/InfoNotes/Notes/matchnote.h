@@ -36,6 +36,7 @@ private:
     QBoxLayout* stadiumLay;
     QBoxLayout* dateLay;
     QBoxLayout* buttonsLay;
+    QBoxLayout* deleteNoteButtonLay;
 
     TextField* team1 = nullptr; //PSG
     TextField* teamType1 = nullptr; //MAIN OR YOUNG OR WOMEN

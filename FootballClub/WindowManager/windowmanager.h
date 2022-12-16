@@ -24,12 +24,17 @@ private:
     DBRepository* repository = nullptr;
     void updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
-    void createMatchesData();
+    void createData(const LABEL_TYPE& dataType, const EXISTANCE_STATUS& existStatus);
+    QSqlQuery* getNeededQuery(const LABEL_TYPE& dataType, const EXISTANCE_STATUS& existStatus);
+    BaseNote* createNoteBasedOnType(const LABEL_TYPE& dataType, QSqlQuery* const& query);
+
     void sendTournamentNames(MatchNote* const& note);
     void sendStageNames(MatchNote* const& note);
     void sendTeamTypeNames(MatchNote* const& note);
     void sendClubNames(MatchNote* const& note);
     void sendStadiumNames(MatchNote* const& note);
+private slots:
+    void onAddNoteButtonClicked();
 };
 
 #endif // WINDOWMANAGER_H

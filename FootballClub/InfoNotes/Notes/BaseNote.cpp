@@ -22,6 +22,8 @@ BaseNote::BaseNote(QWidget *parent)
     modifyButton->setFixedSize(75, 55);
     modifyButton->setIconSize(QSize(0.75 * modifyButton->size().width(), 0.75 * modifyButton->size().height()));
     modifyButton->setIcon(QIcon(":/pictures/Pics/modifyData.png"));
+    modifyButton->setStyleSheet("background-color: grey;"
+                                );
 
     saveChangesButton = new QPushButton("Save");
     saveChangesButton->setStyleSheet("background-color: darkgreen;"
@@ -36,6 +38,14 @@ BaseNote::BaseNote(QWidget *parent)
                                 "font-size: 20px;"
                                 "font-weight: bold;"
                                 "");
+
+    deleteNoteButton = new QPushButton("X");
+    deleteNoteButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    deleteNoteButton->setStyleSheet("background-color: #D54B7F;"
+                                    "color:white;"
+                                    "font-size: 15px;"
+                                    "font-weight: bold;"
+                                    "");
 }
 
 void BaseNote::setNoteViewType(const NOTE_VIEW_TYPE type)
