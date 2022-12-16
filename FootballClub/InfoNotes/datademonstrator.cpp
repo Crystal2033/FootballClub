@@ -27,7 +27,7 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
                                  "font-size: 25px;"
                                  "font-weight: bold;"
                                  "");
-    //connect(addNoteButton, &QPushButton::clicked, this->windowManager, &WindowManager::onAddNoteButtonClicked);
+    connect(addNoteButton, &QPushButton::clicked, this, &DataDemonstrator::onAddNoteButtonClicked);
     layout->addWidget(addNoteButton, Qt::AlignTop);
     addNoteButton->setVisible(false);
 
@@ -47,7 +47,7 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 void DataDemonstrator::showData(const QList<BaseNote*> &notes, const LABEL_TYPE dataType)
 {
     addNoteButton->setVisible(true);
-    //connectAddButtonToSlot(dataType);
+
     deleteDataFromListIfNotNeed(notes);
 
     listOfNotes = notes;
@@ -69,17 +69,19 @@ QList<BaseNote *> DataDemonstrator::getListOfNotes() const
 
 void DataDemonstrator::deleteDataFromListIfNotNeed(const QList<BaseNote*>& newNotes)
 {
+    bool foundedSameNote = false;
     for(unsigned i = 0; i < listOfNotes.size(); i++){ //omg... O(n^2)
+
         for(unsigned j = 0; j < newNotes.size(); j++){
-//            qInfo() << "first " <<&(*listOfNotes[i]);
-//            qInfo() << "second " <<&(*newNotes[j]);
-//            qInfo() << "----------------------------";
-            if(&(*listOfNotes[i]) == &(*newNotes[j])){ //if addresses of ojects are equal
-                continue;
-                qInfo() << "EXIST";
+            if(listOfNotes[i] == newNotes[j]){ //if addresses of ojects are equal
+                foundedSameNote = true;
+                break;
             }
         }
-        qInfo() << "DELEEEEETE";
+        if(foundedSameNote){
+            foundedSameNote = false;
+            continue;
+        }
         delete listOfNotes[i];
     }
     listOfNotes.clear();

@@ -32,32 +32,51 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         switch (chosenDataType) {
         case PLAYERS:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
-            qInfo() << "PLAYERS";
             break;
         case COACHES:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
-            qInfo() << "COACHES";
             break;
         case MATCHES:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
-            qInfo() << "MATCHES";
             createAndShowData(chosenDataType, EXIST);
             break;
         case GOALS:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
-            qInfo() << "GOALS";
             break;
         case CLUB:
             this->window->dataDemonstrator->setVisibleScrollArea(false);
-            qInfo() << "CLUB";
             break;
         case TEAMS:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
-            qInfo() << "TEAMS";
             break;
         case AUTHO:
             this->window->dataDemonstrator->setVisibleScrollArea(false);
-            qInfo() << "AUTHO";
+            break;
+
+        default:
+            break;
+        }
+    }
+    else if(requestStatus == ADD_NEW_NOTE){
+        LABEL_TYPE chosenDataType = this->window->headerMenu->getChosenDataType();
+
+        switch (chosenDataType) {
+        case PLAYERS:
+            break;
+        case COACHES:
+            qInfo() << "Add coach";
+            break;
+        case MATCHES:
+            createAndShowData(chosenDataType, NOT_EXIST);
+            break;
+        case GOALS:
+            break;
+        case CLUB:
+            break;
+        case TEAMS:
+            break;
+        case AUTHO:
+
             break;
 
         default:
@@ -114,6 +133,7 @@ void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANC
         listOfNotesInfo.push_back(note);
         listOfNotesInfo.append(this->window->dataDemonstrator->getListOfNotes());
     }
+    qInfo() << listOfNotesInfo.size();
     this->window->dataDemonstrator->showData(listOfNotesInfo, dataType);
 }
 
@@ -219,29 +239,3 @@ void WindowManager::sendStadiumNames(MatchNote * const &note)
     }
 }
 
-void WindowManager::onAddNoteButtonClicked()
-{
-    LABEL_TYPE chosenDataType = this->window->headerMenu->getChosenDataType();
-
-    switch (chosenDataType) {
-    case PLAYERS:
-        break;
-    case COACHES:
-        break;
-    case MATCHES:
-        createAndShowData(chosenDataType, NOT_EXIST);
-        break;
-    case GOALS:
-        break;
-    case CLUB:
-        break;
-    case TEAMS:
-        break;
-    case AUTHO:
-
-        break;
-
-    default:
-        break;
-    }
-}
