@@ -96,7 +96,7 @@ void MatchNote::setTeamTypesComboList(QSqlQuery &query)
     teamsTypeLay->addWidget(teamType1, 0, Qt::AlignCenter);
 }
 
-void MatchNote::setClubsComboList(QSqlQuery &query)
+void MatchNote::setClubsComboListAndScore(QSqlQuery &query)
 {
 
     fromLabelToComboList(query, "name", team1);
@@ -108,10 +108,10 @@ void MatchNote::setClubsComboList(QSqlQuery &query)
     Label* lbl = (Label*) team2;
     QString lastValue = lbl->getText();
     ComboBox* firstTeam = (ComboBox*)team1;
-    QStringList stringList = firstTeam->getStringList();
+    std::map<QString, unsigned> valueAndIdMap = firstTeam->getValueAndIdMap();
     delete team2;
 
-    team2 = new ComboBox(stringList);
+    team2 = new ComboBox(valueAndIdMap);
     ComboBox* temp = (ComboBox*) team2;
 
     temp->setCurrentItem(lastValue);

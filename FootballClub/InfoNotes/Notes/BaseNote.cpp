@@ -99,16 +99,18 @@ void BaseNote::fromLabelToComboList(QSqlQuery &query, const QString columnName,
                                     TextField *&textField)
 {
     QSqlRecord record = query.record();
-    QStringList stringList;
+    std::map<QString, unsigned> valueAndIdMap;
     while(query.next()){
-        stringList << query.value(record.indexOf(columnName)).toString();
+        valueAndIdMap.insert(std::make_pair(query.value(record.indexOf(columnName)).toString(),
+                                            query.value(record.indexOf("id")).toInt()));
+        //stringList << query.value(record.indexOf(columnName)).toString();
     }
 
     Label* lbl = (Label*) textField;
     QString lastValue = lbl->getText();
     delete textField;
 
-    textField = new ComboBox(stringList);
+    textField = new ComboBox(valueAndIdMap);
     ComboBox* temp = (ComboBox*) textField;
 
     temp->setCurrentItem(lastValue);

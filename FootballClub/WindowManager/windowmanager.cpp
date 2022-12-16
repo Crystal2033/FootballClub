@@ -144,7 +144,7 @@ void WindowManager::sendClubNames(MatchNote * const &note)
 {
     QSqlQuery* query = repository->getClubNamesQuery();
     if(query != nullptr){
-        note->setClubsComboList(*query);
+        note->setClubsComboListAndScore(*query);
         delete query;
     }
 }

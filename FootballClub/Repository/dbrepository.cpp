@@ -68,14 +68,7 @@ QSqlQuery *DBRepository::getStadiumNamesQuery() const
 
 bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap)
 {
-//    for(auto note : fieldsMap){
-//        qInfo() << note.second->getText();
-//    }
-//    qInfo() << fieldsMap.find("stadium")->second->getText();
 
-    //TODO: GETTIND ALL IDS WE NEED AND INSERTING USING PREPARE AND BINDVALUE
-    //select id from stadium where name=:stadium_name
-    //query.bindValue(":stadium_name", fieldsMap.get("stadium"));
 }
 
 
@@ -111,27 +104,27 @@ QString DBRepository::getMatchesSQLRequest() const
 
 QString DBRepository::getTournNamesSQLRequest() const
 {
-    return "select name from tournament;";
+    return "select id, name from tournament;";
 }
 
 QString DBRepository::getStageNamesSQLRequest() const
 {
-    return "select name from tourn_stage;";
+    return "select id, name from tourn_stage;";
 }
 
 QString DBRepository::getTeamTypeNamesSQLRequest() const
 {
-    return "select name from team_type;";
+    return "select id, name from team_type;";
 }
 
 QString DBRepository::getClubNamesSQLRequest() const
 {
-    return "select club_name as name from club;";
+    return "select id, club_name as name from club;";
 }
 
 QString DBRepository::getStadiumNamesSQLRequest() const
 {
-    return "select name from stadium;";
+    return "select id, name from stadium;";
 }
 
 QString DBRepository::getMatchUpdateSQLRequest() const

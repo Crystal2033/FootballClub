@@ -7,13 +7,15 @@
  ***************************************************************************/
 #include "combobox.h"
 
-ComboBox::ComboBox(const QStringList& stringList)
+ComboBox::ComboBox(const std::map<QString, unsigned>& valueAndIdMap)
 {
+    this->valueAndIdMap = valueAndIdMap;
     lay = new QHBoxLayout;
     comboBox = new QComboBox();
     lay->addWidget(comboBox);
     setLayout(lay);
     setStyles();
+    QStringList stringList = fromMapToStringList();
     setBoxItems(stringList);
     this->stringList = stringList;
 }
@@ -40,6 +42,32 @@ QStringList ComboBox::getStringList() const
 QString ComboBox::getText() const
 {
     return comboBox->currentText();
+}
+
+int ComboBox::getIdByValue(const QString &value)
+{
+    if(valueAndIdMap.find(value) == valueAndIdMap.end()){
+        return 0;
+    }
+    else{
+        return valueAndIdMap.find(value)->second;
+    }
+
+}
+
+std::map<QString, unsigned> ComboBox::getValueAndIdMap() const
+{
+    return valueAndIdMap;
+}
+
+QStringList ComboBox::fromMapToStringList() const
+{
+    QStringList stringList;
+    for(auto val : valueAndIdMap){
+        qInfo() << "id = " << val.second;
+        stringList << val.first;
+    }
+    return stringList;
 }
 
 void ComboBox::setStyles()

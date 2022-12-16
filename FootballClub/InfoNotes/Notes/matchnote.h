@@ -23,7 +23,7 @@ public:
     void setTournamentComboList(QSqlQuery& query);
     void setStagesComboList(QSqlQuery& query);
     void setTeamTypesComboList(QSqlQuery& query);
-    void setClubsComboList(QSqlQuery& query);
+    void setClubsComboListAndScore(QSqlQuery& query);
     void setStadiumsComboList(QSqlQuery& query);
     std::map<QString, TextField*> getFieldsMap() const;
     ~MatchNote();
