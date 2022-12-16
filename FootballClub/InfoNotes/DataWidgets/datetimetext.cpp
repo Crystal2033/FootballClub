@@ -11,7 +11,7 @@
 
 DateTimeText::DateTimeText(const QString & text)
 {
-    QRegularExpression regularExpr("[1-2][0,9]\\d\\d-[0,1]\\d-[0-3]\\d\\s*[0-2]\\d:[0-5]\\d:[0-5]\\d");
+    QRegularExpression regularExpr("[1-2][0,9]\\d\\d-[0,1]\\d-[0-3]\\d\\s*(?:[01]\\d|2[0123]):(?:[012345]\\d):(?:[012345]\\d)");
     QValidator *validator = new QRegularExpressionValidator(regularExpr);
     lay = new QHBoxLayout;
     lineEdit = new LineEdit(text, validator);

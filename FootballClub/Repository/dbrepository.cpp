@@ -160,6 +160,24 @@ int DBRepository::postMatchData(const std::map<QString, TextField *> &fieldsMap)
     }
 }
 
+bool DBRepository::deleteMatchData(const unsigned id)
+{
+    QSqlQuery query;
+    query.prepare(getMatchDeleteSQLRequest());
+
+    query.bindValue(":id", id);
+
+    if(!query.exec()){
+        QMessageBox::critical(nullptr, "Matches request to database error",
+                              "There is a problem with sending request about matches information.");
+        return 0;
+    }
+    else{
+        qInfo() << "Success request";
+        return query.lastInsertId().toInt();
+    }
+}
+
 
 
 
@@ -230,6 +248,11 @@ QString DBRepository::getMatchPostSQLRequest() const
            " final_score, stage_id, starts_at, tourn_id)"
            " values(:stadium_id, :first_team, :second_team, :final_score, "
            " :stage_id, :starts_at, :tourn_id);";
+}
+
+QString DBRepository::getMatchDeleteSQLRequest() const
+{
+    return "delete from game where id=:id;";
 }
 
 

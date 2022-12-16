@@ -107,6 +107,9 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         MatchNote* matchNote = (MatchNote*) note;
         repository->saveMatchData(matchNote->getFieldsMap(), note->getRecordId());
     }
+    else if(requestStatus == MATCH_DELETE){
+        repository->deleteMatchData(note->getRecordId());
+    }
 
 }
 
@@ -131,7 +134,7 @@ void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANC
         BaseNote* note = createNoteBasedOnType(dataType, query);
         note->addObserver(this);
         note->setNoteViewType(WRITE);
-        postMatchNote((MatchNote*)note);
+        postNote(note, dataType);
         listOfNotesInfo.push_back(note);
         listOfNotesInfo.append(this->window->dataDemonstrator->getListOfNotes());
     }
@@ -240,13 +243,32 @@ void WindowManager::sendStadiumNames(MatchNote * const &note)
     }
 }
 
-void WindowManager::updateMatchNote(MatchNote * const &note)
+
+
+void WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
 {
-    //repository->saveMatchData(note->getFieldsMap(), note->getRecordId());
+    switch (type) {
+    case PLAYERS:
+        break;
+    case COACHES:
+        break;
+    case MATCHES:
+        postMatchNote((MatchNote*)note);
+        break;
+    case GOALS:
+        break;
+    case CLUB:
+        break;
+    case TEAMS:
+        break;
+
+    default:
+        break;
+    }
 }
 
 void WindowManager::postMatchNote(MatchNote *note)
-{
+{//делается не через observer, так как мы добавляем observer в note после создания. А нам надо как-то дернуть notify
     note->setRecordId(repository->postMatchData(note->getFieldsMap()));
 }
 

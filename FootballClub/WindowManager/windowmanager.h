@@ -32,10 +32,10 @@ private:
     void sendTeamTypeNames(MatchNote* const& note);
     void sendClubNames(MatchNote* const& note);
     void sendStadiumNames(MatchNote* const& note);
-    void updateMatchNote(MatchNote* const& note);
+    void postNote(BaseNote* note, const LABEL_TYPE type);
+
     void postMatchNote(MatchNote* note);
 public slots:
-    void onAddNoteButtonClicked();
 };
 
 #endif // WINDOWMANAGER_H

@@ -50,7 +50,6 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
         else{
             gameDate = new Label(dateTimeConverter.toString("yyyy-MM-dd hh:mm:ss"));
         }
-
         tournament = new Label("");
         stage = new Label("");
     }
@@ -90,6 +89,7 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     connect(modifyButton, &QPushButton::clicked, this, &MatchNote::modifyNoteView);
     connect(saveChangesButton, &QPushButton::clicked, this, &MatchNote::onSaveChangesClicked);
     connect(cancelSaving, &QPushButton::clicked, this, &MatchNote::onCancelModifyingClicked);
+    connect(deleteNoteButton, &QPushButton::clicked, this, &MatchNote::onDeleteButtonClicked);
 
     setStyles();
 }
@@ -172,6 +172,7 @@ void MatchNote::onSaveChangesClicked()
         notifyObservers(MATCH_UPDATE, this);
         setSaveCancelButtonsVisability(false);
         modifyButton->setVisible(true);
+        transformNoteInLabelView();
         setStyles();
     }
 }
@@ -183,6 +184,20 @@ void MatchNote::onCancelModifyingClicked()
     setSavedDataBack();
     transformNoteInLabelView();
     setStyles();
+}
+
+void MatchNote::onDeleteButtonClicked()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Delete note", "Are you sure that you want to delete this note?",
+                                QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        notifyObservers(MATCH_DELETE, this);
+    }
+    else{
+
+    }
+
 }
 
 void MatchNote::setStyles()
