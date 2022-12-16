@@ -133,7 +133,6 @@ void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANC
         listOfNotesInfo.push_back(note);
         listOfNotesInfo.append(this->window->dataDemonstrator->getListOfNotes());
     }
-    qInfo() << listOfNotesInfo.size();
     this->window->dataDemonstrator->showData(listOfNotesInfo, dataType);
 }
 

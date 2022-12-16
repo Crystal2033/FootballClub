@@ -55,6 +55,7 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
         tournament = new Label("");
         stage = new Label("");
         qInfo() << "added new matchnote";
+        createModifyView();
     }
 
 
@@ -156,17 +157,7 @@ void MatchNote::extend()
 
 void MatchNote::modifyNoteView()
 {
-    saveDataBeforeAction();
-    notifyObservers(MATCH_TOURNS, this); //getting list of names for combobox
-    notifyObservers(MATCH_STAGES, this);
-    notifyObservers(MATCH_TEAM_TYPES, this);
-    notifyObservers(MATCH_CLUBS, this);
-    fromLabelToDateTimeText(gameDate);
-    notifyObservers(MATCH_STADIUMS, this);
-    setAllDataOnLayout();
-    setSaveCancelButtonsVisability(true);
-    modifyButton->setVisible(false);
-
+    createModifyView();
 }
 
 void MatchNote::onSaveChangesClicked()
@@ -273,4 +264,18 @@ void MatchNote::setAllDataOnLayout()
     teamsAndScoreLay->addWidget(team2, 0, Qt::AlignCenter);
     stadiumLay->addWidget(stadium, 0, Qt::AlignCenter);
     dateLay->addWidget(gameDate, 0, Qt::AlignCenter);
+}
+
+void MatchNote::createModifyView()
+{
+    saveDataBeforeAction();
+    notifyObservers(MATCH_TOURNS, this); //getting list of names for combobox
+    notifyObservers(MATCH_STAGES, this);
+    notifyObservers(MATCH_TEAM_TYPES, this);
+    notifyObservers(MATCH_CLUBS, this);
+    fromLabelToDateTimeText(gameDate);
+    notifyObservers(MATCH_STADIUMS, this);
+    setAllDataOnLayout();
+    setSaveCancelButtonsVisability(true);
+    modifyButton->setVisible(false);
 }

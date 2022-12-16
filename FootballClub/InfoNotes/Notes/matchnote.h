@@ -56,6 +56,8 @@ private:
     void transformNoteInLabelView();
     void setAllDataOnLayout();
 
+    void createModifyView();
+
 private slots:
     void extend() override;
     void modifyNoteView() override;
