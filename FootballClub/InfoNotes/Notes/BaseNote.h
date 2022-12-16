@@ -12,7 +12,7 @@ class BaseNote : public QWidget, public InterfaceSubject {
     Q_OBJECT
 public:
     BaseNote(QWidget *parent = nullptr);
-    void setNoteViewType(const NOTE_VIEW_TYPE type);
+    virtual void setNoteViewType(const NOTE_VIEW_TYPE type) = 0;
     NOTE_VIEW_TYPE getNoteViewTytpe() const;
     virtual ~BaseNote();
     void addObserver(InterfaceObserver* observer) override;

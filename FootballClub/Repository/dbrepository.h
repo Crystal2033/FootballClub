@@ -28,6 +28,7 @@ private:
     QSqlQuery* getClubNamesQuery() const;
     QSqlQuery* getStadiumNamesQuery() const;
     bool saveMatchData(const std::map<QString, TextField*>& fieldsMap);
+    int postMatchData(const std::map<QString, TextField*>& fieldsMap);
 
 
 
@@ -42,6 +43,7 @@ private:
     QString getClubNamesSQLRequest() const;
     QString getStadiumNamesSQLRequest() const;
     QString getMatchUpdateSQLRequest() const;
+    QString getMatchPostSQLRequest() const;
 
 
 

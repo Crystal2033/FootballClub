@@ -6,6 +6,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "dbrepository.h"
+#include "InfoNotes/DataWidgets/combobox.h"
 
 DBRepository::DBRepository()
 {
@@ -71,6 +72,31 @@ bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap)
     //todo!
 }
 
+int DBRepository::postMatchData(const std::map<QString, TextField *> &fieldsMap) //return inserted id
+{
+    QSqlQuery query;
+    query.prepare(getMatchPostSQLRequest());
+
+    ComboBox* stadiumClubComboBox = (ComboBox*)fieldsMap.find("stadium")->second;
+    unsigned stadiumId = stadiumClubComboBox->getIdByValue(fieldsMap.find("stadium")->second->getText());
+
+    ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("team1")->second;
+    unsigned stadiumId = firstClubComboBox->getIdByValue(fieldsMap.find("team1")->second->getText());
+
+    ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("team2")->second;
+    unsigned stadiumId = secondClubComboBox->getIdByValue(fieldsMap.find("team2")->second->getText());
+
+    ComboBox* stageClubComboBox = (ComboBox*)fieldsMap.find("stage")->second;
+    unsigned stadiumId = stageClubComboBox->getIdByValue(fieldsMap.find("stage")->second->getText());
+
+    ComboBox* tournamentComboBox = (ComboBox*)fieldsMap.find("tournament")->second;
+    unsigned stadiumId = tournamentComboBox->getIdByValue(fieldsMap.find("tournament")->second->getText());
+    //query.bindValue(":some_column_name", "FooBar");
+//    query.exec();
+
+    //qDebug() << "Last ID was:" << query.lastInsertId();
+}
+
 
 
 
@@ -129,7 +155,15 @@ QString DBRepository::getStadiumNamesSQLRequest() const
 
 QString DBRepository::getMatchUpdateSQLRequest() const
 {
-    "update ";
+    //"update game set s";
+}
+
+QString DBRepository::getMatchPostSQLRequest() const
+{
+    return "insert into game(stadium_id, first_team, second_team,"
+           " final_score, stage_id, starts_at, tourn_id)"
+           " values(:stadium_id, :first_team, :second_team, :final_score, "
+           " :stage_id, :starts_at, :tourn_id);";
 }
 
 

@@ -130,6 +130,8 @@ void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANC
     else{
         BaseNote* note = createNoteBasedOnType(dataType, query);
         note->addObserver(this);
+        note->setNoteViewType(WRITE);
+        postMatchNote((MatchNote*)note);
         listOfNotesInfo.push_back(note);
         listOfNotesInfo.append(this->window->dataDemonstrator->getListOfNotes());
     }
@@ -236,5 +238,10 @@ void WindowManager::sendStadiumNames(MatchNote * const &note)
         note->setStadiumsComboList(*query);
         delete query;
     }
+}
+
+void WindowManager::postMatchNote(MatchNote *note)
+{
+    repository->postMatchData(note->getFieldsMap());
 }
 

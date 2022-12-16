@@ -26,6 +26,7 @@ public:
     void setClubsComboListAndScore(QSqlQuery& query);
     void setStadiumsComboList(QSqlQuery& query);
     std::map<QString, TextField*> getFieldsMap() const;
+    void setNoteViewType(const NOTE_VIEW_TYPE type) override;
     ~MatchNote();
 private:
     std::map<QString, TextField*> fieldsMap; //to get data outside the class, in repo for example

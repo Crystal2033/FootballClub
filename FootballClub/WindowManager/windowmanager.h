@@ -32,6 +32,8 @@ private:
     void sendTeamTypeNames(MatchNote* const& note);
     void sendClubNames(MatchNote* const& note);
     void sendStadiumNames(MatchNote* const& note);
+
+    void postMatchNote(MatchNote* note);
 public slots:
     void onAddNoteButtonClicked();
 };

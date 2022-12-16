@@ -42,7 +42,7 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
         teamType1 = new Label(""); //Taking one because second teams have to has the same type
         team2 = new Label("");
         //teamType2 = new Label(query->value(record.indexOf("teamtype2")).toString());
-        finalScore = new Label("");
+        finalScore = new Label("0:0");
         stadium = new Label("");
         QDateTime dateTimeConverter = QDateTime::currentDateTime();
         if(!dateTimeConverter.isValid()){
@@ -54,8 +54,6 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
 
         tournament = new Label("");
         stage = new Label("");
-        qInfo() << "added new matchnote";
-        createModifyView();
     }
 
 
@@ -114,7 +112,6 @@ void MatchNote::setTeamTypesComboList(QSqlQuery &query)
 
 void MatchNote::setClubsComboListAndScore(QSqlQuery &query)
 {
-
     fromLabelToComboList(query, "name", team1);
 
     QRegularExpression regularExpr("[\\d]*:[\\d]*");
@@ -141,6 +138,15 @@ void MatchNote::setStadiumsComboList(QSqlQuery &query)
 std::map<QString, TextField *> MatchNote::getFieldsMap() const
 {
     return fieldsMap;
+}
+
+void MatchNote::setNoteViewType(const NOTE_VIEW_TYPE type)
+{
+    BaseNote::setNoteViewType(type);
+    if(noteViewType == WRITE){
+        createModifyView();
+        insertFieldsInMap();
+    }
 }
 
 
@@ -192,14 +198,13 @@ void MatchNote::setStyles()
 void MatchNote::insertFieldsInMap()
 {
     fieldsMap.clear();
+    fieldsMap.insert(std::make_pair("stadium", stadium));
     fieldsMap.insert(std::make_pair("team1", team1));
-    fieldsMap.insert(std::make_pair("teamtype", teamType1));
     fieldsMap.insert(std::make_pair("team2", team2));
     fieldsMap.insert(std::make_pair("finalscore", finalScore));
-    fieldsMap.insert(std::make_pair("stadium", stadium));
+    fieldsMap.insert(std::make_pair("stage", stage));
     fieldsMap.insert(std::make_pair("gameDate", gameDate));
     fieldsMap.insert(std::make_pair("tournament", tournament));
-    fieldsMap.insert(std::make_pair("stage", stage));
 }
 
 bool MatchNote::isInsertingDataCorrect() const
