@@ -41,7 +41,7 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         case MATCHES:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
             qInfo() << "MATCHES";
-            createData(chosenDataType, EXIST);
+            createAndShowData(chosenDataType, EXIST);
             break;
         case GOALS:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
@@ -96,23 +96,25 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
 
 
 
-void WindowManager::createData(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus)
+void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus)
 {
     QSqlQuery* query = getNeededQuery(dataType, existStatus);
+    QList<BaseNote*> listOfNotesInfo;
     if(query != nullptr){
-        QList<BaseNote*> listOfNotesInfo;
-
         while(query->next()){
             BaseNote* note = createNoteBasedOnType(dataType, query);
             note->addObserver(this);
             listOfNotesInfo.push_back(note);
         }
-        this->window->dataDemonstrator->showData(listOfNotesInfo, dataType);
         delete query;
     }
     else{
-
+        BaseNote* note = createNoteBasedOnType(dataType, query);
+        note->addObserver(this);
+        listOfNotesInfo.push_back(note);
+        listOfNotesInfo.append(this->window->dataDemonstrator->getListOfNotes());
     }
+    this->window->dataDemonstrator->showData(listOfNotesInfo, dataType);
 }
 
 QSqlQuery *WindowManager::getNeededQuery(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus)
@@ -219,5 +221,27 @@ void WindowManager::sendStadiumNames(MatchNote * const &note)
 
 void WindowManager::onAddNoteButtonClicked()
 {
+    LABEL_TYPE chosenDataType = this->window->headerMenu->getChosenDataType();
 
+    switch (chosenDataType) {
+    case PLAYERS:
+        break;
+    case COACHES:
+        break;
+    case MATCHES:
+        createAndShowData(chosenDataType, NOT_EXIST);
+        break;
+    case GOALS:
+        break;
+    case CLUB:
+        break;
+    case TEAMS:
+        break;
+    case AUTHO:
+
+        break;
+
+    default:
+        break;
+    }
 }

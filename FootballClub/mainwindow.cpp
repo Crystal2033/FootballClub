@@ -43,6 +43,6 @@ void MainWindow::createDataDemonstrator()
 {
     mainLay->setContentsMargins(20, 10, 20, 10);
     dataDemonstrator = new DataDemonstrator(mainLay);
-
+    dataDemonstrator->addObserver((InterfaceObserver*)windowManager);
 }
 

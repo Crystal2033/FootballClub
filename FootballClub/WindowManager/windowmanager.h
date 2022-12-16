@@ -19,12 +19,11 @@ public:
     ~WindowManager();
     void show();
 private:
-
     MainWindow* window = nullptr;
     DBRepository* repository = nullptr;
     void updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
-    void createData(const LABEL_TYPE& dataType, const EXISTANCE_STATUS& existStatus);
+    void createAndShowData(const LABEL_TYPE& dataType, const EXISTANCE_STATUS& existStatus);
     QSqlQuery* getNeededQuery(const LABEL_TYPE& dataType, const EXISTANCE_STATUS& existStatus);
     BaseNote* createNoteBasedOnType(const LABEL_TYPE& dataType, QSqlQuery* const& query);
 
@@ -33,7 +32,7 @@ private:
     void sendTeamTypeNames(MatchNote* const& note);
     void sendClubNames(MatchNote* const& note);
     void sendStadiumNames(MatchNote* const& note);
-private slots:
+public slots:
     void onAddNoteButtonClicked();
 };
 

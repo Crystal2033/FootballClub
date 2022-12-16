@@ -8,15 +8,16 @@
 #ifndef DATADEMONSTRATOR_H
 #define DATADEMONSTRATOR_H
 #pragma once
+#include "InfoNotes/Notes/BaseNote.h"
 #include "Enums/Enums.h"
 #include <QWidget>
 #include <QScrollArea>
 #include <QBoxLayout>
 #include <QtSql>
 #include <QPushButton>
-class BaseNote;
+class WindowManager;
 
-class DataDemonstrator : public QWidget
+class DataDemonstrator : public QWidget, public InterfaceSubject
 {
     Q_OBJECT
 public:
@@ -24,15 +25,21 @@ public:
     void showData(const QList<BaseNote*>& notes, const LABEL_TYPE dataType);
     void setVisibleScrollArea(const bool visibility);
     QList<BaseNote*> getListOfNotes() const;
-    void deleteDataFromList();
+    void deleteDataFromListIfNotNeed(const QList<BaseNote*>& newNotes);
+    void addObserver(InterfaceObserver* observer) override;
+    void removeObserver(InterfaceObserver* observer) override;
+    void removeObservers() override;
+
 private:
+    QList<InterfaceObserver*> observers;
     QPushButton* addNoteButton = nullptr;
     QScrollArea* scrollArea = nullptr;
     QBoxLayout* layout = nullptr;
     QList<BaseNote*> listOfNotes;
-    void connectAddButtonToSlot(const LABEL_TYPE dataType);
+    void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
-signals:
+private slots:
+    void onAddNoteButtonClicked();
 
 };
 

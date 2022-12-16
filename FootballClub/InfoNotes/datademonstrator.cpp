@@ -7,7 +7,9 @@
  ***************************************************************************/
 #include "datademonstrator.h"
 #include <QPushButton>
+#include "Enums/Enums.h"
 #include "InfoNotes/Notes/BaseNote.h"
+#include "WindowManager/windowmanager.h"
 
 DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     : QWidget{parent}
@@ -18,7 +20,16 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     this->setLayout(layout);
-
+    addNoteButton = new QPushButton("Add");
+    addNoteButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    addNoteButton->setStyleSheet("background-color: #33683D;"
+                                 "color: white;"
+                                 "font-size: 25px;"
+                                 "font-weight: bold;"
+                                 "");
+    //connect(addNoteButton, &QPushButton::clicked, this->windowManager, &WindowManager::onAddNoteButtonClicked);
+    layout->addWidget(addNoteButton, Qt::AlignTop);
+    addNoteButton->setVisible(false);
 
     scrollArea->setWidgetResizable(true);
 
@@ -35,20 +46,9 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 
 void DataDemonstrator::showData(const QList<BaseNote*> &notes, const LABEL_TYPE dataType)
 {
-    if(addNoteButton != nullptr){
-        delete addNoteButton;
-    }
-    addNoteButton = new QPushButton("Add");
-    addNoteButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-    addNoteButton->setStyleSheet("background-color: #33683D;"
-                                 "color: white;"
-                                 "font-size: 25px;"
-                                 "font-weight: bold;"
-                                 "");
-
-    layout->addWidget(addNoteButton, Qt::AlignTop);
-    connectAddButtonToSlot(dataType);
-    deleteDataFromList();
+    addNoteButton->setVisible(true);
+    //connectAddButtonToSlot(dataType);
+    deleteDataFromListIfNotNeed(notes);
 
     listOfNotes = notes;
     for(unsigned i = 0; i < listOfNotes.size(); i++){
@@ -67,34 +67,53 @@ QList<BaseNote *> DataDemonstrator::getListOfNotes() const
     return listOfNotes;
 }
 
-void DataDemonstrator::deleteDataFromList()
+void DataDemonstrator::deleteDataFromListIfNotNeed(const QList<BaseNote*>& newNotes)
 {
-    for(unsigned i = 0; i < listOfNotes.size(); i++){
+    for(unsigned i = 0; i < listOfNotes.size(); i++){ //omg... O(n^2)
+        for(unsigned j = 0; j < newNotes.size(); j++){
+//            qInfo() << "first " <<&(*listOfNotes[i]);
+//            qInfo() << "second " <<&(*newNotes[j]);
+//            qInfo() << "----------------------------";
+            if(&(*listOfNotes[i]) == &(*newNotes[j])){ //if addresses of ojects are equal
+                continue;
+                qInfo() << "EXIST";
+            }
+        }
+        qInfo() << "DELEEEEETE";
         delete listOfNotes[i];
     }
     listOfNotes.clear();
 }
 
-void DataDemonstrator::connectAddButtonToSlot(const LABEL_TYPE dataType)
+void DataDemonstrator::addObserver(InterfaceObserver *observer)
 {
-    switch (dataType) {
-    case PLAYERS:
-        break;
-    case COACHES:
-        break;
-    case MATCHES:
-        break;
-    case GOALS:
-        break;
-    case CLUB:
-        break;
-    case TEAMS:
-        break;
-    case AUTHO:
+    this->observers.append(observer);
+}
 
-        break;
-
-    default:
-        break;
+void DataDemonstrator::removeObserver(InterfaceObserver *observer)
+{
+    QList<InterfaceObserver*>::ConstIterator it = observers.constBegin();
+    for (; it != observers.constEnd(); ++it) {
+        if (*it == observer) {
+            observers.erase(it);
+            return;
+        }
     }
+}
+
+void DataDemonstrator::removeObservers()
+{
+    observers.clear();
+}
+
+void DataDemonstrator::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote *note)
+{
+    for (auto obs : observers) {
+        obs->updateByObserver(requestStatus, note);
+    }
+}
+
+void DataDemonstrator::onAddNoteButtonClicked()
+{
+    notifyObservers(ADD_NEW_NOTE);
 }

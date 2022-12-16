@@ -13,7 +13,7 @@
 #include <QBoxLayout>
 #include "InfoNotes/datademonstrator.h"
 
-class WindowManager;
+//class WindowManager;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,7 +24,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(WindowManager* manager ,QWidget *parent = nullptr);
+    MainWindow(WindowManager* manager, QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
@@ -37,7 +37,6 @@ private:
 
     void createHeaderMenu();
     void createDataDemonstrator();
-
     friend class WindowManager;
 };
 #endif // MAINWINDOW_H

@@ -54,6 +54,7 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
 
         tournament = new Label("");
         stage = new Label("");
+        qInfo() << "added new matchnote";
     }
 
 
