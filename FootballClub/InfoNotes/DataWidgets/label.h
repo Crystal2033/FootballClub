@@ -16,7 +16,7 @@ class Label : public TextField
 {
 public:
     Label(const QString& text);
-    void setText(const QString& text);
+    void setText(const QString& text) override;
     QString getText() const override;
 private:
     QBoxLayout* lay = nullptr;

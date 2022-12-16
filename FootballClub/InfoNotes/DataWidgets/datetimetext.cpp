@@ -32,6 +32,11 @@ QString DateTimeText::getText() const
     return lineEdit->getText();
 }
 
+void DateTimeText::setText(const QString &newValue)
+{
+    lineEdit->setText(newValue);
+}
+
 void DateTimeText::onCallCalendarBtnClicked()
 {
     calendar->setWindowModality(Qt::WindowModal);

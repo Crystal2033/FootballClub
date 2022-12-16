@@ -44,6 +44,11 @@ QString ComboBox::getText() const
     return comboBox->currentText();
 }
 
+void ComboBox::setText(const QString &newValue)
+{
+    setCurrentItem(newValue);
+}
+
 int ComboBox::getIdByValue(const QString &value)
 {
     if(valueAndIdMap.find(value) == valueAndIdMap.end()){

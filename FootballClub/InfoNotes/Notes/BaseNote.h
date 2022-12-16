@@ -22,6 +22,7 @@ public:
 
 protected:
     QList<InterfaceObserver*> observers;
+    std::map<TextField**, QString> valuesBeforeAction;
     void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
     unsigned recordId;
     QBoxLayout* globalLay = nullptr;
@@ -31,8 +32,10 @@ protected:
     NOTE_VIEW_TYPE noteViewType = READ;
     virtual void extend() = 0;
     virtual void modifyNoteView() = 0;
+    virtual void saveDataBeforeAction() = 0;
     void setSaveCancelButtonsVisability(const bool visability);
 
+    void fromDataWidgetToLabel(TextField*& textField, const QString& value);
     void fromLabelToDateTimeText(TextField*& textField);
     void fromLabelToComboList(QSqlQuery& query, const QString columnName,
                               TextField*& textField);

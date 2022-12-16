@@ -23,6 +23,7 @@ class TextField : public QWidget
 public:
     explicit TextField(QWidget *parent = nullptr);
     virtual QString getText() const = 0;
+    virtual void setText(const QString& newValue) = 0;
 
 signals:
 

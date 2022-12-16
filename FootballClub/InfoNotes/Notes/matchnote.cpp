@@ -11,28 +11,51 @@
 
 #include <QDateTime>
 
-MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
+MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     :BaseNote(parent)
 {
-    QSqlRecord record = query.record();
-    recordId = query.value(record.indexOf("gameid")).toInt();
-    team1 = new Label(query.value(record.indexOf("team1")).toString());
+    if(query != nullptr){
+        QSqlRecord record = query->record();
+        recordId = query->value(record.indexOf("gameid")).toInt();
+        team1 = new Label(query->value(record.indexOf("team1")).toString());
 
-    teamType1 = new Label(query.value(record.indexOf("teamtype1")).toString()); //Taking one because second teams have to has the same type
-    team2 = new Label(query.value(record.indexOf("team2")).toString());
-    //teamType2 = new Label(query.value(record.indexOf("teamtype2")).toString());
-    finalScore = new Label(query.value(record.indexOf("finalscore")).toString());
-    stadium = new Label(query.value(record.indexOf("stadium")).toString());
-    QDateTime dateTimeConverter = QDateTime::fromString(query.value(record.indexOf("gamedate")).toString(), "yyyy-MM-ddTHH:mm:ss.zzz");
-    if(!dateTimeConverter.isValid()){
-        gameDate = new Label("Bad format date");
+        teamType1 = new Label(query->value(record.indexOf("teamtype1")).toString()); //Taking one because second teams have to has the same type
+        team2 = new Label(query->value(record.indexOf("team2")).toString());
+        //teamType2 = new Label(query->value(record.indexOf("teamtype2")).toString());
+        finalScore = new Label(query->value(record.indexOf("finalscore")).toString());
+        stadium = new Label(query->value(record.indexOf("stadium")).toString());
+        QDateTime dateTimeConverter = QDateTime::fromString(query->value(record.indexOf("gamedate")).toString(), "yyyy-MM-ddTHH:mm:ss.zzz");
+        if(!dateTimeConverter.isValid()){
+            gameDate = new Label("Bad format date");
+        }
+        else{
+            gameDate = new Label(dateTimeConverter.toString("yyyy-MM-dd hh:mm:ss"));
+        }
+
+        tournament = new Label(query->value(record.indexOf("tournname")).toString());
+        stage = new Label(query->value(record.indexOf("stage")).toString());
     }
     else{
-        gameDate = new Label(dateTimeConverter.toString("yyyy-MM-dd hh:mm:ss"));
+        recordId = 0;
+        team1 = new Label("");
+
+        teamType1 = new Label(""); //Taking one because second teams have to has the same type
+        team2 = new Label("");
+        //teamType2 = new Label(query->value(record.indexOf("teamtype2")).toString());
+        finalScore = new Label("");
+        stadium = new Label("");
+        QDateTime dateTimeConverter = QDateTime::currentDateTime();
+        if(!dateTimeConverter.isValid()){
+            gameDate = new Label("Bad format date");
+        }
+        else{
+            gameDate = new Label(dateTimeConverter.toString("yyyy-MM-dd hh:mm:ss"));
+        }
+
+        tournament = new Label("");
+        stage = new Label("");
     }
 
-    tournament = new Label(query.value(record.indexOf("tournname")).toString());
-    stage = new Label(query.value(record.indexOf("stage")).toString());
 
     globalLay = new QVBoxLayout;
 
@@ -44,14 +67,7 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
     dateLay = new QHBoxLayout;
     buttonsLay = new QHBoxLayout;
 
-    tournLay->addWidget(tournament, 0, Qt::AlignCenter);
-    stageLay->addWidget(stage, 0, Qt::AlignCenter);
-    teamsTypeLay->addWidget(teamType1, 0, Qt::AlignCenter);
-    teamsAndScoreLay->addWidget(team1, 0, Qt::AlignCenter);
-    teamsAndScoreLay->addWidget(finalScore, 0, Qt::AlignCenter);
-    teamsAndScoreLay->addWidget(team2, 0, Qt::AlignCenter);
-    stadiumLay->addWidget(stadium, 0, Qt::AlignCenter);
-    dateLay->addWidget(gameDate, 0, Qt::AlignCenter);
+    setAllDataOnLayout();
 
     buttonsLay->addWidget(cancelSaving, 0, Qt::AlignCenter);
     cancelSaving->setVisible(false);
@@ -79,21 +95,16 @@ MatchNote::MatchNote(QSqlQuery& query, QWidget* parent)
 void MatchNote::setTournamentComboList(QSqlQuery &query)
 {
     fromLabelToComboList(query, "name", tournament);
-    tournLay->addWidget(tournament, 0, Qt::AlignCenter);
 }
 
 void MatchNote::setStagesComboList(QSqlQuery &query)
 {
     fromLabelToComboList(query, "name", stage);
-
-    stageLay->addWidget(stage, 0, Qt::AlignCenter);
 }
 
 void MatchNote::setTeamTypesComboList(QSqlQuery &query)
 {
     fromLabelToComboList(query, "name", teamType1);
-
-    teamsTypeLay->addWidget(teamType1, 0, Qt::AlignCenter);
 }
 
 void MatchNote::setClubsComboListAndScore(QSqlQuery &query)
@@ -115,25 +126,17 @@ void MatchNote::setClubsComboListAndScore(QSqlQuery &query)
     ComboBox* temp = (ComboBox*) team2;
 
     temp->setCurrentItem(lastValue);
-
-    teamsAndScoreLay->addWidget(team1, 0, Qt::AlignCenter);
-    teamsAndScoreLay->addWidget(finalScore, 0, Qt::AlignCenter);
-    teamsAndScoreLay->addWidget(team2, 0, Qt::AlignCenter);
 }
 
 void MatchNote::setStadiumsComboList(QSqlQuery &query)
 {
     fromLabelToComboList(query, "name", stadium);
-
-    stadiumLay->addWidget(stadium, 0, Qt::AlignCenter);
 }
 
 std::map<QString, TextField *> MatchNote::getFieldsMap() const
 {
     return fieldsMap;
 }
-
-
 
 
 MatchNote::~MatchNote()
@@ -149,32 +152,35 @@ void MatchNote::extend()
 
 void MatchNote::modifyNoteView()
 {
-    setSaveCancelButtonsVisability(true);
-    modifyButton->setVisible(false);
+    saveDataBeforeAction();
     notifyObservers(MATCH_TOURNS, this); //getting list of names for combobox
     notifyObservers(MATCH_STAGES, this);
     notifyObservers(MATCH_TEAM_TYPES, this);
     notifyObservers(MATCH_CLUBS, this);
     fromLabelToDateTimeText(gameDate);
-    dateLay->addWidget(gameDate, 0, Qt::AlignCenter);
     notifyObservers(MATCH_STADIUMS, this);
+    setAllDataOnLayout();
+    setSaveCancelButtonsVisability(true);
+    modifyButton->setVisible(false);
 
 }
 
 void MatchNote::onSaveChangesClicked()
 {
-    setSaveCancelButtonsVisability(false);
-    modifyButton->setVisible(true);
-    insertFieldsInMap();
-    notifyObservers(MATCH_UPDATE, this);
-
+    if(isInsertingDataCorrect()){
+        insertFieldsInMap();
+        notifyObservers(MATCH_UPDATE, this);
+        setSaveCancelButtonsVisability(false);
+        modifyButton->setVisible(true);
+    }
 }
 
 void MatchNote::onCancelModifyingClicked()
 {
     setSaveCancelButtonsVisability(false);
     modifyButton->setVisible(true);
-    qInfo() << "Cancel saving";
+    setSavedDataBack();
+    transformNoteInLabelView();
 }
 
 void MatchNote::setStyles()
@@ -197,4 +203,72 @@ void MatchNote::insertFieldsInMap()
     fieldsMap.insert(std::make_pair("gameDate", gameDate));
     fieldsMap.insert(std::make_pair("tournament", tournament));
     fieldsMap.insert(std::make_pair("stage", stage));
+}
+
+bool MatchNote::isInsertingDataCorrect() const
+{
+    QRegularExpression regularExpr("[\\d]+:[\\d]+");
+    if(!regularExpr.match(finalScore->getText()).hasMatch()){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Your final score value is incorrect. Example: 0:1");
+        return false;
+    }
+
+    QDateTime dateTimeCheck = QDateTime::fromString(gameDate->getText(), "yyyy-MM-dd hh:mm:ss");
+    if(!dateTimeCheck.isValid()){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Your game date or time value is incorrect. Example: 2022-16-12 18:10:12");
+        return false;
+    }
+    return true;
+}
+
+void MatchNote::saveDataBeforeAction()
+{
+    valuesBeforeAction.clear();
+    valuesBeforeAction.insert(std::make_pair(&team1, team1->getText()));
+    valuesBeforeAction.insert(std::make_pair(&teamType1, teamType1->getText()));
+    valuesBeforeAction.insert(std::make_pair(&team2, team2->getText()));
+    valuesBeforeAction.insert(std::make_pair(&finalScore, finalScore->getText()));
+    valuesBeforeAction.insert(std::make_pair(&stadium, stadium->getText()));
+    valuesBeforeAction.insert(std::make_pair(&gameDate, gameDate->getText()));
+    valuesBeforeAction.insert(std::make_pair(&tournament, tournament->getText()));
+    valuesBeforeAction.insert(std::make_pair(&stage, stage->getText()));
+}
+
+void MatchNote::setSavedDataBack()
+{
+    if(!valuesBeforeAction.empty()){
+        for(auto textField : valuesBeforeAction){
+             qInfo() << textField;
+            textField.first->setText(textField.second);
+        }
+
+    }
+
+}
+
+void MatchNote::transformNoteInLabelView()
+{
+    fromDataWidgetToLabel(team1, team1->getText());
+    fromDataWidgetToLabel(teamType1, teamType1->getText());
+    fromDataWidgetToLabel(team2, team2->getText());
+    fromDataWidgetToLabel(finalScore, finalScore->getText());
+    fromDataWidgetToLabel(stadium, stadium->getText());
+    fromDataWidgetToLabel(gameDate, gameDate->getText());
+    fromDataWidgetToLabel(tournament, tournament->getText());
+    fromDataWidgetToLabel(stage, stage->getText());
+
+    setAllDataOnLayout();
+
+}
+
+void MatchNote::setAllDataOnLayout()
+{
+    tournLay->addWidget(tournament, 0, Qt::AlignCenter);
+    stageLay->addWidget(stage, 0, Qt::AlignCenter);
+    teamsTypeLay->addWidget(teamType1, 0, Qt::AlignCenter);
+    teamsAndScoreLay->addWidget(team1, 0, Qt::AlignCenter);
+    teamsAndScoreLay->addWidget(finalScore, 0, Qt::AlignCenter);
+    teamsAndScoreLay->addWidget(team2, 0, Qt::AlignCenter);
+    stadiumLay->addWidget(stadium, 0, Qt::AlignCenter);
+    dateLay->addWidget(gameDate, 0, Qt::AlignCenter);
 }

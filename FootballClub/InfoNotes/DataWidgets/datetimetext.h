@@ -22,6 +22,7 @@ private:
     QPushButton* callCalendarBtn = nullptr;
     Calendar* calendar = nullptr;
     QString getText() const override;
+    void setText(const QString& newValue) override;
 private slots:
     void onCallCalendarBtnClicked();
     void onSavedDateEmission();

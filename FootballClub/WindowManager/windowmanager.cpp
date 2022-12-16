@@ -102,7 +102,7 @@ void WindowManager::createMatchesData()
         QList<BaseNote*> listOfMatchesInfo;
 
         while(query->next()){
-            MatchNote* matchNote = new MatchNote(*query);
+            MatchNote* matchNote = new MatchNote(query);
             matchNote->addObserver(this);
             listOfMatchesInfo.push_back(matchNote);
         }

@@ -18,7 +18,7 @@
 class MatchNote : public BaseNote
 {
 public:
-    MatchNote(QSqlQuery& query, QWidget* parent = nullptr);
+    MatchNote(QSqlQuery* query = nullptr, QWidget* parent = nullptr);
 
     void setTournamentComboList(QSqlQuery& query);
     void setStagesComboList(QSqlQuery& query);
@@ -28,7 +28,7 @@ public:
     std::map<QString, TextField*> getFieldsMap() const;
     ~MatchNote();
 private:
-    std::map<QString, TextField*> fieldsMap;
+    std::map<QString, TextField*> fieldsMap; //to get data outside the class, in repo for example
     QBoxLayout* tournLay;
     QBoxLayout* stageLay;
     QBoxLayout* teamsTypeLay;
@@ -36,7 +36,6 @@ private:
     QBoxLayout* stadiumLay;
     QBoxLayout* dateLay;
     QBoxLayout* buttonsLay;
-
 
     TextField* team1 = nullptr; //PSG
     TextField* teamType1 = nullptr; //MAIN OR YOUNG OR WOMEN
@@ -50,6 +49,11 @@ private:
 
     void setStyles();
     void insertFieldsInMap();
+    bool isInsertingDataCorrect() const;
+    void saveDataBeforeAction() override;
+    void setSavedDataBack();
+    void transformNoteInLabelView();
+    void setAllDataOnLayout();
 
 private slots:
     void extend() override;

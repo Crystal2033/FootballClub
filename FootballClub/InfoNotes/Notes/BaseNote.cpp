@@ -13,6 +13,7 @@
 #include <QRegularExpression>
 #include "InfoNotes/DataWidgets/lineedit.h"
 #include "InfoNotes/DataWidgets/datetimetext.h"
+#include <QMessageBox>
 
 BaseNote::BaseNote(QWidget *parent)
     :QWidget(parent)
@@ -22,14 +23,14 @@ BaseNote::BaseNote(QWidget *parent)
     modifyButton->setIconSize(QSize(0.75 * modifyButton->size().width(), 0.75 * modifyButton->size().height()));
     modifyButton->setIcon(QIcon(":/pictures/Pics/modifyData.png"));
 
-    saveChangesButton = new QPushButton("Save changes");
+    saveChangesButton = new QPushButton("Save");
     saveChangesButton->setStyleSheet("background-color: darkgreen;"
                                      "color:white;"
                                      "font-size: 20px;"
                                      "font-weight: bold;"
                                      "");
 
-    cancelSaving = new QPushButton("Cancel modifying");
+    cancelSaving = new QPushButton("Cancel");
     cancelSaving->setStyleSheet("background-color: darkred;"
                                 "color:white;"
                                 "font-size: 20px;"
@@ -85,6 +86,12 @@ void BaseNote::setSaveCancelButtonsVisability(const bool visability)
 {
     cancelSaving->setVisible(visability);
     saveChangesButton->setVisible(visability);
+}
+
+void BaseNote::fromDataWidgetToLabel(TextField *&textField, const QString& value)
+{
+    delete textField;
+    textField = new Label(value);
 }
 
 void BaseNote::fromLabelToDateTimeText(TextField *&textField)

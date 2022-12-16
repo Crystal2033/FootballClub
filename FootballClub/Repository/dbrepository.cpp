@@ -68,7 +68,7 @@ QSqlQuery *DBRepository::getStadiumNamesQuery() const
 
 bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap)
 {
-
+    //todo!
 }
 
 

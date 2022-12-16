@@ -21,6 +21,7 @@ public:
     void setCurrentItem(const QString& text);
     QStringList getStringList() const;
     QString getText() const override;
+    void setText(const QString& newValue) override;
     int getIdByValue(const QString& value);
     std::map<QString, unsigned> getValueAndIdMap() const;
 private:
