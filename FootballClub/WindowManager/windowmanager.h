@@ -27,11 +27,11 @@ private:
     QSqlQuery* getNeededQuery(const LABEL_TYPE& dataType, const EXISTANCE_STATUS& existStatus);
     BaseNote* createNoteBasedOnType(const LABEL_TYPE& dataType, QSqlQuery* const& query);
 
-    void sendTournamentNames(MatchNote* const& note);
-    void sendStageNames(MatchNote* const& note);
-    void sendTeamTypeNames(MatchNote* const& note);
-    void sendClubNames(MatchNote* const& note);
-    void sendStadiumNames(MatchNote* const& note);
+    void sendTournamentNames(BaseNote* const& note);
+    void sendStageNames(BaseNote* const& note);
+    void sendTeamTypeNames(BaseNote* const& note);
+    void sendClubNames(BaseNote* const& note);
+    void sendStadiumNames(BaseNote* const& note);
     bool postNote(BaseNote* note, const LABEL_TYPE type);
 
     bool postMatchNote(MatchNote* note);

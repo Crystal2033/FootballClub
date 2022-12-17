@@ -96,6 +96,11 @@ unsigned BaseNote::getRecordId() const
     return recordId;
 }
 
+std::map<QString, TextField*> BaseNote::getFieldsMap() const{
+    return fieldsMap;
+}
+
+
 void BaseNote::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote *note)
 {
     for (auto obs : observers) {
@@ -152,4 +157,22 @@ void BaseNote::fromLabelToLineEdit(TextField *&textField, QValidator* validator)
     delete textField;
     textField= new LineEdit(lastValue, validator);
 }
+
+void BaseNote::setTournamentComboList(QSqlQuery &query)
+{Q_UNUSED(query);}
+
+void BaseNote::setStagesComboList(QSqlQuery &query)
+{Q_UNUSED(query);}
+
+void BaseNote::setTeamTypesComboList(QSqlQuery &query)
+{Q_UNUSED(query);}
+
+void BaseNote::setClubsComboList(QSqlQuery &query)
+{Q_UNUSED(query);}
+
+void BaseNote::setStadiumsComboList(QSqlQuery &query)
+{Q_UNUSED(query);}
+
+void BaseNote::setCountryComboList(QSqlQuery &query)
+{Q_UNUSED(query);}
 

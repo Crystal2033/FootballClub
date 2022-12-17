@@ -67,6 +67,28 @@ QSqlQuery *DBRepository::getStadiumNamesQuery() const
     return getQuery(getStadiumNamesSQLRequest());
 }
 
+bool DBRepository::saveData(const LABEL_TYPE type, const std::map<QString, TextField *> &fieldsMap, const unsigned id)
+{
+    switch (type) {
+    case PLAYERS:
+        break;
+    case COACHES:
+        break;
+    case MATCHES:
+        saveMatchData(fieldsMap, id);
+        break;
+    case GOALS:
+        break;
+    case CLUB:
+        break;
+    case TEAMS:
+        break;
+
+    default:
+        break;
+    }
+}
+
 
 
 bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap, const unsigned id)

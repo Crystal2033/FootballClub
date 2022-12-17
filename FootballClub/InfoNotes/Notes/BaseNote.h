@@ -20,9 +20,10 @@ public:
     void removeObservers() override;
     void setRecordId(const unsigned value);
     unsigned getRecordId() const;
-
+    std::map<QString, TextField*> getFieldsMap() const;
 
 protected:
+    std::map<QString, TextField*> fieldsMap;
     QList<InterfaceObserver*> observers;
     std::map<TextField**, QString> valuesBeforeAction;
     void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
@@ -36,6 +37,7 @@ protected:
     virtual void extend() = 0;
     virtual void modifyNoteView() = 0;
     virtual void saveDataBeforeAction() = 0;
+    virtual void setAllDataOnLayout() = 0;
     void setSaveCancelButtonsVisability(const bool visability);
 
     void fromDataWidgetToLabel(TextField*& textField, const QString& value);
@@ -43,6 +45,14 @@ protected:
     void fromLabelToComboList(QSqlQuery& query, const QString columnName,
                               TextField*& textField);
     void fromLabelToLineEdit(TextField*& textField, QValidator* validator=nullptr);
+
+    virtual void setTournamentComboList(QSqlQuery& query);
+    virtual void setStagesComboList(QSqlQuery& query);
+    virtual void setTeamTypesComboList(QSqlQuery& query);
+    virtual void setClubsComboList(QSqlQuery& query);
+    virtual void setStadiumsComboList(QSqlQuery& query);
+    virtual void setCountryComboList(QSqlQuery& query);
+    friend class WindowManager;
 };
 
 

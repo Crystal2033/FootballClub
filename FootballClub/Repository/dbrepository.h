@@ -7,6 +7,7 @@
  ***************************************************************************/
 #ifndef DBREPOSITORY_H
 #define DBREPOSITORY_H
+#include "Enums/Enums.h"
 #include "InfoNotes/DataWidgets/combobox.h"
 #pragma once
 #include "InfoNotes/DataWidgets/textfield.h"
@@ -28,6 +29,7 @@ private:
     QSqlQuery* getTeamTypeNamesQuery() const;
     QSqlQuery* getClubNamesQuery() const;
     QSqlQuery* getStadiumNamesQuery() const;
+    bool saveData(const LABEL_TYPE type, const std::map<QString, TextField*>& fieldsMap, const unsigned id);
     bool saveMatchData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
     int postMatchData(const std::map<QString, TextField*>& fieldsMap);
     bool deleteMatchData(const unsigned id);

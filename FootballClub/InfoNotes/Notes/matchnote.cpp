@@ -59,7 +59,7 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
 
     tournLay = new QHBoxLayout;
     stageLay = new QHBoxLayout;
-    teamsTypeLay = new QHBoxLayout;
+    teamsTypeLay = new QVBoxLayout;
     clubsAndScoreLay = new QHBoxLayout;
     stadiumLay = new QHBoxLayout;
     dateLay = new QHBoxLayout;
@@ -74,6 +74,7 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     buttonsLay->addWidget(saveChangesButton, 0, Qt::AlignCenter);
     saveChangesButton->setVisible(false);
     buttonsLay->addWidget(modifyButton, 0, Qt::AlignRight);
+
 
     globalLay->addLayout(deleteNoteButtonLay);
     globalLay->addLayout(tournLay);
@@ -109,7 +110,7 @@ void MatchNote::setTeamTypesComboList(QSqlQuery &query)
     fromLabelToComboList(query, "name", teamType1);
 }
 
-void MatchNote::setClubsComboListAndScore(QSqlQuery &query)
+void MatchNote::setClubsComboList(QSqlQuery &query)
 {
     fromLabelToComboList(query, "name", club1);
 
@@ -119,8 +120,8 @@ void MatchNote::setClubsComboListAndScore(QSqlQuery &query)
 
     Label* lbl = (Label*) club2;
     QString lastValue = lbl->getText();
-    ComboBox* firstTeam = (ComboBox*)club1;
-    std::map<QString, unsigned> valueAndIdMap = firstTeam->getValueAndIdMap();
+    ComboBox* firstClubBox = (ComboBox*)club1;
+    std::map<QString, unsigned> valueAndIdMap = firstClubBox->getValueAndIdMap();
     delete club2;
 
     club2 = new ComboBox(valueAndIdMap);
@@ -134,11 +135,6 @@ void MatchNote::setStadiumsComboList(QSqlQuery &query)
     fromLabelToComboList(query, "name", stadium);
 }
 
-std::map<QString, TextField *> MatchNote::getFieldsMap() const
-{
-    return fieldsMap;
-}
-
 void MatchNote::setNoteViewType(const NOTE_VIEW_TYPE type)
 {
     BaseNote::setNoteViewType(type);
@@ -147,6 +143,7 @@ void MatchNote::setNoteViewType(const NOTE_VIEW_TYPE type)
         insertFieldsInMap();
     }
 }
+
 
 
 MatchNote::~MatchNote()
@@ -169,7 +166,7 @@ void MatchNote::onSaveChangesClicked()
 {
     if(isInsertingDataCorrect()){
         insertFieldsInMap();
-        notifyObservers(MATCH_UPDATE, this);
+        notifyObservers(UPDATE, this);
         setSaveCancelButtonsVisability(false);
         modifyButton->setVisible(true);
         transformNoteInLabelView();
@@ -192,7 +189,7 @@ void MatchNote::onDeleteButtonClicked()
     reply = QMessageBox::question(this, "Delete note", "Are you sure that you want to delete this note?",
                                 QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes) {
-        notifyObservers(MATCH_DELETE, this);
+        notifyObservers(DELETE, this);
     }
     else{
 
@@ -278,6 +275,12 @@ void MatchNote::setAllDataOnLayout()
 {
     tournLay->addWidget(tournament, 0, Qt::AlignCenter);
     stageLay->addWidget(stage, 0, Qt::AlignCenter);
+    QLabel* noteToUnderstandTeamTypeData = new QLabel("Team type");
+    noteToUnderstandTeamTypeData->setStyleSheet("color: #3A40B0;"
+                                               "font-size:10px;"
+                                               ""
+                                               "");
+    teamsTypeLay->addWidget(noteToUnderstandTeamTypeData, 0, Qt::AlignCenter);
     teamsTypeLay->addWidget(teamType1, 0, Qt::AlignCenter);
     clubsAndScoreLay->addWidget(club1, 0, Qt::AlignCenter);
     clubsAndScoreLay->addWidget(finalScore, 0, Qt::AlignCenter);
@@ -289,12 +292,12 @@ void MatchNote::setAllDataOnLayout()
 void MatchNote::createModifyView()
 {
     saveDataBeforeAction();
-    notifyObservers(MATCH_TOURNS, this); //getting list of names for combobox
-    notifyObservers(MATCH_STAGES, this);
-    notifyObservers(MATCH_TEAM_TYPES, this);
-    notifyObservers(MATCH_CLUBS, this);
+    notifyObservers(GET_TOURNS, this); //getting list of names for combobox
+    notifyObservers(GET_STAGES, this);
+    notifyObservers(GET_TEAM_TYPES, this);
+    notifyObservers(GET_CLUBS, this);
     fromLabelToDateTimeText(gameDate);
-    notifyObservers(MATCH_STADIUMS, this);
+    notifyObservers(GET_STADIUMS, this);
     setAllDataOnLayout();
     setSaveCancelButtonsVisability(true);
     modifyButton->setVisible(false);

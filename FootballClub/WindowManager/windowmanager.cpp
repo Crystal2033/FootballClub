@@ -83,31 +83,25 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
             break;
         }
     }
-    else if(requestStatus == MATCH_TOURNS){
-        MatchNote* matchNote = (MatchNote*) note;
-        sendTournamentNames(matchNote);
+    else if(requestStatus == GET_TOURNS){
+        sendTournamentNames(note);
     }
-    else if(requestStatus == MATCH_STAGES){
-        MatchNote* matchNote = (MatchNote*) note;
-        sendStageNames(matchNote);
+    else if(requestStatus == GET_STAGES){
+        sendStageNames(note);
     }
-    else if(requestStatus == MATCH_TEAM_TYPES){
-        MatchNote* matchNote = (MatchNote*) note;
-        sendTeamTypeNames(matchNote);
+    else if(requestStatus == GET_TEAM_TYPES){
+        sendTeamTypeNames(note);
     }
-    else if(requestStatus == MATCH_CLUBS){
-        MatchNote* matchNote = (MatchNote*) note;
-        sendClubNames(matchNote);
+    else if(requestStatus == GET_CLUBS){
+        sendClubNames(note);
     }
-    else if(requestStatus == MATCH_STADIUMS){
-        MatchNote* matchNote = (MatchNote*) note;
-        sendStadiumNames(matchNote);
+    else if(requestStatus == GET_STADIUMS){
+        sendStadiumNames(note);
     }
-    else if(requestStatus == MATCH_UPDATE){
-        MatchNote* matchNote = (MatchNote*) note;
-        repository->saveMatchData(matchNote->getFieldsMap(), note->getRecordId());
+    else if(requestStatus == UPDATE){
+        repository->saveData(this->window->headerMenu->getChosenDataType(), note->getFieldsMap(), note->getRecordId());
     }
-    else if(requestStatus == MATCH_DELETE){
+    else if(requestStatus == DELETE){
         if(repository->deleteMatchData(note->getRecordId())){
             this->window->dataDemonstrator->deleteNoteFromList(note);
             delete note;
@@ -203,7 +197,7 @@ BaseNote *WindowManager::createNoteBasedOnType(const LABEL_TYPE &dataType, QSqlQ
 }
 
 
-void WindowManager::sendTournamentNames(MatchNote* const& note)
+void WindowManager::sendTournamentNames(BaseNote* const& note)
 {
     QSqlQuery* query = repository->getTournNamesQuery();
     if(query != nullptr){
@@ -212,7 +206,7 @@ void WindowManager::sendTournamentNames(MatchNote* const& note)
     }
 }
 
-void WindowManager::sendStageNames(MatchNote * const &note)
+void WindowManager::sendStageNames(BaseNote * const &note)
 {
     QSqlQuery* query = repository->getStageNamesQuery();
     if(query != nullptr){
@@ -221,7 +215,7 @@ void WindowManager::sendStageNames(MatchNote * const &note)
     }
 }
 
-void WindowManager::sendTeamTypeNames(MatchNote * const &note)
+void WindowManager::sendTeamTypeNames(BaseNote * const &note)
 {
     QSqlQuery* query = repository->getTeamTypeNamesQuery();
     if(query != nullptr){
@@ -230,16 +224,16 @@ void WindowManager::sendTeamTypeNames(MatchNote * const &note)
     }
 }
 
-void WindowManager::sendClubNames(MatchNote * const &note)
+void WindowManager::sendClubNames(BaseNote * const &note)
 {
     QSqlQuery* query = repository->getClubNamesQuery();
     if(query != nullptr){
-        note->setClubsComboListAndScore(*query);
+        note->setClubsComboList(*query);
         delete query;
     }
 }
 
-void WindowManager::sendStadiumNames(MatchNote * const &note)
+void WindowManager::sendStadiumNames(BaseNote * const &note)
 {
     QSqlQuery* query = repository->getStadiumNamesQuery();
     if(query != nullptr){
@@ -252,13 +246,16 @@ void WindowManager::sendStadiumNames(MatchNote * const &note)
 
 bool WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
 {
+    int newNoteId;
+
+
     switch (type) {
     case PLAYERS:
         break;
     case COACHES:
         break;
     case MATCHES:
-        return postMatchNote((MatchNote*)note);
+        newNoteId = repository->postMatchData(note->getFieldsMap());
         break;
     case GOALS:
         break;
@@ -270,6 +267,11 @@ bool WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
     default:
         break;
     }
+    if(newNoteId == -1){
+        return false;
+    }
+    note->setRecordId(newNoteId);
+    return true;
 }
 
 bool WindowManager::postMatchNote(MatchNote *note)

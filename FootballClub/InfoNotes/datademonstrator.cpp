@@ -16,6 +16,7 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 {
     layout = new QVBoxLayout;
     layout->setSpacing(75);
+
     scrollArea = new QScrollArea();
     scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -110,9 +111,9 @@ void DataDemonstrator::removeObservers()
 
 void DataDemonstrator::deleteNoteFromList(const BaseNote* note)
 {
-    for(auto it=listOfNotes.begin(); it!=listOfNotes.end(); it++){
-        if(*it == note){
-            listOfNotes.erase(it);
+    for (unsigned i = 0; i < listOfNotes.size(); i++){
+        if(listOfNotes[i] == note){
+            listOfNotes.remove(i);
         }
     }
 }
