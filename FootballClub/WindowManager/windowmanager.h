@@ -32,9 +32,9 @@ private:
     void sendTeamTypeNames(MatchNote* const& note);
     void sendClubNames(MatchNote* const& note);
     void sendStadiumNames(MatchNote* const& note);
-    void postNote(BaseNote* note, const LABEL_TYPE type);
+    bool postNote(BaseNote* note, const LABEL_TYPE type);
 
-    void postMatchNote(MatchNote* note);
+    bool postMatchNote(MatchNote* note);
 public slots:
 };
 

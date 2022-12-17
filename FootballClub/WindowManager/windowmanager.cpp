@@ -108,7 +108,11 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         repository->saveMatchData(matchNote->getFieldsMap(), note->getRecordId());
     }
     else if(requestStatus == MATCH_DELETE){
-        repository->deleteMatchData(note->getRecordId());
+        if(repository->deleteMatchData(note->getRecordId())){
+            this->window->dataDemonstrator->deleteNoteFromList(note);
+            delete note;
+            this->window->dataDemonstrator->showData(this->window->dataDemonstrator->getListOfNotes());
+        }
     }
 
 }
@@ -134,11 +138,12 @@ void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANC
         BaseNote* note = createNoteBasedOnType(dataType, query);
         note->addObserver(this);
         note->setNoteViewType(WRITE);
-        postNote(note, dataType);
-        listOfNotesInfo.push_back(note);
+        if(postNote(note, dataType)){
+            listOfNotesInfo.push_back(note);
+        }
         listOfNotesInfo.append(this->window->dataDemonstrator->getListOfNotes());
     }
-    this->window->dataDemonstrator->showData(listOfNotesInfo, dataType);
+    this->window->dataDemonstrator->showData(listOfNotesInfo);
 }
 
 QSqlQuery *WindowManager::getNeededQuery(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus)
@@ -245,7 +250,7 @@ void WindowManager::sendStadiumNames(MatchNote * const &note)
 
 
 
-void WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
+bool WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
 {
     switch (type) {
     case PLAYERS:
@@ -253,7 +258,7 @@ void WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
     case COACHES:
         break;
     case MATCHES:
-        postMatchNote((MatchNote*)note);
+        return postMatchNote((MatchNote*)note);
         break;
     case GOALS:
         break;
@@ -267,8 +272,13 @@ void WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
     }
 }
 
-void WindowManager::postMatchNote(MatchNote *note)
+bool WindowManager::postMatchNote(MatchNote *note)
 {//делается не через observer, так как мы добавляем observer в note после создания. А нам надо как-то дернуть notify
-    note->setRecordId(repository->postMatchData(note->getFieldsMap()));
+    int newNoteId = repository->postMatchData(note->getFieldsMap());
+    if(newNoteId == -1){
+        return false;
+    }
+    note->setRecordId(newNoteId);
+    return true;
 }
 

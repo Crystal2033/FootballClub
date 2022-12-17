@@ -44,7 +44,7 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 
 }
 
-void DataDemonstrator::showData(const QList<BaseNote*> &notes, const LABEL_TYPE dataType)
+void DataDemonstrator::showData(const QList<BaseNote*> &notes)
 {
     addNoteButton->setVisible(true);
 
@@ -106,6 +106,15 @@ void DataDemonstrator::removeObserver(InterfaceObserver *observer)
 void DataDemonstrator::removeObservers()
 {
     observers.clear();
+}
+
+void DataDemonstrator::deleteNoteFromList(const BaseNote* note)
+{
+    for(auto it=listOfNotes.begin(); it!=listOfNotes.end(); it++){
+        if(*it == note){
+            listOfNotes.erase(it);
+        }
+    }
 }
 
 void DataDemonstrator::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote *note)

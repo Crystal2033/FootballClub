@@ -7,6 +7,7 @@
  ***************************************************************************/
 #ifndef DBREPOSITORY_H
 #define DBREPOSITORY_H
+#include "InfoNotes/DataWidgets/combobox.h"
 #pragma once
 #include "InfoNotes/DataWidgets/textfield.h"
 #include "DataBase/database.h"
@@ -30,6 +31,8 @@ private:
     bool saveMatchData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
     int postMatchData(const std::map<QString, TextField*>& fieldsMap);
     bool deleteMatchData(const unsigned id);
+    int getTeamIdByClubIdAndTeamTypeId(ComboBox* clubBox, ComboBox* teamTypeBox,
+                                            const std::map<QString, TextField*>& fieldsMap, const QString& whichTeam) const;
 
 
 
@@ -46,6 +49,7 @@ private:
     QString getMatchUpdateSQLRequest() const;
     QString getMatchPostSQLRequest() const;
     QString getMatchDeleteSQLRequest() const;
+    QString getTeamIdByClubAndTeamTypeSQLRequest() const;
 
 
 

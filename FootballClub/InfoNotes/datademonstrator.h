@@ -22,13 +22,14 @@ class DataDemonstrator : public QWidget, public InterfaceSubject
     Q_OBJECT
 public:
     explicit DataDemonstrator(QBoxLayout* parentLay, QWidget *parent = nullptr);
-    void showData(const QList<BaseNote*>& notes, const LABEL_TYPE dataType);
+    void showData(const QList<BaseNote*>& notes);
     void setVisibleScrollArea(const bool visibility);
     QList<BaseNote*> getListOfNotes() const;
     void deleteDataFromListIfNotNeed(const QList<BaseNote*>& newNotes);
     void addObserver(InterfaceObserver* observer) override;
     void removeObserver(InterfaceObserver* observer) override;
     void removeObservers() override;
+    void deleteNoteFromList(const BaseNote* note);
 
 private:
     QList<InterfaceObserver*> observers;

@@ -67,6 +67,8 @@ QSqlQuery *DBRepository::getStadiumNamesQuery() const
     return getQuery(getStadiumNamesSQLRequest());
 }
 
+
+
 bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap, const unsigned id)
 {
     qInfo() << "curr note id is : " << id;
@@ -79,11 +81,16 @@ bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap,
     ComboBox* stadiumClubComboBox = (ComboBox*)fieldsMap.find("stadium")->second;
     unsigned stadiumId = stadiumClubComboBox->getIdByValue(fieldsMap.find("stadium")->second->getText());
 
-    ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("team1")->second;
-    unsigned firstTeamId = firstClubComboBox->getIdByValue(fieldsMap.find("team1")->second->getText());
 
-    ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("team2")->second;
-    unsigned secondTeamId = secondClubComboBox->getIdByValue(fieldsMap.find("team2")->second->getText());
+    ComboBox* teamTypeComboBox = (ComboBox*)fieldsMap.find("teamtype")->second;
+    ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("club1")->second;
+    unsigned firstTeamId = getTeamIdByClubIdAndTeamTypeId(firstClubComboBox, teamTypeComboBox, fieldsMap, "club1");
+    qInfo() << "First team id = " << firstTeamId;
+
+
+    ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("club2")->second;
+    unsigned secondTeamId = getTeamIdByClubIdAndTeamTypeId(secondClubComboBox, teamTypeComboBox, fieldsMap, "club2");
+    qInfo() << "Second team id = " << secondTeamId;
 
     QString finalScore = fieldsMap.find("finalscore")->second->getText();
 
@@ -124,11 +131,22 @@ int DBRepository::postMatchData(const std::map<QString, TextField *> &fieldsMap)
     ComboBox* stadiumClubComboBox = (ComboBox*)fieldsMap.find("stadium")->second;
     unsigned stadiumId = stadiumClubComboBox->getIdByValue(fieldsMap.find("stadium")->second->getText());
 
-    ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("team1")->second;
-    unsigned firstTeamId = firstClubComboBox->getIdByValue(fieldsMap.find("team1")->second->getText());
+    ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("club1")->second;
+    ComboBox* teamTypeComboBox = (ComboBox*)fieldsMap.find("teamtype")->second;
 
-    ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("team2")->second;
-    unsigned secondTeamId = secondClubComboBox->getIdByValue(fieldsMap.find("team2")->second->getText());
+    int firstTeamId = getTeamIdByClubIdAndTeamTypeId(firstClubComboBox, teamTypeComboBox, fieldsMap, "club1");
+    if(firstTeamId == -1){
+        qInfo() << "first team failed";
+        return -1;
+    }
+    qInfo() << "Team1" << firstTeamId;
+    ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("club2")->second;
+    int secondTeamId = getTeamIdByClubIdAndTeamTypeId(secondClubComboBox, teamTypeComboBox, fieldsMap, "club2");
+    if(secondTeamId == -1){
+        qInfo() << "second team failed";
+        return -1;
+    }
+    qInfo() << "Team2" << secondTeamId;
 
     QString finalScore = fieldsMap.find("finalscore")->second->getText();
 
@@ -170,12 +188,39 @@ bool DBRepository::deleteMatchData(const unsigned id)
     if(!query.exec()){
         QMessageBox::critical(nullptr, "Matches request to database error",
                               "There is a problem with sending request about matches information.");
-        return 0;
+        return false;
     }
     else{
         qInfo() << "Success request";
-        return query.lastInsertId().toInt();
+        return true;
     }
+}
+
+int DBRepository::getTeamIdByClubIdAndTeamTypeId(ComboBox *clubBox, ComboBox *teamTypeBox,
+                                                      const std::map<QString, TextField *> &fieldsMap, const QString& whichTeam) const
+{
+    unsigned clubId = clubBox->getIdByValue(fieldsMap.find(whichTeam)->second->getText());
+    qInfo() << "Club id = " << clubId;
+
+    unsigned teamTypeId = teamTypeBox->getIdByValue(fieldsMap.find("teamtype")->second->getText());
+    qInfo() << "teamType id = " << teamTypeId;
+    QSqlQuery queryForTeam;
+
+    queryForTeam.prepare(getTeamIdByClubAndTeamTypeSQLRequest());
+    queryForTeam.bindValue(":club_id", clubId);
+    queryForTeam.bindValue(":team_type_id", teamTypeId);
+    if(!queryForTeam.exec()){
+        QMessageBox::critical(nullptr, "Matches request to database error",
+                              "There is a problem with sending request about matches information.");
+
+    }
+    else{
+        QSqlRecord record = queryForTeam.record();
+        qInfo() << "Good";
+        queryForTeam.next();
+        return queryForTeam.value(record.indexOf("id")).toInt();
+    }
+    return -1;
 }
 
 
@@ -189,11 +234,11 @@ bool DBRepository::deleteMatchData(const unsigned id)
 
 QString DBRepository::getMatchesSQLRequest() const
 {
-    return  "select gameid, team1, teamType1, finalscore, club.club_name as team2,"
+    return  "select gameid, club1, teamType1, finalscore, club.club_name as club2,"
             "team_type.name as teamType2, stadium.name as stadium,"
             "gameDate, tournament.name as tournName, tourn_stage.name as stage "
             "from club, stadium,"
-            "(select game.id as gameid, club.club_name as team1, club.id as team1id,"
+            "(select game.id as gameid, club.club_name as club1, club.id as team1id,"
             " team_type.name as teamType1, game.final_score as finalscore,"
             "game.second_team as team2, game.starts_at as gameDate, game.stadium_id as stadiumid,"
             "game.tourn_id as tournId, game.stage_id as tournStageId "
@@ -204,8 +249,7 @@ QString DBRepository::getMatchesSQLRequest() const
             "left join tourn_stage on subReq.tournStageId=tourn_stage.id "
             "left join team on team2 = team.id "
             "left join team_type on team_type.id = team.team_type_id "
-            "where subReq.team2=team.id and team.club_id=club.id and "
-            "stadiumid=stadium.id and (subReq.team1id=1 or club.id=1) "
+            "where subReq.team2=team.id and team.club_id=club.id and stadiumid=stadium.id and (subReq.team1id=1 or club.id=1) "
             "order by gameDate asc;";
 }
 
@@ -228,6 +272,7 @@ QString DBRepository::getClubNamesSQLRequest() const
 {
     return "select id, club_name as name from club;";
 }
+
 
 QString DBRepository::getStadiumNamesSQLRequest() const
 {
@@ -253,6 +298,11 @@ QString DBRepository::getMatchPostSQLRequest() const
 QString DBRepository::getMatchDeleteSQLRequest() const
 {
     return "delete from game where id=:id;";
+}
+
+QString DBRepository::getTeamIdByClubAndTeamTypeSQLRequest() const
+{
+    return "select id from team where club_id=:club_id and team_type_id=:team_type_id " ;
 }
 
 

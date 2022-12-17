@@ -34,15 +34,15 @@ private:
     QBoxLayout* tournLay;
     QBoxLayout* stageLay;
     QBoxLayout* teamsTypeLay;
-    QBoxLayout* teamsAndScoreLay;
+    QBoxLayout* clubsAndScoreLay;
     QBoxLayout* stadiumLay;
     QBoxLayout* dateLay;
     QBoxLayout* buttonsLay;
     QBoxLayout* deleteNoteButtonLay;
 
-    TextField* team1 = nullptr; //PSG
+    TextField* club1 = nullptr; //PSG
     TextField* teamType1 = nullptr; //MAIN OR YOUNG OR WOMEN
-    TextField* team2 = nullptr;
+    TextField* club2 = nullptr;
     TextField* teamType2 = nullptr;
     TextField* finalScore = nullptr;
     TextField* stadium = nullptr;

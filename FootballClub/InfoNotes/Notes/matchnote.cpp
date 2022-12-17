@@ -17,10 +17,10 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     if(query != nullptr){
         QSqlRecord record = query->record();
         recordId = query->value(record.indexOf("gameid")).toInt();
-        team1 = new Label(query->value(record.indexOf("team1")).toString());
+        club1 = new Label(query->value(record.indexOf("club1")).toString());
 
         teamType1 = new Label(query->value(record.indexOf("teamtype1")).toString()); //Taking one because second teams have to has the same type
-        team2 = new Label(query->value(record.indexOf("team2")).toString());
+        club2 = new Label(query->value(record.indexOf("club2")).toString());
         //teamType2 = new Label(query->value(record.indexOf("teamtype2")).toString());
         finalScore = new Label(query->value(record.indexOf("finalscore")).toString());
         stadium = new Label(query->value(record.indexOf("stadium")).toString());
@@ -36,10 +36,10 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
         stage = new Label(query->value(record.indexOf("stage")).toString());
     }
     else{
-        team1 = new Label("");
+        club1 = new Label("");
 
         teamType1 = new Label(""); //Taking one because second teams have to has the same type
-        team2 = new Label("");
+        club2 = new Label("");
         //teamType2 = new Label(query->value(record.indexOf("teamtype2")).toString());
         finalScore = new Label("0:0");
         stadium = new Label("");
@@ -60,7 +60,7 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     tournLay = new QHBoxLayout;
     stageLay = new QHBoxLayout;
     teamsTypeLay = new QHBoxLayout;
-    teamsAndScoreLay = new QHBoxLayout;
+    clubsAndScoreLay = new QHBoxLayout;
     stadiumLay = new QHBoxLayout;
     dateLay = new QHBoxLayout;
     buttonsLay = new QHBoxLayout;
@@ -79,7 +79,7 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     globalLay->addLayout(tournLay);
     globalLay->addLayout(stageLay);
     globalLay->addLayout(teamsTypeLay);
-    globalLay->addLayout(teamsAndScoreLay);
+    globalLay->addLayout(clubsAndScoreLay);
     globalLay->addLayout(stadiumLay);
     globalLay->addLayout(dateLay);
     globalLay->addLayout(buttonsLay);
@@ -111,20 +111,20 @@ void MatchNote::setTeamTypesComboList(QSqlQuery &query)
 
 void MatchNote::setClubsComboListAndScore(QSqlQuery &query)
 {
-    fromLabelToComboList(query, "name", team1);
+    fromLabelToComboList(query, "name", club1);
 
     QRegularExpression regularExpr("[\\d]*:[\\d]*");
     QValidator *validator = new QRegularExpressionValidator(regularExpr);
     fromLabelToLineEdit(finalScore, validator);
 
-    Label* lbl = (Label*) team2;
+    Label* lbl = (Label*) club2;
     QString lastValue = lbl->getText();
-    ComboBox* firstTeam = (ComboBox*)team1;
+    ComboBox* firstTeam = (ComboBox*)club1;
     std::map<QString, unsigned> valueAndIdMap = firstTeam->getValueAndIdMap();
-    delete team2;
+    delete club2;
 
-    team2 = new ComboBox(valueAndIdMap);
-    ComboBox* temp = (ComboBox*) team2;
+    club2 = new ComboBox(valueAndIdMap);
+    ComboBox* temp = (ComboBox*) club2;
 
     temp->setCurrentItem(lastValue);
 }
@@ -213,8 +213,9 @@ void MatchNote::insertFieldsInMap()
 {
     fieldsMap.clear();
     fieldsMap.insert(std::make_pair("stadium", stadium));
-    fieldsMap.insert(std::make_pair("team1", team1));
-    fieldsMap.insert(std::make_pair("team2", team2));
+    fieldsMap.insert(std::make_pair("club1", club1));
+    fieldsMap.insert(std::make_pair("club2", club2));
+    fieldsMap.insert(std::make_pair("teamtype", teamType1));
     fieldsMap.insert(std::make_pair("finalscore", finalScore));
     fieldsMap.insert(std::make_pair("stage", stage));
     fieldsMap.insert(std::make_pair("gameDate", gameDate));
@@ -240,9 +241,9 @@ bool MatchNote::isInsertingDataCorrect() const
 void MatchNote::saveDataBeforeAction()
 {
     valuesBeforeAction.clear();
-    valuesBeforeAction.insert(std::make_pair(&team1, team1->getText()));
+    valuesBeforeAction.insert(std::make_pair(&club1, club1->getText()));
     valuesBeforeAction.insert(std::make_pair(&teamType1, teamType1->getText()));
-    valuesBeforeAction.insert(std::make_pair(&team2, team2->getText()));
+    valuesBeforeAction.insert(std::make_pair(&club2, club2->getText()));
     valuesBeforeAction.insert(std::make_pair(&finalScore, finalScore->getText()));
     valuesBeforeAction.insert(std::make_pair(&stadium, stadium->getText()));
     valuesBeforeAction.insert(std::make_pair(&gameDate, gameDate->getText()));
@@ -261,9 +262,9 @@ void MatchNote::setSavedDataBack()
 
 void MatchNote::transformNoteInLabelView()
 {
-    fromDataWidgetToLabel(team1, team1->getText());
+    fromDataWidgetToLabel(club1, club1->getText());
     fromDataWidgetToLabel(teamType1, teamType1->getText());
-    fromDataWidgetToLabel(team2, team2->getText());
+    fromDataWidgetToLabel(club2, club2->getText());
     fromDataWidgetToLabel(finalScore, finalScore->getText());
     fromDataWidgetToLabel(stadium, stadium->getText());
     fromDataWidgetToLabel(gameDate, gameDate->getText());
@@ -278,9 +279,9 @@ void MatchNote::setAllDataOnLayout()
     tournLay->addWidget(tournament, 0, Qt::AlignCenter);
     stageLay->addWidget(stage, 0, Qt::AlignCenter);
     teamsTypeLay->addWidget(teamType1, 0, Qt::AlignCenter);
-    teamsAndScoreLay->addWidget(team1, 0, Qt::AlignCenter);
-    teamsAndScoreLay->addWidget(finalScore, 0, Qt::AlignCenter);
-    teamsAndScoreLay->addWidget(team2, 0, Qt::AlignCenter);
+    clubsAndScoreLay->addWidget(club1, 0, Qt::AlignCenter);
+    clubsAndScoreLay->addWidget(finalScore, 0, Qt::AlignCenter);
+    clubsAndScoreLay->addWidget(club2, 0, Qt::AlignCenter);
     stadiumLay->addWidget(stadium, 0, Qt::AlignCenter);
     dateLay->addWidget(gameDate, 0, Qt::AlignCenter);
 }
