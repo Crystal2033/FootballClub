@@ -21,8 +21,10 @@ public:
     ~DBRepository();
 
 private:
-    QSqlQuery* getQuery(const QString request) const;
     //GET QUERIES
+    QSqlQuery* getQuery(const QString request) const;
+
+    //Matches
     QSqlQuery* getMatchesQuery() const;
     QSqlQuery* getTournNamesQuery() const;
     QSqlQuery* getStageNamesQuery() const;
@@ -37,11 +39,14 @@ private:
                                             const std::map<QString, TextField*>& fieldsMap, const QString& whichTeam) const;
 
 
+    //Players
+    QSqlQuery* getPlayersQuery() const;
 
 
 
 
     //SQL REQUESTS
+
     QString getMatchesSQLRequest() const;
     QString getTournNamesSQLRequest() const;
     QString getStageNamesSQLRequest() const;
@@ -52,6 +57,8 @@ private:
     QString getMatchPostSQLRequest() const;
     QString getMatchDeleteSQLRequest() const;
     QString getTeamIdByClubAndTeamTypeSQLRequest() const;
+
+    QString getPlayersSQLRequest() const;
 
 
 

@@ -14,6 +14,47 @@
 MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     :BaseNote(parent)
 {
+    tournInfoLbl = new QLabel("Tournament");
+    tournInfoLbl->setStyleSheet("color: #3A40B0;"
+                                               "font-size:10px;"
+                                               ""
+                                               "");
+    stageInfoLbl = new QLabel("Stage");
+    stageInfoLbl->setStyleSheet("color: #3A40B0;"
+                                               "font-size:10px;"
+                                               ""
+                                               "");
+    teamTypeLbl = new QLabel("Team type");
+    teamTypeLbl->setStyleSheet("color: #3A40B0;"
+                                               "font-size:10px;"
+                                               ""
+                                               "");
+    firstClubLbl = new QLabel("Team");
+    firstClubLbl->setStyleSheet("color: #3A40B0;"
+                                               "font-size:10px;"
+                                               ""
+                                               "");
+    finalScoreLbl = new QLabel("Score");
+    finalScoreLbl->setStyleSheet("color: #3A40B0;"
+                                               "font-size:10px;"
+                                               ""
+                                               "");
+    secondClubLbl = new QLabel("Team");
+    secondClubLbl->setStyleSheet("color: #3A40B0;"
+                                               "font-size:10px;"
+                                               ""
+                                               "");
+    stadiumLbl = new QLabel("Stadium");
+    stadiumLbl->setStyleSheet("color: #3A40B0;"
+                                               "font-size:10px;"
+                                               ""
+                                               "");
+    dateLbl = new QLabel("Date");
+    dateLbl->setStyleSheet("color: #3A40B0;"
+                                               "font-size:10px;"
+                                               ""
+                                               "");
+
     if(query != nullptr){
         QSqlRecord record = query->record();
         recordId = query->value(record.indexOf("gameid")).toInt();
@@ -58,13 +99,36 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     globalLay = new QVBoxLayout;
 
     tournLay = new QHBoxLayout;
+    tournLayInfo = new QVBoxLayout;
+
     stageLay = new QHBoxLayout;
-    teamsTypeLay = new QVBoxLayout;
+    stageLayInfo = new QVBoxLayout;
+
+    teamsTypeLay = new QHBoxLayout;
+    teamsTypeLayInfo = new QVBoxLayout;
+
     clubsAndScoreLay = new QHBoxLayout;
+    firstClubLay = new QVBoxLayout;
+    finaScoreLay = new QVBoxLayout;
+    secondClubLay = new QVBoxLayout;
+
     stadiumLay = new QHBoxLayout;
+    stadiumLayInfo = new QVBoxLayout;
+
     dateLay = new QHBoxLayout;
+    dateLayInfo = new QVBoxLayout;
+
     modifyButtonsLay = new QHBoxLayout;
     deleteNoteButtonLay = new QHBoxLayout;
+
+    tournLay->addLayout(tournLayInfo);
+    stageLay->addLayout(stageLayInfo);
+    teamsTypeLay->addLayout(teamsTypeLayInfo);
+    clubsAndScoreLay->addLayout(firstClubLay);
+    clubsAndScoreLay->addLayout(finaScoreLay);
+    clubsAndScoreLay->addLayout(secondClubLay);
+    stadiumLay->addLayout(stadiumLayInfo);
+    dateLay->addLayout(dateLayInfo);
 
     setAllDataOnLayout();
 
@@ -273,20 +337,47 @@ void MatchNote::transformNoteInLabelView()
 
 void MatchNote::setAllDataOnLayout()
 {
-    tournLay->addWidget(tournament, 0, Qt::AlignCenter);
-    stageLay->addWidget(stage, 0, Qt::AlignCenter);
-    QLabel* noteToUnderstandTeamTypeData = new QLabel("Team type");
-    noteToUnderstandTeamTypeData->setStyleSheet("color: #3A40B0;"
-                                               "font-size:10px;"
-                                               ""
-                                               "");
-    teamsTypeLay->addWidget(noteToUnderstandTeamTypeData, 0, Qt::AlignCenter);
-    teamsTypeLay->addWidget(teamType1, 0, Qt::AlignCenter);
-    clubsAndScoreLay->addWidget(club1, 0, Qt::AlignCenter);
-    clubsAndScoreLay->addWidget(finalScore, 0, Qt::AlignCenter);
-    clubsAndScoreLay->addWidget(club2, 0, Qt::AlignCenter);
-    stadiumLay->addWidget(stadium, 0, Qt::AlignCenter);
-    dateLay->addWidget(gameDate, 0, Qt::AlignCenter);
+
+    tournLayInfo->addWidget(tournInfoLbl, 0, Qt::AlignCenter);
+    tournLayInfo->addWidget(tournament, 0, Qt::AlignCenter);
+
+
+
+
+    stageLayInfo->addWidget(stageInfoLbl, 0, Qt::AlignCenter);
+    stageLayInfo->addWidget(stage, 0, Qt::AlignCenter);
+
+
+
+
+    teamsTypeLayInfo->addWidget(teamTypeLbl, 0, Qt::AlignCenter);
+    teamsTypeLayInfo->addWidget(teamType1, 0, Qt::AlignCenter);
+
+
+
+    firstClubLay->addWidget(firstClubLbl, 0, Qt::AlignCenter);
+    firstClubLay->addWidget(club1, 0, Qt::AlignCenter);
+
+
+
+    finaScoreLay->addWidget(finalScoreLbl, 0, Qt::AlignCenter);
+    finaScoreLay->addWidget(finalScore, 0, Qt::AlignCenter);
+
+
+
+    secondClubLay->addWidget(secondClubLbl, 0, Qt::AlignCenter);
+    secondClubLay->addWidget(club2, 0, Qt::AlignCenter);
+
+
+
+    stadiumLayInfo->addWidget(stadiumLbl, 0, Qt::AlignCenter);
+    stadiumLayInfo->addWidget(stadium, 0, Qt::AlignCenter);
+
+
+
+    dateLayInfo->addWidget(dateLbl, 0, Qt::AlignCenter);
+    dateLayInfo->addWidget(gameDate, 0, Qt::AlignCenter);
+
 }
 
 void MatchNote::createModifyView()

@@ -16,6 +16,63 @@ void PlayerNote::extend()
 PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
     :BaseNote(parent)
 {
+    gameNumberLbl = new QLabel("Number");
+    gameNumberLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+    playerNameLbl= new QLabel("Name");
+    playerNameLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+    posLbl = new QLabel("Position");
+    posLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+    birthdayLbl  = new QLabel("Birthday");
+    birthdayLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+    heightLbl = new QLabel("Height (m)");
+    heightLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+    weightLbl  = new QLabel("Weight (kg)");
+    weightLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+    countryLbl= new QLabel("Nationality");
+    countryLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+    teamTypeLbl = new QLabel("Team type");
+    teamTypeLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+    inClubSinceLbl = new QLabel("Signed at PSG");
+    inClubSinceLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+    contractEndsAtLbl = new QLabel("Contract ends at");
+    contractEndsAtLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+    salaryLbl = new QLabel("Salary per year ($)");
+    salaryLbl->setStyleSheet("color: #3A40B0;"
+                                 "font-size:10px;"
+                                 ""
+                                 "");
+
+
     if(query != nullptr){
         QSqlRecord record = query->record();
         recordId = query->value(record.indexOf("id")).toInt();
@@ -30,7 +87,7 @@ PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
 
 
 
-        QDateTime dateTimeConverter = QDateTime::fromString(query->value(record.indexOf("birthdate")).toString(), "yyyy-MM-dd");
+        QDateTime dateTimeConverter = QDateTime::fromString(query->value(record.indexOf("birthday")).toString(), "yyyy-MM-dd");
         if(!dateTimeConverter.isValid()){
             birthdayDate = new Label("Bad format date");
         }
@@ -38,7 +95,7 @@ PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
             birthdayDate = new Label(dateTimeConverter.toString("yyyy-MM-dd"));
         }
 
-        salary = new Label(query->value(record.indexOf("yearsalary")).toString());
+        salary = new Label(deleteNotNeedSymbolsInSalaryValue(query->value(record.indexOf("yearsalary")).toString()));
         gameNumber = new Label(query->value(record.indexOf("gamenumber")).toString());
 
         dateTimeConverter = QDateTime::fromString(query->value(record.indexOf("inclubsince")).toString(), "yyyy-MM-dd");
@@ -87,6 +144,7 @@ PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
     playerInfoLay = new QHBoxLayout;
     playerNumberLay = new QVBoxLayout;
     playerNameLay = new QVBoxLayout;
+    playerPosLay = new QVBoxLayout;
     personInfoLay = new QHBoxLayout;
     personBirthdayLay = new QVBoxLayout;
     personHeightLay = new QVBoxLayout;
@@ -96,7 +154,19 @@ PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
     clubInfoTeamTypeLay = new QVBoxLayout;
     clubInfoSinceLay = new QVBoxLayout;
     clubInfoLeftAtLay = new QVBoxLayout;
-    salaryLay = new QHBoxLayout;
+    salaryLay = new QVBoxLayout;
+
+    playerInfoLay->addLayout(playerNumberLay);
+    playerInfoLay->addLayout(playerNameLay);
+    playerInfoLay->addLayout(playerPosLay);
+    personInfoLay->addLayout(personBirthdayLay);
+    personInfoLay->addLayout(personHeightLay);
+    personInfoLay->addLayout(personWeightLay);
+    personInfoLay->addLayout(personCountryLay);
+    clubInfoLay->addLayout(clubInfoTeamTypeLay);
+    clubInfoLay->addLayout(clubInfoSinceLay);
+    clubInfoLay->addLayout(clubInfoLeftAtLay);
+
 
     modifyButtonsLay = new QHBoxLayout;
     deleteNoteButtonLay = new QHBoxLayout;
@@ -129,96 +199,37 @@ PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
 
 void PlayerNote::setAllDataOnLayout()
 {
-    QLabel* gameNumberLbl = new QLabel("Number");
-    gameNumberLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
-                                 ""
-                                 "");
+
     playerNumberLay->addWidget(gameNumberLbl, 0, Qt::AlignCenter);
     playerNumberLay->addWidget(gameNumber, 0, Qt::AlignCenter);
-    playerInfoLay->addLayout(playerNumberLay);
 
-    QLabel* playerNameLbl = new QLabel("Name");
-    playerNameLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
-                                 ""
-                                 "");
     playerNameLay->addWidget(playerNameLbl, 0, Qt::AlignCenter);
     playerNameLay->addWidget(name, 0, Qt::AlignCenter);
 
-    playerInfoLay->addLayout(playerNameLay);
+    playerPosLay->addWidget(posLbl, 0, Qt::AlignCenter);
+    playerPosLay->addWidget(position, 0, Qt::AlignCenter);
 
-    playerInfoLay->addWidget(position, 0, Qt::AlignCenter);
-
-    QLabel* birthdayLbl = new QLabel("Name");
-    birthdayLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
-                                 ""
-                                 "");
     personBirthdayLay->addWidget(birthdayLbl, 0, Qt::AlignCenter);
-    personBirthdayLay->addWidget(birthdayDate);
-    personInfoLay->addLayout(personBirthdayLay);
+    personBirthdayLay->addWidget(birthdayDate, 0, Qt::AlignCenter);
 
-    QLabel* heightLbl = new QLabel("Height (m)");
-    heightLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
-                                 ""
-                                 "");
     personHeightLay->addWidget(heightLbl, 0, Qt::AlignCenter);
     personHeightLay->addWidget(height, 0, Qt::AlignCenter);
-    personInfoLay->addLayout(personHeightLay);
 
-    QLabel* weightLbl = new QLabel("Weight (kg)");
-    weightLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
-                                 ""
-                                 "");
     personWeightLay->addWidget(weightLbl, 0, Qt::AlignCenter);
     personWeightLay->addWidget(weight, 0, Qt::AlignCenter);
-    personInfoLay->addLayout(personWeightLay);
 
-    QLabel* countryLbl = new QLabel("Nationality");
-    countryLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
-                                 ""
-                                 "");
     personCountryLay->addWidget(countryLbl, 0, Qt::AlignCenter);
     personCountryLay->addWidget(countryFrom, 0, Qt::AlignCenter);
-    personInfoLay->addLayout(personCountryLay);
 
-    QLabel* teamTypeLbl = new QLabel("Team type");
-    teamTypeLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
-                                 ""
-                                 "");
     clubInfoTeamTypeLay->addWidget(teamTypeLbl, 0, Qt::AlignCenter);
     clubInfoTeamTypeLay->addWidget(teamType, 0, Qt::AlignCenter);
-    clubInfoLay->addLayout(clubInfoTeamTypeLay);
 
-    QLabel* inClubSinceLbl = new QLabel("Signed at PSG");
-    inClubSinceLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
-                                 ""
-                                 "");
     clubInfoSinceLay->addWidget(inClubSinceLbl, 0, Qt::AlignCenter);
     clubInfoSinceLay->addWidget(sinceInClub, 0, Qt::AlignCenter);
-    clubInfoLay->addLayout(clubInfoSinceLay);
 
-    QLabel* contractEndsAtLbl = new QLabel("Contract ends at");
-    contractEndsAtLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
-                                 ""
-                                 "");
-    clubInfoSinceLay->addWidget(contractEndsAtLbl, 0, Qt::AlignCenter);
-    clubInfoSinceLay->addWidget(contractEndsAt, 0, Qt::AlignCenter);
-    clubInfoLay->addLayout(clubInfoSinceLay);
+    clubInfoLeftAtLay->addWidget(contractEndsAtLbl, 0, Qt::AlignCenter);
+    clubInfoLeftAtLay->addWidget(contractEndsAt, 0, Qt::AlignCenter);
 
-
-    QLabel* salaryLbl = new QLabel("Salary per year");
-    salaryLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
-                                 ""
-                                 "");
     salaryLay->addWidget(salaryLbl, 0, Qt::AlignCenter);
     salaryLay->addWidget(salary, 0, Qt::AlignCenter);
 }
@@ -261,16 +272,27 @@ void PlayerNote::setStyles()
 void PlayerNote::insertFieldsInMap()
 {
     fieldsMap.clear();
-    fieldsMap.insert(std::make_pair("stadium", gameNumber));
-    fieldsMap.insert(std::make_pair("club1", name));
-    fieldsMap.insert(std::make_pair("club2", position));
-    fieldsMap.insert(std::make_pair("teamtype", birthdayDate));
-    fieldsMap.insert(std::make_pair("finalscore", height));
-    fieldsMap.insert(std::make_pair("stage", countryFrom));
-    fieldsMap.insert(std::make_pair("gameDate", teamType));
-    fieldsMap.insert(std::make_pair("tournament", sinceInClub));
-    fieldsMap.insert(std::make_pair("gameDate", contractEndsAt));
-    fieldsMap.insert(std::make_pair("tournament", contractEndsAt));
+    fieldsMap.insert(std::make_pair("gamenumber", gameNumber));
+    fieldsMap.insert(std::make_pair("name", name));
+    fieldsMap.insert(std::make_pair("pos", position));
+    fieldsMap.insert(std::make_pair("birthday", birthdayDate));
+    fieldsMap.insert(std::make_pair("weight", weight));
+    fieldsMap.insert(std::make_pair("height", height));
+    fieldsMap.insert(std::make_pair("country", countryFrom));
+    fieldsMap.insert(std::make_pair("teamtype", teamType));
+    fieldsMap.insert(std::make_pair("inclubsince", sinceInClub));
+    fieldsMap.insert(std::make_pair("leftfromclub", contractEndsAt));
+    fieldsMap.insert(std::make_pair("yearsalary", salary));
+}
+
+void PlayerNote::saveDataBeforeAction()
+{
+
+}
+
+QString PlayerNote::deleteNotNeedSymbolsInSalaryValue(QString salaryValue) const
+{
+    return salaryValue.replace("?", "");
 }
 
 void PlayerNote::modifyNoteView()

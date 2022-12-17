@@ -8,6 +8,7 @@
 #include "windowmanager.h"
 #include "InfoNotes/Notes/matchnote.h"
 
+
 WindowManager::WindowManager()
 {
     window = new MainWindow(this);
@@ -32,6 +33,7 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         switch (chosenDataType) {
         case PLAYERS:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
+            createAndShowData(chosenDataType, EXIST);
             break;
         case COACHES:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
@@ -148,6 +150,7 @@ QSqlQuery *WindowManager::getNeededQuery(const LABEL_TYPE &dataType, const EXIST
     else{
         switch (dataType) {
         case PLAYERS:
+            return repository->getPlayersQuery();
             break;
         case COACHES:
             break;
@@ -175,6 +178,7 @@ BaseNote *WindowManager::createNoteBasedOnType(const LABEL_TYPE &dataType, QSqlQ
 {
     switch (dataType) {
     case PLAYERS:
+        return new PlayerNote(query);
         break;
     case COACHES:
         break;

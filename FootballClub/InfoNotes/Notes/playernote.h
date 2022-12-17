@@ -17,9 +17,23 @@ public:
     void extend() override;
     PlayerNote(QSqlQuery* query = nullptr, QWidget* parent = nullptr);
 private:
+
+    QLabel* gameNumberLbl;
+    QLabel* playerNameLbl;
+    QLabel* posLbl;
+    QLabel* birthdayLbl ;
+    QLabel* heightLbl;
+    QLabel* weightLbl ;
+    QLabel* countryLbl;
+    QLabel* teamTypeLbl;
+    QLabel* inClubSinceLbl;
+    QLabel* contractEndsAtLbl;
+    QLabel* salaryLbl;
+
     QBoxLayout* playerInfoLay = nullptr;
     QBoxLayout* playerNumberLay = nullptr;
     QBoxLayout* playerNameLay = nullptr;
+    QBoxLayout* playerPosLay = nullptr;
 
 
     QBoxLayout* personInfoLay = nullptr;
@@ -37,6 +51,7 @@ private:
 
 
     void setAllDataOnLayout() override;
+    QString deleteNotNeedSymbolsInSalaryValue(QString salaryValue) const;
 
     TextField* gameNumber = nullptr;
     TextField* name = nullptr;
@@ -58,6 +73,8 @@ private:
     void setNoteViewType(const NOTE_VIEW_TYPE type) override;
     void setStyles() override;
     void insertFieldsInMap() override;
+    void saveDataBeforeAction() override;
+
 
 private slots:
     void modifyNoteView() override;

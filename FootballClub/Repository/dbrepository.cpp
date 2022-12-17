@@ -246,6 +246,12 @@ int DBRepository::getTeamIdByClubIdAndTeamTypeId(ComboBox *clubBox, ComboBox *te
 }
 
 
+QSqlQuery *DBRepository::getPlayersQuery() const
+{
+    return getQuery(getPlayersSQLRequest());
+}
+
+
 
 
 
@@ -325,6 +331,21 @@ QString DBRepository::getMatchDeleteSQLRequest() const
 QString DBRepository::getTeamIdByClubAndTeamTypeSQLRequest() const
 {
     return "select id from team where club_id=:club_id and team_type_id=:team_type_id " ;
+}
+
+QString DBRepository::getPlayersSQLRequest() const
+{
+    return  "select player.id, player.name, player_pos.pos as pos, club.club_name as club,"
+            "team_type.name as teamtype,"
+            "player.height as height, player.weight as weight, country.name as country,"
+            "player.birthday as birthday, football_contract.salary_per_year as yearsalary, player.number as gamenumber,"
+            " football_contract.begin_at as inclubsince,"
+            "football_contract.end_at as leftfromclub "
+            "from player, club, team, country, player_pos, football_contract, team_type "
+            "where player.team_id=team.id and team.club_id=club.id and "
+            "player.born_country_id=country.id and player.position_id=player_pos.id "
+            "and football_contract.id = player.contract_id and player.team_id = team_type.id and club.id=1; ";
+
 }
 
 

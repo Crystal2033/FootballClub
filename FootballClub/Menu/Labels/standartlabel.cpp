@@ -11,7 +11,7 @@ StandartLabel::StandartLabel(const QString labelName, const LABEL_TYPE labelType
     :MenuLabel(labelName, labelType, parent)
 {
     createStyles();
-    baseColor = QColor("#6A92CE");
+    baseColor = QColor("#5287c3");
     labelColor = baseColor;
     setBackgroundLabelColor();
     mainLay->addWidget(label);

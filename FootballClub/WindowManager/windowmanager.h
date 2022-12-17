@@ -12,6 +12,8 @@
 #include "Repository/dbrepository.h"
 #include "InfoNotes/Notes/matchnote.h"
 
+#include "InfoNotes/Notes/playernote.h"
+
 class WindowManager : public InterfaceObserver
 {
 public:

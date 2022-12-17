@@ -25,11 +25,35 @@ public:
 
 private:
     QBoxLayout* tournLay;
+    QBoxLayout* tournLayInfo;
+
     QBoxLayout* stageLay;
+    QBoxLayout* stageLayInfo;
+
     QBoxLayout* teamsTypeLay;
+    QBoxLayout* teamsTypeLayInfo;
+
     QBoxLayout* clubsAndScoreLay;
+    QBoxLayout* firstClubLay;
+    QBoxLayout* finaScoreLay;
+    QBoxLayout* secondClubLay;
+
     QBoxLayout* stadiumLay;
+    QBoxLayout* stadiumLayInfo;
+
     QBoxLayout* dateLay;
+    QBoxLayout* dateLayInfo;
+
+    QLabel* tournInfoLbl;
+    QLabel* stageInfoLbl;
+    QLabel* teamTypeLbl;
+    QLabel* firstClubLbl;
+    QLabel* finalScoreLbl;
+    QLabel* secondClubLbl;
+    QLabel* stadiumLbl;
+    QLabel* dateLbl;
+
+
 
     TextField* club1 = nullptr; //PSG
     TextField* teamType1 = nullptr; //MAIN OR YOUNG OR WOMEN
