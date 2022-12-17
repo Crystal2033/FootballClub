@@ -63,17 +63,17 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     clubsAndScoreLay = new QHBoxLayout;
     stadiumLay = new QHBoxLayout;
     dateLay = new QHBoxLayout;
-    buttonsLay = new QHBoxLayout;
+    modifyButtonsLay = new QHBoxLayout;
     deleteNoteButtonLay = new QHBoxLayout;
 
     setAllDataOnLayout();
 
     deleteNoteButtonLay->addWidget(deleteNoteButton, 0, Qt::AlignRight);
-    buttonsLay->addWidget(cancelSaving, 0, Qt::AlignCenter);
+    modifyButtonsLay->addWidget(cancelSaving, 0, Qt::AlignCenter);
     cancelSaving->setVisible(false);
-    buttonsLay->addWidget(saveChangesButton, 0, Qt::AlignCenter);
+    modifyButtonsLay->addWidget(saveChangesButton, 0, Qt::AlignCenter);
     saveChangesButton->setVisible(false);
-    buttonsLay->addWidget(modifyButton, 0, Qt::AlignRight);
+    modifyButtonsLay->addWidget(modifyButton, 0, Qt::AlignRight);
 
 
     globalLay->addLayout(deleteNoteButtonLay);
@@ -83,7 +83,7 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     globalLay->addLayout(clubsAndScoreLay);
     globalLay->addLayout(stadiumLay);
     globalLay->addLayout(dateLay);
-    globalLay->addLayout(buttonsLay);
+    globalLay->addLayout(modifyButtonsLay);
 
     setLayout(globalLay);
 

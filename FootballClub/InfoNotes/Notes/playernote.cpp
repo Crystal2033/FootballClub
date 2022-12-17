@@ -98,7 +98,33 @@ PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
     clubInfoLeftAtLay = new QVBoxLayout;
     salaryLay = new QHBoxLayout;
 
+    modifyButtonsLay = new QHBoxLayout;
+    deleteNoteButtonLay = new QHBoxLayout;
 
+    setAllDataOnLayout();
+
+    deleteNoteButtonLay->addWidget(deleteNoteButton, 0, Qt::AlignRight);
+    modifyButtonsLay->addWidget(cancelSaving, 0, Qt::AlignCenter);
+    cancelSaving->setVisible(false);
+    modifyButtonsLay->addWidget(saveChangesButton, 0, Qt::AlignCenter);
+    saveChangesButton->setVisible(false);
+    modifyButtonsLay->addWidget(modifyButton, 0, Qt::AlignRight);
+
+    globalLay->addLayout(deleteNoteButtonLay);
+    globalLay->addLayout(playerInfoLay);
+    globalLay->addLayout(personInfoLay);
+    globalLay->addLayout(clubInfoLay);
+    globalLay->addLayout(salaryLay);
+    globalLay->addLayout(modifyButtonsLay);
+
+    setLayout(globalLay);
+
+    connect(modifyButton, &QPushButton::clicked, this, &PlayerNote::modifyNoteView);
+    connect(saveChangesButton, &QPushButton::clicked, this, &PlayerNote::onSaveChangesClicked);
+    connect(cancelSaving, &QPushButton::clicked, this, &PlayerNote::onCancelModifyingClicked);
+    connect(deleteNoteButton, &QPushButton::clicked, this, &PlayerNote::onDeleteButtonClicked);
+
+    setStyles();
 }
 
 void PlayerNote::setAllDataOnLayout()
@@ -223,6 +249,46 @@ void PlayerNote::setStadiumsComboList(QSqlQuery &query)
 }
 
 void PlayerNote::setNoteViewType(const NOTE_VIEW_TYPE type)
+{
+
+}
+
+void PlayerNote::setStyles()
+{
+
+}
+
+void PlayerNote::insertFieldsInMap()
+{
+    fieldsMap.clear();
+    fieldsMap.insert(std::make_pair("stadium", gameNumber));
+    fieldsMap.insert(std::make_pair("club1", name));
+    fieldsMap.insert(std::make_pair("club2", position));
+    fieldsMap.insert(std::make_pair("teamtype", birthdayDate));
+    fieldsMap.insert(std::make_pair("finalscore", height));
+    fieldsMap.insert(std::make_pair("stage", countryFrom));
+    fieldsMap.insert(std::make_pair("gameDate", teamType));
+    fieldsMap.insert(std::make_pair("tournament", sinceInClub));
+    fieldsMap.insert(std::make_pair("gameDate", contractEndsAt));
+    fieldsMap.insert(std::make_pair("tournament", contractEndsAt));
+}
+
+void PlayerNote::modifyNoteView()
+{
+
+}
+
+void PlayerNote::onSaveChangesClicked()
+{
+
+}
+
+void PlayerNote::onCancelModifyingClicked()
+{
+
+}
+
+void PlayerNote::onDeleteButtonClicked()
 {
 
 }

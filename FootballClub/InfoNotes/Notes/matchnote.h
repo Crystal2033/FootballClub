@@ -30,8 +30,6 @@ private:
     QBoxLayout* clubsAndScoreLay;
     QBoxLayout* stadiumLay;
     QBoxLayout* dateLay;
-    QBoxLayout* buttonsLay;
-    QBoxLayout* deleteNoteButtonLay;
 
     TextField* club1 = nullptr; //PSG
     TextField* teamType1 = nullptr; //MAIN OR YOUNG OR WOMEN
@@ -43,8 +41,8 @@ private:
     TextField* tournament = nullptr;
     TextField* stage = nullptr;
 
-    void setStyles();
-    void insertFieldsInMap();
+    void setStyles() override;
+    void insertFieldsInMap() override;
     bool isInsertingDataCorrect() const;
     void saveDataBeforeAction() override;
     void setSavedDataBack();

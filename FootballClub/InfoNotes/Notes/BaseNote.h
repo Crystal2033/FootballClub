@@ -29,15 +29,19 @@ protected:
     void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
     unsigned recordId = 0;
     QBoxLayout* globalLay = nullptr;
+    QBoxLayout* modifyButtonsLay = nullptr;
+    QBoxLayout* deleteNoteButtonLay = nullptr;
     QPushButton* modifyButton = nullptr;
     QPushButton* saveChangesButton = nullptr;
     QPushButton* cancelSaving = nullptr;
     QPushButton* deleteNoteButton = nullptr;
     NOTE_VIEW_TYPE noteViewType = READ;
     virtual void extend() = 0;
+    virtual void setStyles() = 0;
     virtual void modifyNoteView() = 0;
     virtual void saveDataBeforeAction() = 0;
     virtual void setAllDataOnLayout() = 0;
+    virtual void insertFieldsInMap() = 0;
     void setSaveCancelButtonsVisability(const bool visability);
 
     void fromDataWidgetToLabel(TextField*& textField, const QString& value);

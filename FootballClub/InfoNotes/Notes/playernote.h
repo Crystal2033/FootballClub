@@ -34,6 +34,8 @@ private:
     QBoxLayout* clubInfoLeftAtLay = nullptr;
 
     QBoxLayout* salaryLay = nullptr;
+
+
     void setAllDataOnLayout() override;
 
     TextField* gameNumber = nullptr;
@@ -48,13 +50,20 @@ private:
     TextField* contractEndsAt = nullptr;
     TextField* salary = nullptr;
 
-
     void setTournamentComboList(QSqlQuery& query) override;
     void setStagesComboList(QSqlQuery& query) override;
     void setTeamTypesComboList(QSqlQuery& query) override;
     void setClubsComboList(QSqlQuery& query) override;
     void setStadiumsComboList(QSqlQuery& query) override;
     void setNoteViewType(const NOTE_VIEW_TYPE type) override;
+    void setStyles() override;
+    void insertFieldsInMap() override;
+
+private slots:
+    void modifyNoteView() override;
+    void onSaveChangesClicked();
+    void onCancelModifyingClicked();
+    void onDeleteButtonClicked();
 
 signals:
 
