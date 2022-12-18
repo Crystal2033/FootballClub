@@ -45,6 +45,7 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     parentLay->addWidget(scrollArea);
 
     clubAndDevInfoLay = new QVBoxLayout;
+    parentLay->addLayout(clubAndDevInfoLay);
 
 }
 
@@ -132,25 +133,25 @@ void DataDemonstrator::showClubData(const QString &createdDate)
         developerInfo = new QLabel();
         qInfo() << "developer info is:";
     }
+    //clubAndDevInfoLay->setContentsMargins(width()/4, height()/4, width()/4, height()/4);
     dataOfClubCreation->setStyleSheet("color: white;"
-                                      "font-size: 150px;"
+                                      "font-size: 60px;"
                                       "font-weight: bold;"
                                       "");
     developerInfo->setStyleSheet("color: grey;"
-                                      "font-size: 50px;"
+                                      "font-size: 20px;"
                                       "font-weight: bold;"
                                       "");
 
-    dataOfClubCreation->setText("Created at " + createdDate);
+    dataOfClubCreation->setText("PSG created at " + createdDate);
+    developerInfo->setText("Developed with love by Kulikov Pavel.");
 
     clubAndDevInfoLay->addWidget(dataOfClubCreation, 0, Qt::AlignCenter);
     clubAndDevInfoLay->addWidget(developerInfo, 0, Qt::AlignCenter);
-}
-
-void DataDemonstrator::createClubAndDevInfo(const QString &createdDate)
-{
+    clubAndDevInfoLay->setSpacing(100);
 
 }
+
 
 void DataDemonstrator::deleteClubAndDevInfo()
 {

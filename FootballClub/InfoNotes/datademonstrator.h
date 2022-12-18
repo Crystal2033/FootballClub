@@ -40,9 +40,8 @@ private:
     QBoxLayout* layout = nullptr;
     QList<BaseNote*> listOfNotes;
     QBoxLayout* clubAndDevInfoLay;
-    QLabel* dataOfClubCreation;
-    QLabel* developerInfo;
-    void createClubAndDevInfo(const QString& createdDate);
+    QLabel* dataOfClubCreation = nullptr;
+    QLabel* developerInfo = nullptr;
     void deleteClubAndDevInfo();
     void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
