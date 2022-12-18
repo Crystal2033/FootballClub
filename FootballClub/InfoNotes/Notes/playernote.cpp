@@ -278,6 +278,10 @@ void PlayerNote::insertFieldsInMap()
     fieldsMap.insert(std::make_pair("inclubsince", sinceInClub));
     fieldsMap.insert(std::make_pair("leftfromclub", contractEndsAt));
     fieldsMap.insert(std::make_pair("yearsalary", salary));
+
+    fieldsMap.insert(std::make_pair("inclubsincePREV", new Label(valuesBeforeAction.find(&sinceInClub)->second)));
+    fieldsMap.insert(std::make_pair("leftfromclubPREV", new Label(valuesBeforeAction.find(&contractEndsAt)->second)));
+    fieldsMap.insert(std::make_pair("yearsalaryPREV", new Label(valuesBeforeAction.find(&salary)->second)));
 }
 
 void PlayerNote::saveDataBeforeAction()
@@ -294,9 +298,6 @@ void PlayerNote::saveDataBeforeAction()
     valuesBeforeAction.insert(std::make_pair(&sinceInClub, sinceInClub->getText()));
     valuesBeforeAction.insert(std::make_pair(&contractEndsAt, contractEndsAt->getText()));
     valuesBeforeAction.insert(std::make_pair(&salary, salary->getText()));
-    fieldsMap.insert(std::make_pair("inclubsincePREV", new Label(sinceInClub->getText())));
-    fieldsMap.insert(std::make_pair("leftfromclubPREV", new Label(contractEndsAt->getText())));
-    fieldsMap.insert(std::make_pair("yearsalaryPREV", new Label(salary->getText())));
 }
 
 
@@ -319,7 +320,7 @@ void PlayerNote::transformNoteInLabelView()
 
 bool PlayerNote::isInsertingDataCorrect() const
 {
-
+    return true;
 }
 
 QString PlayerNote::deleteNotNeedSymbolsInSalaryValue(QString salaryValue) const

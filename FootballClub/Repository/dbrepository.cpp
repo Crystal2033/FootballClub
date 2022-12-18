@@ -516,12 +516,11 @@ bool DBRepository::savePlayerData(const std::map<QString, TextField *> &fieldsMa
 {
     int contractId;
     if(isNeedToUpdateContractId(fieldsMap)){
-        qInfo() << "Create new contract";
-        //contractId = postContractData(fieldsMap);
-//        if(contractId == -1){
-//            qInfo() << "Contract id failed";
-//            return false;
-//        }
+        contractId = postContractData(fieldsMap);
+        if(contractId == -1){
+            qInfo() << "Contract id failed";
+            return false;
+        }
     }
     else{
         QSqlQuery queryForContract;
@@ -541,7 +540,6 @@ bool DBRepository::savePlayerData(const std::map<QString, TextField *> &fieldsMa
         qInfo() << "Contract id is: " << contractId;
         //contractId
     }
-    return true;
 
     QSqlQuery query;
     query.prepare(getPlayerUpdateSQLRequest());
@@ -612,9 +610,9 @@ bool DBRepository::isNeedToUpdateContractId(const std::map<QString, TextField *>
     if((newClubInSince == prevClubInSince) &&
        (newClubLeftFrom == prevClubLeftFrom) &&
         (newSalary == prevSalary)){
-        return true;
+        return false;
     }
-    return false;
+    return true;
 }
 
 QString DBRepository::getPlayerDeleteSQLRequest() const
