@@ -56,12 +56,13 @@ private:
 
     bool deletePlayerData(const unsigned id);
     bool savePlayerData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
-    QString getContractIdByPlayerSQLRequest()const;
+
     bool isNeedToUpdateContractId(const std::map<QString, TextField*>& newValues);
-    QString getPlayerDeleteSQLRequest() const;
+
+    //Managers
+    QSqlQuery* getManagersQuery() const;
 
 
-    QString getContractPostSQLRequest() const;
     //SQL REQUESTS
 
     QString getMatchesSQLRequest() const;
@@ -80,6 +81,11 @@ private:
     QString getCountriesSQLRequest() const;
     QString getPlayerUpdateSQLRequest() const;
     QString getPlayerPostSQLRequest() const;
+    QString getPlayerDeleteSQLRequest() const;
+    QString getContractPostSQLRequest() const;
+    QString getContractIdByPlayerSQLRequest()const;
+
+    QString getManagersSQLRequest() const;
 
 
 

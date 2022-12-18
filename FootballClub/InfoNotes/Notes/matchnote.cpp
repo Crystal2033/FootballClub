@@ -57,12 +57,12 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
 
     if(query != nullptr){
         QSqlRecord record = query->record();
-        recordId = query->value(record.indexOf("id")).toInt();
+        recordId = query->value(record.indexOf("gameid")).toInt();
         club1 = new Label(query->value(record.indexOf("club1")).toString());
 
         teamType1 = new Label(query->value(record.indexOf("teamtype1")).toString()); //Taking one because second teams have to has the same type
         club2 = new Label(query->value(record.indexOf("club2")).toString());
-        //teamType2 = new Label(query->value(record.indexOf("teamtype2")).toString());
+
         finalScore = new Label(query->value(record.indexOf("finalscore")).toString());
         stadium = new Label(query->value(record.indexOf("stadium")).toString());
         QDateTime dateTimeConverter = QDateTime::fromString(query->value(record.indexOf("gamedate")).toString(), "yyyy-MM-ddTHH:mm:ss.zzz");

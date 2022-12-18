@@ -102,6 +102,9 @@ ManagerNote::ManagerNote(QSqlQuery* query, QWidget* parent)
 
     globalLay = new QVBoxLayout;
 
+    titleLay = new QHBoxLayout;
+    titleInfoLay = new QVBoxLayout;
+
     teamTypeInfoLay = new QHBoxLayout;
     teamTypeLay = new QVBoxLayout;
 
@@ -118,6 +121,7 @@ ManagerNote::ManagerNote(QSqlQuery* query, QWidget* parent)
     modifyButtonsLay = new QHBoxLayout;
     deleteNoteButtonLay = new QHBoxLayout;
 
+
     titleInfoLay->addLayout(titleLay);
 
     teamTypeInfoLay->addLayout(teamTypeLay);
@@ -129,7 +133,6 @@ ManagerNote::ManagerNote(QSqlQuery* query, QWidget* parent)
     clubInfoLay->addLayout(clubInfoSinceLay);
     clubInfoLay->addLayout(clubInfoLeftAtLay);
     clubInfoLay->addLayout(clubInfoSalary);
-
 
 
     setAllDataOnLayout();
@@ -149,6 +152,13 @@ ManagerNote::ManagerNote(QSqlQuery* query, QWidget* parent)
     globalLay->addLayout(modifyButtonsLay);
 
     setLayout(globalLay);
+
+    connect(modifyButton, &QPushButton::clicked, this, &ManagerNote::modifyNoteView);
+    connect(saveChangesButton, &QPushButton::clicked, this, &ManagerNote::onSaveChangesClicked);
+    connect(cancelSaving, &QPushButton::clicked, this, &ManagerNote::onCancelModifyingClicked);
+    connect(deleteNoteButton, &QPushButton::clicked, this, &ManagerNote::onDeleteButtonClicked);
+
+    setStyles();
 
 }
 
@@ -176,8 +186,13 @@ QString ManagerNote::deleteNotNeedSymbolsInSalaryValue(QString salaryValue) cons
 
 void ManagerNote::saveDataBeforeAction()
 {
-    titleLay->addWidget(titleLbl, 0, Qt::AlignCenter);
-    titleLay->addWidget(title, 0, Qt::AlignCenter);
+
+}
+
+void ManagerNote::setAllDataOnLayout()
+{
+    titleInfoLay->addWidget(titleLbl, 0, Qt::AlignCenter);
+    titleInfoLay->addWidget(title, 0, Qt::AlignCenter);
 
     teamTypeLay->addWidget(teamTypeLbl, 0, Qt::AlignCenter);
     teamTypeLay->addWidget(teamType, 0, Qt::AlignCenter);
@@ -195,11 +210,6 @@ void ManagerNote::saveDataBeforeAction()
     clubInfoLeftAtLay->addWidget(contractEndsAt, 0, Qt::AlignCenter);
     clubInfoSalary->addWidget(salarylbl, 0, Qt::AlignCenter);
     clubInfoSalary->addWidget(salary, 0, Qt::AlignCenter);
-}
-
-void ManagerNote::setAllDataOnLayout()
-{
-
 }
 
 void ManagerNote::insertFieldsInMap()
