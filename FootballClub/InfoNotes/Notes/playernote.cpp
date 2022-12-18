@@ -182,8 +182,8 @@ PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
 
     globalLay->addLayout(deleteNoteButtonLay);
     globalLay->addLayout(playerInfoLay);
-    globalLay->addLayout(personInfoLay);
     globalLay->addLayout(clubInfoLay);
+    globalLay->addLayout(personInfoLay);
     globalLay->addLayout(salaryLay);
     globalLay->addLayout(modifyButtonsLay);
 

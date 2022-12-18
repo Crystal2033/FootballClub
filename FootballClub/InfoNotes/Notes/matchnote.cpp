@@ -57,7 +57,7 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
 
     if(query != nullptr){
         QSqlRecord record = query->record();
-        recordId = query->value(record.indexOf("gameid")).toInt();
+        recordId = query->value(record.indexOf("id")).toInt();
         club1 = new Label(query->value(record.indexOf("club1")).toString());
 
         teamType1 = new Label(query->value(record.indexOf("teamtype1")).toString()); //Taking one because second teams have to has the same type

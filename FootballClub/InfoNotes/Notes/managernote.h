@@ -6,11 +6,49 @@
 class ManagerNote : public BaseNote
 {
 public:
-    ManagerNote();
+    ManagerNote(QSqlQuery* query = nullptr, QWidget* parent = nullptr);
+
+
+private:
+    QLabel* titleLbl;
+    QLabel* nameLbl;
+    QLabel* teamTypeLbl;
+    QLabel* countryLbl;
+    QLabel* birthdayLbl;
+    QLabel* inClubSinceLbl;
+    QLabel* contractEndslbl;
+    QLabel* salarylbl;
+
+    QBoxLayout* titleInfoLay;
+    QBoxLayout* titleLay;
+
+    QBoxLayout* teamTypeInfoLay;
+    QBoxLayout* teamTypeLay;
+
+    QBoxLayout* personInfoLay;
+    QBoxLayout* personNameLay;
+    QBoxLayout* personCountryLay;
+    QBoxLayout* personBirthdayLay;
+
+    QBoxLayout* clubInfoLay;
+    QBoxLayout* clubInfoSinceLay;
+    QBoxLayout* clubInfoLeftAtLay;
+    QBoxLayout* clubInfoSalary;
+
+    TextField* title;
+    TextField* teamType;
+    TextField* name;
+    TextField* country;
+    TextField* birthdayDate;
+    TextField* sinceInClub;
+    TextField* contractEndsAt;
+    TextField* salary;
+
 
     void setNoteViewType(const NOTE_VIEW_TYPE type) override;
     void extend() override;
     void setStyles() override;
+    QString deleteNotNeedSymbolsInSalaryValue(QString salaryValue) const;
 
     void saveDataBeforeAction() override;
     void setAllDataOnLayout() override;
