@@ -16,6 +16,7 @@ SOURCES += \
     InfoNotes/DataWidgets/lineedit.cpp \
     InfoNotes/DataWidgets/textfield.cpp \
     InfoNotes/Notes/BaseNote.cpp \
+    InfoNotes/Notes/managernote.cpp \
     InfoNotes/Notes/matchnote.cpp \
     InfoNotes/Notes/playernote.cpp \
     InfoNotes/datademonstrator.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     InfoNotes/DataWidgets/lineedit.h \
     InfoNotes/DataWidgets/textfield.h \
     InfoNotes/Notes/BaseNote.h \
+    InfoNotes/Notes/managernote.h \
     InfoNotes/Notes/matchnote.h \
     InfoNotes/Notes/playernote.h \
     InfoNotes/datademonstrator.h \

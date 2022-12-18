@@ -54,6 +54,7 @@ protected:
     void fromLabelToLineEdit(TextField*& textField, QValidator* validator=nullptr);
 
     virtual void setTournamentComboList(QSqlQuery& query);
+    virtual void setManagerTitleComboList(QSqlQuery& query);
     virtual void setStagesComboList(QSqlQuery& query);
     virtual void setTeamTypesComboList(QSqlQuery& query);
     virtual void setClubsComboList(QSqlQuery& query);

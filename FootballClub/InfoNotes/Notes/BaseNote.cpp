@@ -175,6 +175,9 @@ void BaseNote::fromLabelToLineEdit(TextField *&textField, QValidator* validator)
 void BaseNote::setTournamentComboList(QSqlQuery &query)
 {Q_UNUSED(query);}
 
+void BaseNote::setManagerTitleComboList(QSqlQuery &query)
+{Q_UNUSED(query);}
+
 void BaseNote::setStagesComboList(QSqlQuery &query)
 {Q_UNUSED(query);}
 
