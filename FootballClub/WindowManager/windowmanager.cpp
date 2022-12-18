@@ -69,7 +69,7 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
             createAndShowData(chosenDataType, NOT_EXIST);
             break;
         case COACHES:
-            //createAndShowData(chosenDataType, NOT_EXIST);
+            createAndShowData(chosenDataType, NOT_EXIST);
             break;
         case MATCHES:
             createAndShowData(chosenDataType, NOT_EXIST);
@@ -108,6 +108,9 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
     }
     else if(requestStatus == GET_COUNTRIES){
         sendCountryNames(note);
+    }
+    else if(requestStatus == GET_MANAGER_TITLES){
+        sendManagerTitleNames(note);
     }
     else if(requestStatus == UPDATE){
         repository->saveData(this->window->headerMenu->getChosenDataType(), note->getFieldsMap(), note->getRecordId());
@@ -269,27 +272,31 @@ void WindowManager::sendPlayerPositionNames(BaseNote * const &note)
     }
 }
 
+void WindowManager::sendManagerTitleNames(BaseNote * const &note)
+{
+    QSqlQuery* query = repository->getManagerTitlesQuery();
+    if(query != nullptr){
+        note->setManagerTitleComboList(*query);
+        delete query;
+    }
+}
+
 
 
 bool WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
 {
     int newNoteId;
-
-
     switch (type) {
     case PLAYERS:
         newNoteId = repository->postData(type, note->getFieldsMap());
         break;
     case COACHES:
+        newNoteId = repository->postData(type, note->getFieldsMap());
         break;
     case MATCHES:
         newNoteId = repository->postData(type, note->getFieldsMap());
         break;
-    case GOALS:
-        break;
     case CLUB:
-        break;
-    case TEAMS:
         break;
 
     default:

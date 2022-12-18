@@ -59,6 +59,10 @@ private:
     void setManagerTitleComboList(QSqlQuery& query) override;
     void setCountryComboList(QSqlQuery& query) override;
 
+    void createModifyView();
+
+    bool isInsertingDataCorrect() const;
+
 private slots:
     void modifyNoteView() override;
     void onSaveChangesClicked();

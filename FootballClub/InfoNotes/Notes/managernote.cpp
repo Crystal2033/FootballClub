@@ -186,7 +186,15 @@ QString ManagerNote::deleteNotNeedSymbolsInSalaryValue(QString salaryValue) cons
 
 void ManagerNote::saveDataBeforeAction()
 {
-
+    valuesBeforeAction.clear();
+    valuesBeforeAction.insert(std::make_pair(&title, title->getText()));
+    valuesBeforeAction.insert(std::make_pair(&teamType, teamType->getText()));
+    valuesBeforeAction.insert(std::make_pair(&name, name->getText()));
+    valuesBeforeAction.insert(std::make_pair(&country, country->getText()));
+    valuesBeforeAction.insert(std::make_pair(&birthdayDate, birthdayDate->getText()));
+    valuesBeforeAction.insert(std::make_pair(&sinceInClub, sinceInClub->getText()));
+    valuesBeforeAction.insert(std::make_pair(&contractEndsAt, contractEndsAt->getText()));
+    valuesBeforeAction.insert(std::make_pair(&salary, salary->getText()));
 }
 
 void ManagerNote::setAllDataOnLayout()
@@ -214,42 +222,105 @@ void ManagerNote::setAllDataOnLayout()
 
 void ManagerNote::insertFieldsInMap()
 {
+    fieldsMap.clear();
+    fieldsMap.insert(std::make_pair("title", title));
+    fieldsMap.insert(std::make_pair("teamtype", teamType));
+    fieldsMap.insert(std::make_pair("name", name));
+    fieldsMap.insert(std::make_pair("birthday", birthdayDate));
+    fieldsMap.insert(std::make_pair("country", country));
 
+    fieldsMap.insert(std::make_pair("inclubsince", sinceInClub));
+    fieldsMap.insert(std::make_pair("leftfromclub", contractEndsAt));
+    fieldsMap.insert(std::make_pair("yearsalary", salary));
+
+    fieldsMap.insert(std::make_pair("inclubsincePREV", new Label(valuesBeforeAction.find(&sinceInClub)->second)));
+    fieldsMap.insert(std::make_pair("leftfromclubPREV", new Label(valuesBeforeAction.find(&contractEndsAt)->second)));
+    fieldsMap.insert(std::make_pair("yearsalaryPREV", new Label(valuesBeforeAction.find(&salary)->second)));
 }
 
 void ManagerNote::transformNoteInLabelView()
 {
+    fromDataWidgetToLabel(title, title->getText());
+    fromDataWidgetToLabel(name, name->getText());
+    fromDataWidgetToLabel(teamType, teamType->getText());
+    fromDataWidgetToLabel(country, country->getText());
+    fromDataWidgetToLabel(birthdayDate, birthdayDate->getText());
+    fromDataWidgetToLabel(sinceInClub, sinceInClub->getText());
+    fromDataWidgetToLabel(contractEndsAt, contractEndsAt->getText());
+    fromDataWidgetToLabel(salary, salary->getText());
 
+    setAllDataOnLayout();
 }
 
 void ManagerNote::setTeamTypesComboList(QSqlQuery &query)
 {
-
+    fromLabelToComboList(query, "name", teamType);
 }
 
 void ManagerNote::setManagerTitleComboList(QSqlQuery &query)
 {
-
+    fromLabelToComboList(query, "title", title);
 }
 
 void ManagerNote::setCountryComboList(QSqlQuery &query)
 {
+    fromLabelToComboList(query, "name", country);
+}
 
+void ManagerNote::createModifyView()
+{
+    saveDataBeforeAction();
+    notifyObservers(GET_MANAGER_TITLES, this);
+    notifyObservers(GET_TEAM_TYPES, this);
+
+    QRegularExpression regularExprName("[A-Za-z0-9]{1,60}");
+    QValidator *validatorName = new QRegularExpressionValidator(regularExprName);
+    fromLabelToLineEdit(name, validatorName);
+
+    notifyObservers(GET_COUNTRIES, this);
+    fromLabelToDateTimeText(birthdayDate);
+
+    fromLabelToDateTimeText(sinceInClub);
+    fromLabelToDateTimeText(contractEndsAt);
+
+    QRegularExpression regularExprSalary("[1-9]\\d*,\\d\\d");
+    QValidator *validatorSalary = new QRegularExpressionValidator(regularExprSalary);
+    fromLabelToLineEdit(salary, validatorSalary);
+
+    setAllDataOnLayout();
+    setSaveCancelButtonsVisability(true);
+    modifyButton->setVisible(false);
+}
+
+bool ManagerNote::isInsertingDataCorrect() const
+{
+    return true; //TODO
 }
 
 void ManagerNote::modifyNoteView()
 {
-
+    createModifyView();
 }
 
 void ManagerNote::onSaveChangesClicked()
 {
-
+    if(isInsertingDataCorrect()){
+        insertFieldsInMap();
+        notifyObservers(UPDATE, this);
+        setSaveCancelButtonsVisability(false);
+        modifyButton->setVisible(true);
+        transformNoteInLabelView();
+        setStyles();
+    }
 }
 
 void ManagerNote::onCancelModifyingClicked()
 {
-
+    setSaveCancelButtonsVisability(false);
+    modifyButton->setVisible(true);
+    setSavedDataBack();
+    transformNoteInLabelView();
+    setStyles();
 }
 
 void ManagerNote::onDeleteButtonClicked()
