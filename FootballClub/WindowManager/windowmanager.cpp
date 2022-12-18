@@ -126,10 +126,6 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
 }
 
 
-
-
-
-
 void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus)
 {
     QSqlQuery* query = getNeededQuery(dataType, existStatus);

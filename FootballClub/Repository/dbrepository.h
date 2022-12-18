@@ -63,7 +63,8 @@ private:
     QSqlQuery* getManagersQuery() const;
     QSqlQuery* getManagerTitlesQuery() const;
     int postManagerData(const std::map<QString, TextField*>& fieldsMap);
-
+    bool saveManagerData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
+    bool deleteManagerData(const unsigned id);
 
     //SQL REQUESTS
 
@@ -90,6 +91,10 @@ private:
     QString getManagersSQLRequest() const;
     QString getManagerTitleNamesSQLRequest() const;
     QString getManagerPostSQLRequest() const;
+    QString getContractIdByManagerSQLRequest() const;
+    QString getManagerUpdateSQLRequest() const;
+    QString getManagerDeleteSQLRequest() const;
+
 
 
 

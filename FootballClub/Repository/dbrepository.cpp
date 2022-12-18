@@ -84,7 +84,7 @@ bool DBRepository::saveData(const LABEL_TYPE type, const std::map<QString, TextF
     case PLAYERS:
         return savePlayerData(fieldsMap, id);
     case COACHES:
-        break;
+        return saveManagerData(fieldsMap, id);
     case MATCHES:
         return saveMatchData(fieldsMap, id);
     case CLUB:
@@ -118,6 +118,7 @@ bool DBRepository::deleteData(const LABEL_TYPE type, const unsigned id)
     case PLAYERS:
         return deletePlayerData(id);
     case COACHES:
+        return deleteManagerData(id);
         break;
     case MATCHES:
         return deleteMatchData(id);
@@ -597,6 +598,100 @@ int DBRepository::postManagerData(const std::map<QString, TextField *> &fieldsMa
     }
 }
 
+bool DBRepository::saveManagerData(const std::map<QString, TextField *> &fieldsMap, const unsigned id)
+{
+    int contractId;
+    if(isNeedToUpdateContractId(fieldsMap)){
+        contractId = postContractData(fieldsMap);
+        if(contractId == -1){
+            qInfo() << "Contract id failed";
+            return false;
+        }
+    }
+    else{
+        QSqlQuery queryForContract;
+        queryForContract.prepare(getContractIdByManagerSQLRequest());
+        queryForContract.bindValue(":id", id);
+        if(!queryForContract.exec()){
+            QMessageBox::critical(nullptr, "Manager request to database error",
+                                  "There is a problem with sending request about manager information.");
+            return false;
+        }
+        else{
+            QSqlRecord record = queryForContract.record();
+            qInfo() << "Good";
+            queryForContract.next();
+            contractId = queryForContract.value(record.indexOf("contract_id")).toInt();
+        }
+        qInfo() << "Contract id is: " << contractId;
+    }
+
+    QSqlQuery query;
+    query.prepare(getManagerUpdateSQLRequest());
+
+    ComboBox* titleComboBox = (ComboBox*)fieldsMap.find("title")->second;
+    int postId = titleComboBox->getIdByValue(fieldsMap.find("title")->second->getText());
+    if(postId == -1){
+        qInfo() << "Title id failed";
+        return false;
+    }
+
+    ComboBox* teamTypeComboBox = (ComboBox*)fieldsMap.find("teamtype")->second;
+    int teamId = getTeamIdByClubIdAndTeamTypeId(PSG_CLUB_ID, teamTypeComboBox, fieldsMap);
+    if(teamId == -1){
+        qInfo() << "teamId failed";
+        return false;
+    }
+
+    QString managerName = fieldsMap.find("name")->second->getText();
+
+    QString birthday = fieldsMap.find("birthday")->second->getText();
+
+    ComboBox* countryComboBox = (ComboBox*)fieldsMap.find("country")->second;
+    int countryId = countryComboBox->getIdByValue(fieldsMap.find("country")->second->getText());
+    if(countryId == -1){
+        qInfo() << "country id failed";
+        return false;
+    }
+
+
+    query.bindValue(":id", id);
+    query.bindValue(":name", managerName);
+    query.bindValue(":team_id", teamId);
+    query.bindValue(":post_id", postId);
+    query.bindValue(":contract", contractId);
+    query.bindValue(":country_id", countryId);
+    query.bindValue(":birthday", birthday);
+
+    if(!query.exec()){
+        QMessageBox::critical(nullptr, "Manager request to database error",
+                              "There is a problem with sending SAVE request about manager information.");
+        return false;
+    }
+    else{
+        qInfo() << "Success request";
+        return true;
+    }
+}
+
+bool DBRepository::deleteManagerData(const unsigned id)
+{
+    QSqlQuery query;
+    query.prepare(getManagerDeleteSQLRequest());
+
+    query.bindValue(":id", id);
+
+    if(!query.exec()){
+        QMessageBox::critical(nullptr, "Manager request to database error",
+                              "There is a problem with sending request DELETE about manager information.");
+        return false;
+    }
+    else{
+        qInfo() << "Success request";
+        return true;
+    }
+}
+
 
 
 
@@ -682,6 +777,23 @@ QString DBRepository::getPlayerPostSQLRequest() const
 QString DBRepository::getContractIdByPlayerSQLRequest() const
 {
     return "select contract_id from player where id=:id;";
+}
+
+QString DBRepository::getContractIdByManagerSQLRequest() const
+{
+    return "select contract_id from manager where id=:id;";
+}
+
+QString DBRepository::getManagerUpdateSQLRequest() const
+{
+    return "update manager set name=:name, team_id=:team_id, post_id=:post_id, "
+           "contract_id=:contract, born_country_id=:country_id, birthday=:birthday "
+           "where id=:id;";
+}
+
+QString DBRepository::getManagerDeleteSQLRequest() const
+{
+    return "delete from manager where id=:id;";
 }
 
 QString DBRepository::getManagersSQLRequest() const

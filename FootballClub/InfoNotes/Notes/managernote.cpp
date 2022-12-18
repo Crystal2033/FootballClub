@@ -164,7 +164,11 @@ ManagerNote::ManagerNote(QSqlQuery* query, QWidget* parent)
 
 void ManagerNote::setNoteViewType(const NOTE_VIEW_TYPE type)
 {
-
+    BaseNote::setNoteViewType(type);
+    if(noteViewType == WRITE){
+        createModifyView();
+        insertFieldsInMap();
+    }
 }
 
 void ManagerNote::extend()
@@ -273,7 +277,7 @@ void ManagerNote::createModifyView()
     notifyObservers(GET_MANAGER_TITLES, this);
     notifyObservers(GET_TEAM_TYPES, this);
 
-    QRegularExpression regularExprName("[A-Za-z0-9]{1,60}");
+    QRegularExpression regularExprName("[A-Za-z0-9\\s]{1,60}");
     QValidator *validatorName = new QRegularExpressionValidator(regularExprName);
     fromLabelToLineEdit(name, validatorName);
 
@@ -294,7 +298,24 @@ void ManagerNote::createModifyView()
 
 bool ManagerNote::isInsertingDataCorrect() const
 {
-    return true; //TODO
+    QDateTime dateTimeCheck = QDateTime::fromString(birthdayDate->getText(), "yyyy-MM-dd");
+    if(!dateTimeCheck.isValid()){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Your date is incorrect. Example: 2022-16-12");
+        return false;
+    }
+
+    dateTimeCheck = QDateTime::fromString(sinceInClub->getText(), "yyyy-MM-dd");
+    if(!dateTimeCheck.isValid()){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Your date is incorrect. Example: 2022-16-12");
+        return false;
+    }
+
+    dateTimeCheck = QDateTime::fromString(contractEndsAt->getText(), "yyyy-MM-dd");
+    if(!dateTimeCheck.isValid()){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Your date is incorrect. Example: 2022-16-12");
+        return false;
+    }
+    return true;
 }
 
 void ManagerNote::modifyNoteView()
@@ -325,5 +346,13 @@ void ManagerNote::onCancelModifyingClicked()
 
 void ManagerNote::onDeleteButtonClicked()
 {
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Delete note", "Are you sure that you want to delete this note?",
+                                QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        notifyObservers(DELETE, this);
+    }
+    else{
 
+    }
 }

@@ -354,7 +354,7 @@ void PlayerNote::createModifyView()
     QValidator *validatorGameNumber = new QRegularExpressionValidator(regularExprGameNumber);
     fromLabelToLineEdit(gameNumber, validatorGameNumber);
 
-    QRegularExpression regularExprName("[A-Za-z0-9]{1,60}");
+    QRegularExpression regularExprName("[A-Za-z0-9\\s]{1,60}");
     QValidator *validatorName = new QRegularExpressionValidator(regularExprName);
     fromLabelToLineEdit(name, validatorName);
 
