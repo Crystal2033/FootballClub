@@ -664,7 +664,8 @@ QString DBRepository::getPlayersSQLRequest() const
             "from player, club, team, country, player_pos, football_contract, team_type "
             "where player.team_id=team.id and team.club_id=club.id and "
             "player.born_country_id=country.id and player.position_id=player_pos.id "
-            "and football_contract.id = player.contract_id and player.team_id = team_type.id and club.id=1; ";
+            "and football_contract.id = player.contract_id and player.team_id = team_type.id and club.id=1 "
+            "order by yearsalary desc;";
 
 }
 
