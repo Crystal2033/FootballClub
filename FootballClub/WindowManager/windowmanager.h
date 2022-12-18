@@ -34,6 +34,8 @@ private:
     void sendTeamTypeNames(BaseNote* const& note);
     void sendClubNames(BaseNote* const& note);
     void sendStadiumNames(BaseNote* const& note);
+    void sendCountryNames(BaseNote* const& note);
+    void sendPlayerPositionNames(BaseNote* const& note);
     bool postNote(BaseNote* note, const LABEL_TYPE type);
 
     bool postMatchNote(MatchNote* note);

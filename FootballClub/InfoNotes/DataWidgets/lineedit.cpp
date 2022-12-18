@@ -13,7 +13,7 @@ LineEdit::LineEdit(const QString& text, QValidator* validator)
     lineEdit = new QLineEdit(text);
     lineEdit->setValidator(validator);
     lineEdit->setAlignment(Qt::AlignCenter);
-    lineEdit->setFixedWidth(text.size() * 20);
+    lineEdit->setFixedWidth((text.size() <= 3 )? 80 : text.size() * 12);
     lay->addWidget(lineEdit);
     setLayout(lay);
     setStyles();

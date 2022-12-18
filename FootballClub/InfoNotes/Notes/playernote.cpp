@@ -234,34 +234,29 @@ void PlayerNote::setAllDataOnLayout()
     salaryLay->addWidget(salary, 0, Qt::AlignCenter);
 }
 
-void PlayerNote::setTournamentComboList(QSqlQuery &query)
+
+void PlayerNote::setPlayerPositionComboList(QSqlQuery &query)
 {
-
-}
-
-void PlayerNote::setStagesComboList(QSqlQuery &query)
-{
-
+    fromLabelToComboList(query, "name", position);
 }
 
 void PlayerNote::setTeamTypesComboList(QSqlQuery &query)
 {
-
+    fromLabelToComboList(query, "name", teamType);
 }
 
-void PlayerNote::setClubsComboList(QSqlQuery &query)
+void PlayerNote::setCountryComboList(QSqlQuery &query)
 {
-
-}
-
-void PlayerNote::setStadiumsComboList(QSqlQuery &query)
-{
-
+    fromLabelToComboList(query, "name", countryFrom);
 }
 
 void PlayerNote::setNoteViewType(const NOTE_VIEW_TYPE type)
 {
-
+    BaseNote::setNoteViewType(type);
+    if(noteViewType == WRITE){
+        createModifyView();
+        insertFieldsInMap();
+    }
 }
 
 void PlayerNote::setStyles()
@@ -287,17 +282,84 @@ void PlayerNote::insertFieldsInMap()
 
 void PlayerNote::saveDataBeforeAction()
 {
+    valuesBeforeAction.clear();
+    valuesBeforeAction.insert(std::make_pair(&gameNumber, gameNumber->getText()));
+    valuesBeforeAction.insert(std::make_pair(&name, name->getText()));
+    valuesBeforeAction.insert(std::make_pair(&position, position->getText()));
+    valuesBeforeAction.insert(std::make_pair(&birthdayDate, birthdayDate->getText()));
+    valuesBeforeAction.insert(std::make_pair(&weight, weight->getText()));
+    valuesBeforeAction.insert(std::make_pair(&height, height->getText()));
+    valuesBeforeAction.insert(std::make_pair(&countryFrom, countryFrom->getText()));
+    valuesBeforeAction.insert(std::make_pair(&teamType, teamType->getText()));
+    valuesBeforeAction.insert(std::make_pair(&sinceInClub, sinceInClub->getText()));
+    valuesBeforeAction.insert(std::make_pair(&contractEndsAt, contractEndsAt->getText()));
+    valuesBeforeAction.insert(std::make_pair(&salary, salary->getText()));
+}
 
+
+void PlayerNote::transformNoteInLabelView()
+{
+    fromDataWidgetToLabel(gameNumber, gameNumber->getText());
+    fromDataWidgetToLabel(name, name->getText());
+    fromDataWidgetToLabel(position, position->getText());
+    fromDataWidgetToLabel(birthdayDate, birthdayDate->getText());
+    fromDataWidgetToLabel(height, height->getText());
+    fromDataWidgetToLabel(weight, weight->getText());
+    fromDataWidgetToLabel(countryFrom, countryFrom->getText());
+    fromDataWidgetToLabel(teamType, teamType->getText());
+    fromDataWidgetToLabel(sinceInClub, sinceInClub->getText());
+    fromDataWidgetToLabel(contractEndsAt, contractEndsAt->getText());
+    fromDataWidgetToLabel(salary, salary->getText());
+
+    setAllDataOnLayout();
 }
 
 QString PlayerNote::deleteNotNeedSymbolsInSalaryValue(QString salaryValue) const
 {
+    salaryValue = salaryValue.simplified();
+    salaryValue.replace(" ", "");
     return salaryValue.replace("?", "");
+}
+
+void PlayerNote::createModifyView()
+{
+    saveDataBeforeAction();
+    QRegularExpression regularExprGameNumber("[1-9]\\d");
+    QValidator *validatorGameNumber = new QRegularExpressionValidator(regularExprGameNumber);
+    fromLabelToLineEdit(gameNumber, validatorGameNumber);
+
+    QRegularExpression regularExprName("[A-Za-z0-9]{1,60}");
+    QValidator *validatorName = new QRegularExpressionValidator(regularExprName);
+    fromLabelToLineEdit(name, validatorName);
+
+    notifyObservers(GET_PLAYER_POSES, this);
+    fromLabelToDateTimeText(birthdayDate);
+
+    QRegularExpression regularExprHeight("[0-2]{1}.\\d{1,2}");
+    QValidator *validatorHeight = new QRegularExpressionValidator(regularExprHeight);
+    fromLabelToLineEdit(height, validatorHeight);
+
+    QRegularExpression regularExprWeight("[1-9]\\d{1,2}");
+    QValidator *validatorWeight = new QRegularExpressionValidator(regularExprWeight);
+    fromLabelToLineEdit(weight, validatorWeight);
+
+    notifyObservers(GET_COUNTRIES, this);
+    fromLabelToDateTimeText(sinceInClub);
+    fromLabelToDateTimeText(contractEndsAt);
+    notifyObservers(GET_TEAM_TYPES, this);
+
+    QRegularExpression regularExprSalary("[1-9]\\d*,\\d\\d");
+    QValidator *validatorSalary = new QRegularExpressionValidator(regularExprSalary);
+    fromLabelToLineEdit(salary, validatorSalary);
+
+    setAllDataOnLayout();
+    setSaveCancelButtonsVisability(true);
+    modifyButton->setVisible(false);
 }
 
 void PlayerNote::modifyNoteView()
 {
-
+    createModifyView();
 }
 
 void PlayerNote::onSaveChangesClicked()
@@ -307,7 +369,11 @@ void PlayerNote::onSaveChangesClicked()
 
 void PlayerNote::onCancelModifyingClicked()
 {
-
+    setSaveCancelButtonsVisability(false);
+    modifyButton->setVisible(true);
+    setSavedDataBack();
+    transformNoteInLabelView();
+    setStyles();
 }
 
 void PlayerNote::onDeleteButtonClicked()

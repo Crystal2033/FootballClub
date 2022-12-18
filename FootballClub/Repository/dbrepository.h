@@ -13,6 +13,7 @@
 #include "InfoNotes/DataWidgets/textfield.h"
 #include "DataBase/database.h"
 #include <map>
+#define PSG_CLUB_ID 1
 
 class DBRepository
 {//class for database requests
@@ -21,6 +22,7 @@ public:
     ~DBRepository();
 
 private:
+    //DELETE THIS FRIEND MANAGER CLASS AND MADE BETTER PUBLIC/PRIVATE DIFFERENCE
     //GET QUERIES
     QSqlQuery* getQuery(const QString request) const;
 
@@ -32,19 +34,28 @@ private:
     QSqlQuery* getClubNamesQuery() const;
     QSqlQuery* getStadiumNamesQuery() const;
     bool saveData(const LABEL_TYPE type, const std::map<QString, TextField*>& fieldsMap, const unsigned id);
+    int postData(const LABEL_TYPE type, const std::map<QString, TextField*>& fieldsMap);
     bool saveMatchData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
     int postMatchData(const std::map<QString, TextField*>& fieldsMap);
+    int postPlayerData(const std::map<QString, TextField*>& fieldsMap);
+    int postContractData(const std::map<QString, TextField*>& fieldsMap);
     bool deleteMatchData(const unsigned id);
     int getTeamIdByClubIdAndTeamTypeId(ComboBox* clubBox, ComboBox* teamTypeBox,
                                             const std::map<QString, TextField*>& fieldsMap, const QString& whichTeam) const;
 
 
+    QSqlQuery* getCountryNamesQuery() const;
+
     //Players
     QSqlQuery* getPlayersQuery() const;
+    QSqlQuery* getPlayerPositionNamesQuery() const;
+    QString getPlayerUpdateSQLRequest() const;
+    QString getPlayerPostSQLRequest() const;
+
+    QString getPlayerDeleteSQLRequest() const;
 
 
-
-
+    QString getContractPostSQLRequest() const;
     //SQL REQUESTS
 
     QString getMatchesSQLRequest() const;
@@ -59,6 +70,8 @@ private:
     QString getTeamIdByClubAndTeamTypeSQLRequest() const;
 
     QString getPlayersSQLRequest() const;
+    QString getPlayerPositionNamesSQLRequest() const;
+    QString getCountriesSQLRequest() const;
 
 
 

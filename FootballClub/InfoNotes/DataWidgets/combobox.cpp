@@ -52,7 +52,7 @@ void ComboBox::setText(const QString &newValue)
 int ComboBox::getIdByValue(const QString &value)
 {
     if(valueAndIdMap.find(value) == valueAndIdMap.end()){
-        return 0;
+        return -1;
     }
     else{
         return valueAndIdMap.find(value)->second;

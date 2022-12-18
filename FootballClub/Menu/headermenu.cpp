@@ -76,7 +76,7 @@ LABEL_TYPE HeaderMenu::getChosenDataType() const
 void HeaderMenu::createMenu()
 {
     addMenuLabel(new StandartLabel("Club", CLUB));
-    addMenuLabel(new StandartLabel("Teams", TEAMS));
+    //addMenuLabel(new StandartLabel("Teams", TEAMS));
     addMenuLabel(new StandartLabel("Players", PLAYERS));
     addMenuLabel(new StandartLabel("Coaches", COACHES));
     addMenuLabel(new StandartLabel("Matches", MATCHES));

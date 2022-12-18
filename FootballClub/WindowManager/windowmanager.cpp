@@ -64,6 +64,7 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
 
         switch (chosenDataType) {
         case PLAYERS:
+            createAndShowData(chosenDataType, NOT_EXIST);
             break;
         case COACHES:
             qInfo() << "Add coach";
@@ -99,6 +100,12 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
     }
     else if(requestStatus == GET_STADIUMS){
         sendStadiumNames(note);
+    }
+    else if(requestStatus == GET_PLAYER_POSES){
+        sendPlayerPositionNames(note);
+    }
+    else if(requestStatus == GET_COUNTRIES){
+        sendCountryNames(note);
     }
     else if(requestStatus == UPDATE){
         repository->saveData(this->window->headerMenu->getChosenDataType(), note->getFieldsMap(), note->getRecordId());
@@ -246,6 +253,24 @@ void WindowManager::sendStadiumNames(BaseNote * const &note)
     }
 }
 
+void WindowManager::sendCountryNames(BaseNote * const &note)
+{
+    QSqlQuery* query = repository->getCountryNamesQuery();
+    if(query != nullptr){
+        note->setCountryComboList(*query);
+        delete query;
+    }
+}
+
+void WindowManager::sendPlayerPositionNames(BaseNote * const &note)
+{
+    QSqlQuery* query = repository->getPlayerPositionNamesQuery();
+    if(query != nullptr){
+        note->setPlayerPositionComboList(*query);
+        delete query;
+    }
+}
+
 
 
 bool WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
@@ -255,11 +280,12 @@ bool WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
 
     switch (type) {
     case PLAYERS:
+        newNoteId = repository->postData(type, note->getFieldsMap());
         break;
     case COACHES:
         break;
     case MATCHES:
-        newNoteId = repository->postMatchData(note->getFieldsMap());
+        newNoteId = repository->postData(type, note->getFieldsMap());
         break;
     case GOALS:
         break;

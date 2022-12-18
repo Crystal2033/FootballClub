@@ -42,8 +42,10 @@ protected:
     virtual void saveDataBeforeAction() = 0;
     virtual void setAllDataOnLayout() = 0;
     virtual void insertFieldsInMap() = 0;
+    virtual void setSavedDataBack();
     void setSaveCancelButtonsVisability(const bool visability);
 
+    virtual void transformNoteInLabelView() = 0;
     void fromDataWidgetToLabel(TextField*& textField, const QString& value);
     void fromLabelToDateTimeText(TextField*& textField);
     void fromLabelToComboList(QSqlQuery& query, const QString columnName,
@@ -56,6 +58,7 @@ protected:
     virtual void setClubsComboList(QSqlQuery& query);
     virtual void setStadiumsComboList(QSqlQuery& query);
     virtual void setCountryComboList(QSqlQuery& query);
+    virtual void setPlayerPositionComboList(QSqlQuery& query);
     friend class WindowManager;
 };
 

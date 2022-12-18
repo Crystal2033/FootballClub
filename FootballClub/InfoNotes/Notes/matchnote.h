@@ -69,8 +69,7 @@ private:
     void insertFieldsInMap() override;
     bool isInsertingDataCorrect() const;
     void saveDataBeforeAction() override;
-    void setSavedDataBack();
-    void transformNoteInLabelView();
+    void transformNoteInLabelView() override;
     void setAllDataOnLayout() override;
 
     void createModifyView();

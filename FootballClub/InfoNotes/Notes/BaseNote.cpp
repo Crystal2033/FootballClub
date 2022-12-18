@@ -108,6 +108,15 @@ void BaseNote::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote *note)
     }
 }
 
+void BaseNote::setSavedDataBack()
+{
+    if(!valuesBeforeAction.empty()){
+        for(auto textField : valuesBeforeAction){
+            (*textField.first)->setText(textField.second);
+        }
+    }
+}
+
 void BaseNote::setSaveCancelButtonsVisability(const bool visability)
 {
     cancelSaving->setVisible(visability);
@@ -174,5 +183,8 @@ void BaseNote::setStadiumsComboList(QSqlQuery &query)
 {Q_UNUSED(query);}
 
 void BaseNote::setCountryComboList(QSqlQuery &query)
+{Q_UNUSED(query);}
+
+void BaseNote::setPlayerPositionComboList(QSqlQuery &query)
 {Q_UNUSED(query);}
 

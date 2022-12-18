@@ -312,15 +312,6 @@ void MatchNote::saveDataBeforeAction()
     valuesBeforeAction.insert(std::make_pair(&stage, stage->getText()));
 }
 
-void MatchNote::setSavedDataBack()
-{
-    if(!valuesBeforeAction.empty()){
-        for(auto textField : valuesBeforeAction){
-            (*textField.first)->setText(textField.second);
-        }
-    }
-}
-
 void MatchNote::transformNoteInLabelView()
 {
     fromDataWidgetToLabel(club1, club1->getText());
