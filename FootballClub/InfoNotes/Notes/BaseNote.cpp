@@ -100,6 +100,11 @@ std::map<QString, TextField*> BaseNote::getFieldsMap() const{
     return fieldsMap;
 }
 
+std::map<TextField **, QString> BaseNote::getValuesBeforeAction() const
+{
+    return valuesBeforeAction;
+}
+
 
 void BaseNote::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote *note)
 {

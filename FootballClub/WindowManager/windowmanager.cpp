@@ -111,7 +111,7 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         repository->saveData(this->window->headerMenu->getChosenDataType(), note->getFieldsMap(), note->getRecordId());
     }
     else if(requestStatus == DELETE){
-        if(repository->deleteMatchData(note->getRecordId())){
+        if(repository->deleteData(this->window->headerMenu->getChosenDataType(), note->getRecordId())){
             this->window->dataDemonstrator->deleteNoteFromList(note);
             delete note;
             this->window->dataDemonstrator->showData(this->window->dataDemonstrator->getListOfNotes());

@@ -294,6 +294,9 @@ void PlayerNote::saveDataBeforeAction()
     valuesBeforeAction.insert(std::make_pair(&sinceInClub, sinceInClub->getText()));
     valuesBeforeAction.insert(std::make_pair(&contractEndsAt, contractEndsAt->getText()));
     valuesBeforeAction.insert(std::make_pair(&salary, salary->getText()));
+    fieldsMap.insert(std::make_pair("inclubsincePREV", new Label(sinceInClub->getText())));
+    fieldsMap.insert(std::make_pair("leftfromclubPREV", new Label(contractEndsAt->getText())));
+    fieldsMap.insert(std::make_pair("yearsalaryPREV", new Label(salary->getText())));
 }
 
 
@@ -312,6 +315,11 @@ void PlayerNote::transformNoteInLabelView()
     fromDataWidgetToLabel(salary, salary->getText());
 
     setAllDataOnLayout();
+}
+
+bool PlayerNote::isInsertingDataCorrect() const
+{
+
 }
 
 QString PlayerNote::deleteNotNeedSymbolsInSalaryValue(QString salaryValue) const
@@ -364,7 +372,14 @@ void PlayerNote::modifyNoteView()
 
 void PlayerNote::onSaveChangesClicked()
 {
-
+    if(isInsertingDataCorrect()){
+        insertFieldsInMap();
+        notifyObservers(UPDATE, this);
+        setSaveCancelButtonsVisability(false);
+        modifyButton->setVisible(true);
+        transformNoteInLabelView();
+        setStyles();
+    }
 }
 
 void PlayerNote::onCancelModifyingClicked()
@@ -378,7 +393,15 @@ void PlayerNote::onCancelModifyingClicked()
 
 void PlayerNote::onDeleteButtonClicked()
 {
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Delete note", "Are you sure that you want to delete this note?",
+                                QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        notifyObservers(DELETE, this);
+    }
+    else{
 
+    }
 }
 
 

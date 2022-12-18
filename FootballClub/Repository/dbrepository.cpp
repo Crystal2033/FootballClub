@@ -27,8 +27,8 @@ QSqlQuery *DBRepository::getQuery(const QString request) const
     qInfo() << request;
     QSqlQuery* query = new QSqlQuery;
     if(!query->exec(request)){
-        QMessageBox::critical(nullptr, "Matches request to database error",
-                              "There is a problem with sending request about matches information.");
+        QMessageBox::critical(nullptr, "Query request to database error",
+                              "There is a problem with sending request.");
         return nullptr;
     }
     else{
@@ -71,11 +71,12 @@ bool DBRepository::saveData(const LABEL_TYPE type, const std::map<QString, TextF
 {
     switch (type) {
     case PLAYERS:
+        return savePlayerData(fieldsMap, id);
         break;
     case COACHES:
         break;
     case MATCHES:
-        saveMatchData(fieldsMap, id);
+        return saveMatchData(fieldsMap, id);
         break;
     case GOALS:
         break;
@@ -98,6 +99,27 @@ int DBRepository::postData(const LABEL_TYPE type, const std::map<QString, TextFi
         break;
     case MATCHES:
         return postMatchData(fieldsMap);
+    case GOALS:
+        break;
+    case CLUB:
+        break;
+    case TEAMS:
+        break;
+
+    default:
+        break;
+    }
+}
+
+bool DBRepository::deleteData(const LABEL_TYPE type, const unsigned id)
+{
+    switch (type) {
+    case PLAYERS:
+        return deletePlayerData(id);
+    case COACHES:
+        break;
+    case MATCHES:
+        return deleteMatchData(id);
     case GOALS:
         break;
     case CLUB:
@@ -253,16 +275,16 @@ int DBRepository::postPlayerData(const std::map<QString, TextField *> &fieldsMap
     }
 
     ComboBox* teamTypeComboBox = (ComboBox*)fieldsMap.find("teamtype")->second;
-    int teamTypeId = teamTypeComboBox->getIdByValue(fieldsMap.find("teamtype")->second->getText());
-    if(teamTypeId == -1){
-        qInfo() << "country id failed";
+    int teamId = getTeamIdByClubIdAndTeamTypeId(PSG_CLUB_ID, teamTypeComboBox, fieldsMap);
+    if(teamId == -1){
+        qInfo() << "teamId failed";
         return -1;
     }
 
     query.bindValue(":name", playerName);
     query.bindValue(":player_pos", playerPosId);
     query.bindValue(":height", height);
-    query.bindValue(":teamtype", teamTypeId);
+    query.bindValue(":team_id", teamId);
     query.bindValue(":contract", contractId);
     query.bindValue(":country", countryId);
     query.bindValue(":weight", weight);
@@ -270,8 +292,8 @@ int DBRepository::postPlayerData(const std::map<QString, TextField *> &fieldsMap
     query.bindValue(":gamenumber", gameNumber);
 
     if(!query.exec()){
-        QMessageBox::critical(nullptr, "Matches request to database error",
-                              "There is a problem with sending request about matches information.");
+        QMessageBox::critical(nullptr, "Player request to database error",
+                              "There is a problem with sending request about players information.");
         return -1;
     }
     else{
@@ -297,8 +319,8 @@ int DBRepository::postContractData(const std::map<QString, TextField *> &fieldsM
 
 
     if(!query.exec()){
-        QMessageBox::critical(nullptr, "Matches request to database error",
-                              "There is a problem with sending request about matches information.");
+        QMessageBox::critical(nullptr, "Contract request to database error",
+                              "There is a problem with sending request about contract information.");
         return -1;
     }
     else{
@@ -331,6 +353,30 @@ int DBRepository::getTeamIdByClubIdAndTeamTypeId(ComboBox *clubBox, ComboBox *te
     unsigned clubId = clubBox->getIdByValue(fieldsMap.find(whichTeam)->second->getText());
     qInfo() << "Club id = " << clubId;
 
+    unsigned teamTypeId = teamTypeBox->getIdByValue(fieldsMap.find("teamtype")->second->getText());
+    qInfo() << "teamType id = " << teamTypeId;
+    QSqlQuery queryForTeam;
+
+    queryForTeam.prepare(getTeamIdByClubAndTeamTypeSQLRequest());
+    queryForTeam.bindValue(":club_id", clubId);
+    queryForTeam.bindValue(":team_type_id", teamTypeId);
+    if(!queryForTeam.exec()){
+        QMessageBox::critical(nullptr, "Matches request to database error",
+                              "There is a problem with sending request about matches information.");
+
+    }
+    else{
+        QSqlRecord record = queryForTeam.record();
+        qInfo() << "Good";
+        queryForTeam.next();
+        return queryForTeam.value(record.indexOf("id")).toInt();
+    }
+    return -1;
+}
+
+int DBRepository::getTeamIdByClubIdAndTeamTypeId(const unsigned clubId, ComboBox *teamTypeBox,
+                                                 const std::map<QString, TextField *> &fieldsMap) const
+{
     unsigned teamTypeId = teamTypeBox->getIdByValue(fieldsMap.find("teamtype")->second->getText());
     qInfo() << "teamType id = " << teamTypeId;
     QSqlQuery queryForTeam;
@@ -429,24 +475,151 @@ QString DBRepository::getCountriesSQLRequest() const
     return "select id, name from country;";
 }
 
-
 QString DBRepository::getPlayerUpdateSQLRequest() const
 {
-
+    return "update player set name=:name, position_id=:player_pos, height=:height,"
+           "team_id=:team_id, contract_id=:contract, born_country_id=:country, "
+           "weight=:weight, birthday=:birthday, number=:gameNumber "
+           "where id=:id;";
 }
+
+
 
 QString DBRepository::getPlayerPostSQLRequest() const
 {
     return "insert into player(name, position_id, "
            "height, team_id, contract_id, born_country_id,"
            " weight, birthday, number) "
-           "values(:name, :player_pos, :height, :teamtype, :contract, :country, :weight,"
+           "values(:name, :player_pos, :height, :team_id, :contract, :country, :weight,"
            ":birthday, :gamenumber);";
+}
+
+bool DBRepository::deletePlayerData(const unsigned id)
+{
+    QSqlQuery query;
+    query.prepare(getPlayerDeleteSQLRequest());
+
+    query.bindValue(":id", id);
+
+    if(!query.exec()){
+        QMessageBox::critical(nullptr, "Player request to database error",
+                              "There is a problem with sending request about player information.");
+        return false;
+    }
+    else{
+        qInfo() << "Success request";
+        return true;
+    }
+}
+
+bool DBRepository::savePlayerData(const std::map<QString, TextField *> &fieldsMap, const unsigned id)
+{
+    int contractId;
+    if(isNeedToUpdateContractId(fieldsMap)){
+        qInfo() << "Create new contract";
+        //contractId = postContractData(fieldsMap);
+//        if(contractId == -1){
+//            qInfo() << "Contract id failed";
+//            return false;
+//        }
+    }
+    else{
+        QSqlQuery queryForContract;
+        queryForContract.prepare(getContractIdByPlayerSQLRequest());
+        queryForContract.bindValue(":id", id);
+        if(!queryForContract.exec()){
+            QMessageBox::critical(nullptr, "Matches request to database error",
+                                  "There is a problem with sending request about matches information.");
+            return false;
+        }
+        else{
+            QSqlRecord record = queryForContract.record();
+            qInfo() << "Good";
+            queryForContract.next();
+            contractId = queryForContract.value(record.indexOf("contract_id")).toInt();
+        }
+        qInfo() << "Contract id is: " << contractId;
+        //contractId
+    }
+    return true;
+
+    QSqlQuery query;
+    query.prepare(getPlayerUpdateSQLRequest());
+    QString gameNumber = fieldsMap.find("gamenumber")->second->getText();
+    QString playerName = fieldsMap.find("name")->second->getText();
+
+    ComboBox* playerPosComboBox = (ComboBox*)fieldsMap.find("pos")->second;
+    int playerPosId = playerPosComboBox->getIdByValue(fieldsMap.find("pos")->second->getText());
+    if(playerPosId == -1){
+        qInfo() << "Player pos id failed";
+        return false;
+    }
+
+    QString birthday = fieldsMap.find("birthday")->second->getText();
+    QString height = fieldsMap.find("height")->second->getText();
+    QString weight = fieldsMap.find("weight")->second->getText();
+
+    ComboBox* countryComboBox = (ComboBox*)fieldsMap.find("country")->second;
+    int countryId = countryComboBox->getIdByValue(fieldsMap.find("country")->second->getText());
+    if(countryId == -1){
+        qInfo() << "country id failed";
+        return false;
+    }
+
+    ComboBox* teamTypeComboBox = (ComboBox*)fieldsMap.find("teamtype")->second;
+    int teamId = getTeamIdByClubIdAndTeamTypeId(PSG_CLUB_ID, teamTypeComboBox, fieldsMap);
+    if(teamId == -1){
+        qInfo() << "teamId failed";
+        return false;
+    }
+
+    query.bindValue(":id", id);
+    query.bindValue(":name", playerName);
+    query.bindValue(":player_pos", playerPosId);
+    query.bindValue(":height", height);
+    query.bindValue(":team_id", teamId);
+    query.bindValue(":contract", contractId);
+    query.bindValue(":country", countryId);
+    query.bindValue(":weight", weight);
+    query.bindValue(":birthday", birthday);
+    query.bindValue(":gamenumber", gameNumber);
+
+    if(!query.exec()){
+        QMessageBox::critical(nullptr, "Player request to database error",
+                              "There is a problem with sending request about players information.");
+        return false;
+    }
+    else{
+        qInfo() << "Success request";
+        return true;
+    }
+}
+
+QString DBRepository::getContractIdByPlayerSQLRequest() const
+{
+    return "select contract_id from player where id=:id;";
+}
+
+bool DBRepository::isNeedToUpdateContractId(const std::map<QString, TextField *> &newValues)
+{
+    QString newClubInSince = newValues.find("inclubsince")->second->getText();
+    QString newClubLeftFrom = newValues.find("leftfromclub")->second->getText();
+    QString newSalary = newValues.find("yearsalary")->second->getText();
+
+    QString prevClubInSince = newValues.find("inclubsincePREV")->second->getText();
+    QString prevClubLeftFrom = newValues.find("leftfromclubPREV")->second->getText();
+    QString prevSalary = newValues.find("yearsalaryPREV")->second->getText();
+    if((newClubInSince == prevClubInSince) &&
+       (newClubLeftFrom == prevClubLeftFrom) &&
+        (newSalary == prevSalary)){
+        return true;
+    }
+    return false;
 }
 
 QString DBRepository::getPlayerDeleteSQLRequest() const
 {
-
+    return "delete from player where id=:id;";
 }
 
 QString DBRepository::getContractPostSQLRequest() const

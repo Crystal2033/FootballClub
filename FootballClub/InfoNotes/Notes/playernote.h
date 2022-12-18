@@ -77,6 +77,8 @@ private:
     void saveDataBeforeAction() override;
     void transformNoteInLabelView() override;
 
+    bool isInsertingDataCorrect() const;
+
 
 private slots:
     void modifyNoteView() override;

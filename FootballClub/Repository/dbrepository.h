@@ -9,6 +9,7 @@
 #define DBREPOSITORY_H
 #include "Enums/Enums.h"
 #include "InfoNotes/DataWidgets/combobox.h"
+#include "InfoNotes/Notes/BaseNote.h"
 #pragma once
 #include "InfoNotes/DataWidgets/textfield.h"
 #include "DataBase/database.h"
@@ -35,6 +36,7 @@ private:
     QSqlQuery* getStadiumNamesQuery() const;
     bool saveData(const LABEL_TYPE type, const std::map<QString, TextField*>& fieldsMap, const unsigned id);
     int postData(const LABEL_TYPE type, const std::map<QString, TextField*>& fieldsMap);
+    bool deleteData(const LABEL_TYPE type, const unsigned id);
     bool saveMatchData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
     int postMatchData(const std::map<QString, TextField*>& fieldsMap);
     int postPlayerData(const std::map<QString, TextField*>& fieldsMap);
@@ -42,6 +44,8 @@ private:
     bool deleteMatchData(const unsigned id);
     int getTeamIdByClubIdAndTeamTypeId(ComboBox* clubBox, ComboBox* teamTypeBox,
                                             const std::map<QString, TextField*>& fieldsMap, const QString& whichTeam) const;
+    int getTeamIdByClubIdAndTeamTypeId(const unsigned club_id, ComboBox* teamTypeBox,
+                                            const std::map<QString, TextField*>& fieldsMap) const;
 
 
     QSqlQuery* getCountryNamesQuery() const;
@@ -49,9 +53,11 @@ private:
     //Players
     QSqlQuery* getPlayersQuery() const;
     QSqlQuery* getPlayerPositionNamesQuery() const;
-    QString getPlayerUpdateSQLRequest() const;
-    QString getPlayerPostSQLRequest() const;
 
+    bool deletePlayerData(const unsigned id);
+    bool savePlayerData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
+    QString getContractIdByPlayerSQLRequest()const;
+    bool isNeedToUpdateContractId(const std::map<QString, TextField*>& newValues);
     QString getPlayerDeleteSQLRequest() const;
 
 
@@ -72,6 +78,8 @@ private:
     QString getPlayersSQLRequest() const;
     QString getPlayerPositionNamesSQLRequest() const;
     QString getCountriesSQLRequest() const;
+    QString getPlayerUpdateSQLRequest() const;
+    QString getPlayerPostSQLRequest() const;
 
 
 

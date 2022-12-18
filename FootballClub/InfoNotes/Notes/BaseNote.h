@@ -21,6 +21,7 @@ public:
     void setRecordId(const unsigned value);
     unsigned getRecordId() const;
     std::map<QString, TextField*> getFieldsMap() const;
+    std::map<TextField**, QString> getValuesBeforeAction() const;
 
 protected:
     std::map<QString, TextField*> fieldsMap;
