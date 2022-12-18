@@ -93,6 +93,7 @@ bool DBRepository::saveData(const LABEL_TYPE type, const std::map<QString, TextF
     default:
         break;
     }
+    return false;
 }
 
 int DBRepository::postData(const LABEL_TYPE type, const std::map<QString, TextField *> &fieldsMap)
@@ -533,6 +534,11 @@ QSqlQuery *DBRepository::getPlayerPositionNamesQuery() const
 }
 
 
+QSqlQuery *DBRepository::getClubQuery() const
+{
+    return getQuery(getClubSQLRequest());
+}
+
 
 QSqlQuery *DBRepository::getManagersQuery() const
 {
@@ -696,6 +702,7 @@ bool DBRepository::deleteManagerData(const unsigned id)
 
 
 
+
 QString DBRepository::getMatchesSQLRequest() const
 {
     return  "select gameid, club1, teamType1, finalscore, club.club_name as club2,"
@@ -794,6 +801,11 @@ QString DBRepository::getManagerUpdateSQLRequest() const
 QString DBRepository::getManagerDeleteSQLRequest() const
 {
     return "delete from manager where id=:id;";
+}
+
+QString DBRepository::getClubSQLRequest() const
+{
+    return "select created_at from club where id=1;";
 }
 
 QString DBRepository::getManagersSQLRequest() const

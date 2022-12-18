@@ -65,12 +65,12 @@ private:
     TextField* tournament = nullptr;
     TextField* stage = nullptr;
 
-    void setStyles() override;
+    void setStyles();
     void insertFieldsInMap() override;
     bool isInsertingDataCorrect() const;
     void saveDataBeforeAction() override;
     void transformNoteInLabelView() override;
-    void setAllDataOnLayout() override;
+    void setAllDataOnLayout();
 
     void createModifyView();
 

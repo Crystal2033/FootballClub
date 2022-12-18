@@ -50,7 +50,7 @@ private:
     QBoxLayout* salaryLay = nullptr;
 
 
-    void setAllDataOnLayout() override;
+    void setAllDataOnLayout();
     QString deleteNotNeedSymbolsInSalaryValue(QString salaryValue) const;
 
     TextField* gameNumber = nullptr;
@@ -72,7 +72,7 @@ private:
     void setCountryComboList(QSqlQuery& query) override;
 
     void setNoteViewType(const NOTE_VIEW_TYPE type) override;
-    void setStyles() override;
+    void setStyles();
     void insertFieldsInMap() override;
     void saveDataBeforeAction() override;
     void transformNoteInLabelView() override;

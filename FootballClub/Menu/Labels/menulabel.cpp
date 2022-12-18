@@ -85,7 +85,6 @@ LABEL_TYPE MenuLabel::getLabelType() const
 
 MenuLabel::~MenuLabel()
 {
-    removeObservers();
 }
 
 void MenuLabel::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note)

@@ -38,10 +38,8 @@ protected:
     QPushButton* deleteNoteButton = nullptr;
     NOTE_VIEW_TYPE noteViewType = READ;
     virtual void extend() = 0;
-    virtual void setStyles() = 0;
     virtual void modifyNoteView() = 0;
     virtual void saveDataBeforeAction() = 0;
-    virtual void setAllDataOnLayout() = 0;
     virtual void insertFieldsInMap() = 0;
     virtual void setSavedDataBack();
     void setSaveCancelButtonsVisability(const bool visability);

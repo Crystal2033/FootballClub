@@ -30,13 +30,20 @@ public:
     void removeObserver(InterfaceObserver* observer) override;
     void removeObservers() override;
     void deleteNoteFromList(const BaseNote* note);
+    void showClubData(const QString& createdDate);
 
 private:
+    QBoxLayout* parentLay;
     QList<InterfaceObserver*> observers;
     QPushButton* addNoteButton = nullptr;
     QScrollArea* scrollArea = nullptr;
     QBoxLayout* layout = nullptr;
     QList<BaseNote*> listOfNotes;
+    QBoxLayout* clubAndDevInfoLay;
+    QLabel* dataOfClubCreation;
+    QLabel* developerInfo;
+    void createClubAndDevInfo(const QString& createdDate);
+    void deleteClubAndDevInfo();
     void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
 private slots:

@@ -44,14 +44,9 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
             this->window->dataDemonstrator->setVisibleScrollArea(true);
             createAndShowData(chosenDataType, EXIST);
             break;
-        case GOALS:
-            this->window->dataDemonstrator->setVisibleScrollArea(true);
-            break;
         case CLUB:
             this->window->dataDemonstrator->setVisibleScrollArea(false);
-            break;
-        case TEAMS:
-            this->window->dataDemonstrator->setVisibleScrollArea(true);
+            showClubData(chosenDataType);
             break;
         case AUTHO:
             this->window->dataDemonstrator->setVisibleScrollArea(false);
@@ -74,16 +69,6 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         case MATCHES:
             createAndShowData(chosenDataType, NOT_EXIST);
             break;
-        case GOALS:
-            break;
-        case CLUB:
-            break;
-        case TEAMS:
-            break;
-        case AUTHO:
-
-            break;
-
         default:
             break;
         }
@@ -163,45 +148,30 @@ QSqlQuery *WindowManager::getNeededQuery(const LABEL_TYPE &dataType, const EXIST
             return repository->getManagersQuery();
         case MATCHES:
             return repository->getMatchesQuery();
-        case GOALS:
-            break;
         case CLUB:
-            break;
-        case TEAMS:
-            break;
-        case AUTHO:
-
-            break;
+            return repository->getClubQuery();
 
         default:
             break;
         }
     }
-
+    return nullptr;
 }
 
 BaseNote *WindowManager::createNoteBasedOnType(const LABEL_TYPE &dataType, QSqlQuery* const& query)
 {
     switch (dataType) {
-    case PLAYERS:
-        return new PlayerNote(query);
-    case COACHES:
-        return new ManagerNote(query);
-    case MATCHES:
-        return new MatchNote(query);
-    case GOALS:
-        break;
-    case CLUB:
-        break;
-    case TEAMS:
-        break;
-    case AUTHO:
+        case PLAYERS:
+            return new PlayerNote(query);
+        case COACHES:
+            return new ManagerNote(query);
+        case MATCHES:
+            return new MatchNote(query);
 
-        break;
-
-    default:
-        break;
+        default:
+            break;
     }
+    return nullptr;
 }
 
 
@@ -292,11 +262,9 @@ bool WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
     case MATCHES:
         newNoteId = repository->postData(type, note->getFieldsMap());
         break;
-    case CLUB:
-        break;
 
     default:
-        break;
+        return false;
     }
     if(newNoteId == -1){
         return false;
@@ -305,13 +273,15 @@ bool WindowManager::postNote(BaseNote *note, const LABEL_TYPE type)
     return true;
 }
 
-bool WindowManager::postMatchNote(MatchNote *note)
-{//делается не через observer, так как мы добавляем observer в note после создания. А нам надо как-то дернуть notify
-    int newNoteId = repository->postMatchData(note->getFieldsMap());
-    if(newNoteId == -1){
-        return false;
-    }
-    note->setRecordId(newNoteId);
-    return true;
+void WindowManager::showClubData(const LABEL_TYPE &dataType)
+{
+    QSqlQuery* query = getNeededQuery(dataType, EXIST);
+    QSqlRecord record = query->record();
+    query->next();
+    QString clubCreatedAt = query->value(record.indexOf("created_at")).toString();
+    this->window->dataDemonstrator->showClubData(clubCreatedAt);
+    delete query;
 }
+
+
 

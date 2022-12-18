@@ -47,11 +47,11 @@ private:
 
     void setNoteViewType(const NOTE_VIEW_TYPE type) override;
     void extend() override;
-    void setStyles() override;
+    void setStyles();
     QString deleteNotNeedSymbolsInSalaryValue(QString salaryValue) const;
 
     void saveDataBeforeAction() override;
-    void setAllDataOnLayout() override;
+    void setAllDataOnLayout();
     void insertFieldsInMap() override;
     void transformNoteInLabelView() override;
 

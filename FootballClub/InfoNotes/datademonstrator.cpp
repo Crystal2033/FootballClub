@@ -14,6 +14,7 @@
 DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     : QWidget{parent}
 {
+    this->parentLay = parentLay;
     layout = new QVBoxLayout;
     layout->setSpacing(75);
 
@@ -43,12 +44,15 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 
     parentLay->addWidget(scrollArea);
 
+    clubAndDevInfoLay = new QVBoxLayout;
+
 }
 
 void DataDemonstrator::showData(const QList<BaseNote*> &notes)
 {
-    addNoteButton->setVisible(true);
+    deleteClubAndDevInfo();
 
+    addNoteButton->setVisible(true);
     deleteDataFromListIfNotNeed(notes);
 
     listOfNotes = notes;
@@ -115,6 +119,48 @@ void DataDemonstrator::deleteNoteFromList(const BaseNote* note)
         if(listOfNotes[i] == note){
             listOfNotes.remove(i);
         }
+    }
+}
+
+void DataDemonstrator::showClubData(const QString &createdDate)
+{
+    if(dataOfClubCreation == nullptr){
+        dataOfClubCreation = new QLabel();
+        qInfo() << "created date is:" << createdDate;
+    }
+    if(developerInfo == nullptr){
+        developerInfo = new QLabel();
+        qInfo() << "developer info is:";
+    }
+    dataOfClubCreation->setStyleSheet("color: white;"
+                                      "font-size: 150px;"
+                                      "font-weight: bold;"
+                                      "");
+    developerInfo->setStyleSheet("color: grey;"
+                                      "font-size: 50px;"
+                                      "font-weight: bold;"
+                                      "");
+
+    dataOfClubCreation->setText("Created at " + createdDate);
+
+    clubAndDevInfoLay->addWidget(dataOfClubCreation, 0, Qt::AlignCenter);
+    clubAndDevInfoLay->addWidget(developerInfo, 0, Qt::AlignCenter);
+}
+
+void DataDemonstrator::createClubAndDevInfo(const QString &createdDate)
+{
+
+}
+
+void DataDemonstrator::deleteClubAndDevInfo()
+{
+    if(dataOfClubCreation != nullptr){
+        delete dataOfClubCreation;
+        dataOfClubCreation = nullptr;
+    }
+    if(developerInfo != nullptr){
+        delete developerInfo;
+        developerInfo = nullptr;
     }
 }
 

@@ -23,7 +23,6 @@ HeaderMenu::~HeaderMenu()
         delete label;
     }
     delete horLay;
-    removeObservers();
 }
 
 void HeaderMenu::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note)
@@ -75,7 +74,7 @@ LABEL_TYPE HeaderMenu::getChosenDataType() const
 
 void HeaderMenu::createMenu()
 {
-    //addMenuLabel(new StandartLabel("Club", CLUB));
+    addMenuLabel(new StandartLabel("Club", CLUB));
     //addMenuLabel(new StandartLabel("Teams", TEAMS));
     addMenuLabel(new StandartLabel("Players", PLAYERS));
     addMenuLabel(new StandartLabel("Coaches", COACHES));
@@ -101,6 +100,7 @@ void HeaderMenu::addMenuLabel(MenuLabel* const& menuLabel)
 
 void HeaderMenu::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note)
 {
+    Q_UNUSED(note);
     for (auto obs : observers) {
         obs->updateByObserver(requestStatus);
     }

@@ -39,7 +39,8 @@ private:
     void sendManagerTitleNames(BaseNote* const& note);
     bool postNote(BaseNote* note, const LABEL_TYPE type);
 
-    bool postMatchNote(MatchNote* note);
+    void showClubData(const LABEL_TYPE& dataType);
+
 public slots:
 };
 

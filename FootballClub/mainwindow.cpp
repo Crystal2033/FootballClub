@@ -17,6 +17,7 @@ MainWindow::MainWindow(WindowManager* manager, QWidget *parent)
     mainLay = new QVBoxLayout;
     logoClubAndHeaderLay = new QHBoxLayout;
     labelForIcon = new QLabel();
+
     logoIcon = QIcon(":/pictures/Pics/psg-icon.png");
 
     labelForIcon->setPixmap(logoIcon.pixmap(100, 100));
@@ -55,4 +56,5 @@ void MainWindow::createDataDemonstrator()
     dataDemonstrator = new DataDemonstrator(mainLay);
     dataDemonstrator->addObserver((InterfaceObserver*)windowManager);
 }
+
 
