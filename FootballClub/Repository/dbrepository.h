@@ -59,6 +59,7 @@ private:
 
     bool isNeedToUpdateContractId(const std::map<QString, TextField*>& newValues);
 
+    int getContractIdByPersonId(const unsigned playerId, const LABEL_TYPE whoseIdType);
     //Managers
     QSqlQuery* getManagersQuery() const;
     QSqlQuery* getManagerTitlesQuery() const;
@@ -66,6 +67,7 @@ private:
     bool saveManagerData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
     bool deleteManagerData(const unsigned id);
 
+    bool deleteContractById(const unsigned id);
     //Club
     QSqlQuery* getClubQuery() const;
     //SQL REQUESTS

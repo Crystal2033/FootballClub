@@ -136,6 +136,12 @@ bool DBRepository::deleteData(const LABEL_TYPE type, const unsigned id)
 
 bool DBRepository::deletePlayerData(const unsigned id)
 {
+    int contractId = getContractIdByPersonId(id, PLAYERS);
+    if(contractId == -1){
+        QMessageBox::critical(nullptr, "Request to database error",
+                              "Player contract id from database is wrong.");
+    }
+
     QSqlQuery query;
     query.prepare(getPlayerDeleteSQLRequest());
 
@@ -148,36 +154,32 @@ bool DBRepository::deletePlayerData(const unsigned id)
     }
     else{
         qInfo() << "Success request";
+        deleteContractById(contractId);
         return true;
     }
 }
 
 bool DBRepository::savePlayerData(const std::map<QString, TextField *> &fieldsMap, const unsigned id)
 {
-    int contractId;
+    int newContractId;
+    int oldContractId = getContractIdByPersonId(id, PLAYERS);
+
+    if(oldContractId == -1){
+        QMessageBox::critical(nullptr, "Request to database error",
+                              "Player contract id from database is wrong.");
+        return false;
+    }
+
     if(isNeedToUpdateContractId(fieldsMap)){
-        contractId = postContractData(fieldsMap);
-        if(contractId == -1){
+        newContractId = postContractData(fieldsMap);
+        if(newContractId == -1){
             qInfo() << "Contract id failed";
             return false;
         }
+
     }
     else{
-        QSqlQuery queryForContract;
-        queryForContract.prepare(getContractIdByPlayerSQLRequest());
-        queryForContract.bindValue(":id", id);
-        if(!queryForContract.exec()){
-            QMessageBox::critical(nullptr, "Matches request to database error",
-                                  "There is a problem with sending request about matches information.");
-            return false;
-        }
-        else{
-            QSqlRecord record = queryForContract.record();
-            qInfo() << "Good";
-            queryForContract.next();
-            contractId = queryForContract.value(record.indexOf("contract_id")).toInt();
-        }
-        qInfo() << "Contract id is: " << contractId;
+        newContractId = oldContractId;
         //contractId
     }
 
@@ -216,7 +218,7 @@ bool DBRepository::savePlayerData(const std::map<QString, TextField *> &fieldsMa
     query.bindValue(":player_pos", playerPosId);
     query.bindValue(":height", height);
     query.bindValue(":team_id", teamId);
-    query.bindValue(":contract", contractId);
+    query.bindValue(":contract", newContractId);
     query.bindValue(":country", countryId);
     query.bindValue(":weight", weight);
     query.bindValue(":birthday", birthday);
@@ -229,8 +231,16 @@ bool DBRepository::savePlayerData(const std::map<QString, TextField *> &fieldsMa
     }
     else{
         qInfo() << "Success request";
+        if(newContractId != oldContractId){
+            if(!deleteContractById(oldContractId)){
+                QMessageBox::critical(nullptr, "Request to database error",
+                                      "There is a problem with deleting contract from player.");
+            }
+        }
         return true;
     }
+
+
 }
 
 
@@ -527,6 +537,33 @@ bool DBRepository::isNeedToUpdateContractId(const std::map<QString, TextField *>
     return true;
 }
 
+int DBRepository::getContractIdByPersonId(const unsigned int personId, const LABEL_TYPE whoseIdType)
+{
+    int contractId;
+    QSqlQuery queryForContract;
+    if(whoseIdType == PLAYERS){
+        queryForContract.prepare(getContractIdByPlayerSQLRequest());
+    }
+    else if(whoseIdType == COACHES){
+        queryForContract.prepare(getContractIdByManagerSQLRequest());
+    }
+
+    queryForContract.bindValue(":id", personId);
+    if(!queryForContract.exec()){
+        QMessageBox::critical(nullptr, "Request to database error",
+                              "There is a problem with sending request with get contract id.");
+        return -1;
+    }
+    else{
+        QSqlRecord record = queryForContract.record();
+        qInfo() << "Good";
+        queryForContract.next();
+        contractId = queryForContract.value(record.indexOf("contract_id")).toInt();
+    }
+    qInfo() << "Contract id is: " << contractId;
+    return contractId;
+}
+
 
 QSqlQuery *DBRepository::getCountryNamesQuery() const
 {
@@ -701,6 +738,24 @@ bool DBRepository::deleteManagerData(const unsigned id)
     if(!query.exec()){
         QMessageBox::critical(nullptr, "Manager request to database error",
                               "There is a problem with sending request DELETE about manager information.");
+        return false;
+    }
+    else{
+        qInfo() << "Success request";
+        return true;
+    }
+}
+
+bool DBRepository::deleteContractById(const unsigned int id)
+{
+    QSqlQuery query;
+    query.prepare(getContractDeleteSQLRequest());
+
+    query.bindValue(":id", id);
+
+    if(!query.exec()){
+        QMessageBox::critical(nullptr, "Contract request to database error",
+                              "There is a problem with sending request DELETE contract.");
         return false;
     }
     else{

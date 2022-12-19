@@ -103,7 +103,7 @@ PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
             sinceInClub = new Label("Bad format date");
         }
         else{
-            sinceInClub = new Label(dateTimeConverter.toString("yyyy-MM-dd"));
+            sinceInClub = new Label(dateTimeConverter.toString("yyyy-MM-dd").replace(" ", ""));
         }
 
 
@@ -320,19 +320,19 @@ void PlayerNote::transformNoteInLabelView()
 
 bool PlayerNote::isInsertingDataCorrect() const
 {
-    QDateTime dateTimeCheck = QDateTime::fromString(birthdayDate->getText(), "yyyy-MM-dd");
+    QDateTime dateTimeCheck = QDateTime::fromString(birthdayDate->getText().replace(" ", ""), "yyyy-MM-dd");
     if(!dateTimeCheck.isValid()){
         QMessageBox::warning(nullptr, "Bad inserted value", "Your date is incorrect. Example: 2022-16-12");
         return false;
     }
 
-    dateTimeCheck = QDateTime::fromString(sinceInClub->getText(), "yyyy-MM-dd");
+    dateTimeCheck = QDateTime::fromString(sinceInClub->getText().replace(" ", ""), "yyyy-MM-dd");
     if(!dateTimeCheck.isValid()){
         QMessageBox::warning(nullptr, "Bad inserted value", "Your date is incorrect. Example: 2022-16-12");
         return false;
     }
 
-    dateTimeCheck = QDateTime::fromString(contractEndsAt->getText(), "yyyy-MM-dd");
+    dateTimeCheck = QDateTime::fromString(contractEndsAt->getText().replace(" ", ""), "yyyy-MM-dd");
     if(!dateTimeCheck.isValid()){
         QMessageBox::warning(nullptr, "Bad inserted value", "Your date is incorrect. Example: 2022-16-12");
         return false;
