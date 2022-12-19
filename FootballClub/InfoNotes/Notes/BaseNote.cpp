@@ -170,10 +170,10 @@ void BaseNote::fromLabelToComboList(QSqlQuery &query, const QString columnName,
     while(query.next()){
         valueAndIdMap.insert(std::make_pair(query.value(record.indexOf(columnName)).toString(),
                                             query.value(record.indexOf("id")).toInt()));
-        //stringList << query.value(record.indexOf(columnName)).toString();
     }
 
     Label* lbl = (Label*) textField;
+
     QString lastValue = lbl->getText();
     delete textField;
 

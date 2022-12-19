@@ -85,7 +85,7 @@ ManagerNote::ManagerNote(QSqlQuery* query, QWidget* parent)
 
     }
     else{
-        name = new Label("");
+        name = new Label("Manager name");
         title = new Label(""); //Taking one because second teams have to has the same type
         teamType = new Label("");
 
@@ -300,19 +300,29 @@ bool ManagerNote::isInsertingDataCorrect() const
 {
     QDateTime dateTimeCheck = QDateTime::fromString(birthdayDate->getText(), "yyyy-MM-dd");
     if(!dateTimeCheck.isValid()){
-        QMessageBox::warning(nullptr, "Bad inserted value", "Your date is incorrect. Example: 2022-16-12");
+        QMessageBox::warning(nullptr, "Bad inserted value", "Manager`s birthday is wrong. Example: 2022-16-12");
         return false;
     }
 
     dateTimeCheck = QDateTime::fromString(sinceInClub->getText(), "yyyy-MM-dd");
     if(!dateTimeCheck.isValid()){
-        QMessageBox::warning(nullptr, "Bad inserted value", "Your date is incorrect. Example: 2022-16-12");
+        QMessageBox::warning(nullptr, "Bad inserted value", "Since in club date is wrong. Example: 2022-16-12");
         return false;
     }
 
     dateTimeCheck = QDateTime::fromString(contractEndsAt->getText(), "yyyy-MM-dd");
     if(!dateTimeCheck.isValid()){
-        QMessageBox::warning(nullptr, "Bad inserted value", "Your date is incorrect. Example: 2022-16-12");
+        QMessageBox::warning(nullptr, "Bad inserted value", "Contract ends data is wrong. Example: 2022-16-12");
+        return false;
+    }
+
+    if(name->getText().size() == 0){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Manager`s name is empty");
+        return false;
+    }
+
+    if(salary->getText().size() == 0){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Salary value is empty. Example: 1234,56");
         return false;
     }
     return true;
@@ -328,15 +338,21 @@ void ManagerNote::onSaveChangesClicked()
     if(isInsertingDataCorrect()){
         insertFieldsInMap();
         notifyObservers(UPDATE, this);
-        setSaveCancelButtonsVisability(false);
-        modifyButton->setVisible(true);
-        transformNoteInLabelView();
-        setStyles();
+        if(isLastRequestSuccess){
+            setSaveCancelButtonsVisability(false);
+            modifyButton->setVisible(true);
+            transformNoteInLabelView();
+            setStyles();
+        }
     }
 }
 
 void ManagerNote::onCancelModifyingClicked()
 {
+    if(lastRequestType == POST){ //Added and pressed "cancel"
+        notifyObservers(DELETE, this);
+        return;
+    }
     setSaveCancelButtonsVisability(false);
     modifyButton->setVisible(true);
     setSavedDataBack();

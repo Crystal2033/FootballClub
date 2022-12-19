@@ -118,7 +118,7 @@ PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
     }
     else{
 
-        name = new Label("");
+        name = new Label("Player name");
 
         position = new Label(""); //Taking one because second teams have to has the same type
         teamType = new Label("");
@@ -393,15 +393,21 @@ void PlayerNote::onSaveChangesClicked()
     if(isInsertingDataCorrect()){
         insertFieldsInMap();
         notifyObservers(UPDATE, this);
-        setSaveCancelButtonsVisability(false);
-        modifyButton->setVisible(true);
-        transformNoteInLabelView();
-        setStyles();
+        if(isLastRequestSuccess){
+            setSaveCancelButtonsVisability(false);
+            modifyButton->setVisible(true);
+            transformNoteInLabelView();
+            setStyles();
+        }
     }
 }
 
 void PlayerNote::onCancelModifyingClicked()
 {
+    if(lastRequestType == POST){ //Added and pressed "cancel"
+        notifyObservers(DELETE, this);
+        return;
+    }
     setSaveCancelButtonsVisability(false);
     modifyButton->setVisible(true);
     setSavedDataBack();

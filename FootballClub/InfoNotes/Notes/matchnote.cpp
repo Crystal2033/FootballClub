@@ -182,8 +182,10 @@ void MatchNote::setClubsComboList(QSqlQuery &query)
     QValidator *validator = new QRegularExpressionValidator(regularExpr);
     fromLabelToLineEdit(finalScore, validator);
 
+
     Label* lbl = (Label*) club2;
     QString lastValue = lbl->getText();
+
     ComboBox* firstClubBox = (ComboBox*)club1;
     std::map<QString, unsigned> valueAndIdMap = firstClubBox->getValueAndIdMap();
     delete club2;
@@ -242,6 +244,10 @@ void MatchNote::onSaveChangesClicked()
 
 void MatchNote::onCancelModifyingClicked()
 {
+    if(lastRequestType == POST){ //Added and pressed "cancel"
+        notifyObservers(DELETE, this);
+        return;
+    }
     setSaveCancelButtonsVisability(false);
     modifyButton->setVisible(true);
     setSavedDataBack();

@@ -303,6 +303,12 @@ int DBRepository::postMatchData(const std::map<QString, TextField *> &fieldsMap)
     unsigned stadiumId = stadiumClubComboBox->getIdByValue(fieldsMap.find("stadium")->second->getText());
 
     ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("club1")->second;
+    ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("club2")->second;
+    if(firstClubComboBox->getText() == secondClubComboBox->getText()){
+        QMessageBox::warning(nullptr, "Teams are the same error.", "You have to choose different teams");
+        return false;
+    }
+
     ComboBox* teamTypeComboBox = (ComboBox*)fieldsMap.find("teamtype")->second;
 
     int firstTeamId = getTeamIdByClubIdAndTeamTypeId(firstClubComboBox, teamTypeComboBox, fieldsMap, "club1");
@@ -311,7 +317,7 @@ int DBRepository::postMatchData(const std::map<QString, TextField *> &fieldsMap)
         return -1;
     }
     qInfo() << "Team1" << firstTeamId;
-    ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("club2")->second;
+
     int secondTeamId = getTeamIdByClubIdAndTeamTypeId(secondClubComboBox, teamTypeComboBox, fieldsMap, "club2");
     if(secondTeamId == -1){
         qInfo() << "second team failed";
@@ -811,6 +817,11 @@ QString DBRepository::getManagerDeleteSQLRequest() const
 QString DBRepository::getClubSQLRequest() const
 {
     return "select created_at from club where id=1;";
+}
+
+QString DBRepository::getContractDeleteSQLRequest() const
+{
+    return "delete from football_contract where id=:id;";
 }
 
 QString DBRepository::getManagersSQLRequest() const

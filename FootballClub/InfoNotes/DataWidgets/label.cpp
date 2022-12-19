@@ -11,9 +11,6 @@ Label::Label(const QString& text)
 {
     lay = new QHBoxLayout;
     label = new QLabel(text);
-    if(text == "PSG"){
-        label->setText("<font color=\"#0b2753\">P</font><font color=\"white\">S</font><font color=\"#c3192c\">G</font>");
-    }
     lay->addWidget(label);
     setLayout(lay);
     setStyles();

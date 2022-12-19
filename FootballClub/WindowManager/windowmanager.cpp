@@ -98,32 +98,41 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         sendManagerTitleNames(note);
     }
     else if(requestStatus == UPDATE){
-        if(note->getLastRequestType() == POST){
+        if(note->getLastRequestType() == POST){ //Added and pressed "save"
             if(postNote(note, this->window->headerMenu->getChosenDataType())){
                 note->setIsLastRequestSucess(true);
             }
             else{
                 note->setIsLastRequestSucess(false);
+                return;
             }
         }
 
         if(repository->saveData(this->window->headerMenu->getChosenDataType(), note->getFieldsMap(), note->getRecordId())){
             note->setIsLastRequestSucess(true);
+            note->setLastRequestType(UPDATE);
         }
         else {
             note->setIsLastRequestSucess(false);
         }
     }
     else if(requestStatus == DELETE){
-        if(repository->deleteData(this->window->headerMenu->getChosenDataType(), note->getRecordId())){
-            note->setIsLastRequestSucess(true);
+        if(note->getLastRequestType() == POST){ //react on Added and pressed "cancel" Don`t need to get id from DB, need just clear visual
             this->window->dataDemonstrator->deleteNoteFromList(note);
             delete note;
             this->window->dataDemonstrator->showData(this->window->dataDemonstrator->getListOfNotes());
         }
         else{
-            note->setIsLastRequestSucess(false);
+            if(repository->deleteData(this->window->headerMenu->getChosenDataType(), note->getRecordId())){
+                this->window->dataDemonstrator->deleteNoteFromList(note);
+                delete note;
+                this->window->dataDemonstrator->showData(this->window->dataDemonstrator->getListOfNotes());
+            }
+            else{
+                note->setIsLastRequestSucess(false);
+            }
         }
+
     }
 
 }
@@ -137,6 +146,7 @@ void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANC
         while(query->next()){
             BaseNote* note = createNoteBasedOnType(dataType, query);
             note->addObserver(this);
+            note->setLastRequestType(GET);
             listOfNotesInfo.push_back(note);
             note->setIsLastRequestSucess(true);
         }
@@ -148,6 +158,7 @@ void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANC
         note->addObserver(this);
         note->setNoteViewType(WRITE);
         note->setLastRequestType(POST);
+        listOfNotesInfo.push_back(note);
 
         listOfNotesInfo.append(this->window->dataDemonstrator->getListOfNotes());
     }

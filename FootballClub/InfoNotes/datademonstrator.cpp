@@ -87,7 +87,10 @@ void DataDemonstrator::deleteDataFromListIfNotNeed(const QList<BaseNote*>& newNo
             foundedSameNote = false;
             continue;
         }
-        delete listOfNotes[i];
+        if(listOfNotes[i] != nullptr){
+            delete listOfNotes[i];
+        }
+
     }
     listOfNotes.clear();
 }

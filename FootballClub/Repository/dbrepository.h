@@ -99,6 +99,8 @@ private:
 
     QString getClubSQLRequest() const;
 
+    QString getContractDeleteSQLRequest() const;
+
 
 
 
