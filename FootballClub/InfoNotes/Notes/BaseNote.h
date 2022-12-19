@@ -23,6 +23,14 @@ public:
     std::map<QString, TextField*> getFieldsMap() const;
     std::map<TextField**, QString> getValuesBeforeAction() const;
 
+    bool isLastRequestSuccess = false;
+    void setIsLastRequestSucess(const bool isSuccess);
+    bool getIsLastRequestSuccess() const;
+
+    REQUEST_TYPE lastRequestType;
+    REQUEST_TYPE getLastRequestType() const;
+    void setLastRequestType(const REQUEST_TYPE newType);
+
 protected:
     std::map<QString, TextField*> fieldsMap;
     QList<InterfaceObserver*> observers;

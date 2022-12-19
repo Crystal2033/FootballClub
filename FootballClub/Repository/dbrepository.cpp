@@ -250,11 +250,16 @@ bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap,
 
     ComboBox* teamTypeComboBox = (ComboBox*)fieldsMap.find("teamtype")->second;
     ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("club1")->second;
+    ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("club2")->second;
+    if(firstClubComboBox->getText() == secondClubComboBox->getText()){
+        QMessageBox::warning(nullptr, "Teams are the same error.", "You have to choose different teams");
+        return false;
+    }
     unsigned firstTeamId = getTeamIdByClubIdAndTeamTypeId(firstClubComboBox, teamTypeComboBox, fieldsMap, "club1");
     qInfo() << "First team id = " << firstTeamId;
 
 
-    ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("club2")->second;
+
     unsigned secondTeamId = getTeamIdByClubIdAndTeamTypeId(secondClubComboBox, teamTypeComboBox, fieldsMap, "club2");
     qInfo() << "Second team id = " << secondTeamId;
 

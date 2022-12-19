@@ -105,6 +105,26 @@ std::map<TextField **, QString> BaseNote::getValuesBeforeAction() const
     return valuesBeforeAction;
 }
 
+void BaseNote::setIsLastRequestSucess(const bool isSuccess)
+{
+    this->isLastRequestSuccess = isSuccess;
+}
+
+bool BaseNote::getIsLastRequestSuccess() const
+{
+    return isLastRequestSuccess;
+}
+
+REQUEST_TYPE BaseNote::getLastRequestType() const
+{
+    return lastRequestType;
+}
+
+void BaseNote::setLastRequestType(const REQUEST_TYPE newType)
+{
+    lastRequestType = newType;
+}
+
 
 void BaseNote::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote *note)
 {

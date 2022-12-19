@@ -21,6 +21,7 @@ class DataDemonstrator : public QWidget, public InterfaceSubject
 {
     Q_OBJECT
 public:
+    bool isAdmin = false;
     explicit DataDemonstrator(QBoxLayout* parentLay, QWidget *parent = nullptr);
     void showData(const QList<BaseNote*>& notes);
     void setVisibleScrollArea(const bool visibility);

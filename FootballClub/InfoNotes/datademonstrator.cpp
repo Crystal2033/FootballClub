@@ -59,7 +59,6 @@ void DataDemonstrator::showData(const QList<BaseNote*> &notes)
     listOfNotes = notes;
     for(unsigned i = 0; i < listOfNotes.size(); i++){
         layout->addWidget((QWidget*)listOfNotes[i]);
-        listOfNotes[i]->show();
     }
 }
 

@@ -231,10 +231,12 @@ void MatchNote::onSaveChangesClicked()
     if(isInsertingDataCorrect()){
         insertFieldsInMap();
         notifyObservers(UPDATE, this);
-        setSaveCancelButtonsVisability(false);
-        modifyButton->setVisible(true);
-        transformNoteInLabelView();
-        setStyles();
+        if(isLastRequestSuccess){
+            setSaveCancelButtonsVisability(false);
+            modifyButton->setVisible(true);
+            transformNoteInLabelView();
+            setStyles();
+        }
     }
 }
 

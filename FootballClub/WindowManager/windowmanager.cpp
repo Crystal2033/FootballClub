@@ -98,13 +98,31 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         sendManagerTitleNames(note);
     }
     else if(requestStatus == UPDATE){
-        repository->saveData(this->window->headerMenu->getChosenDataType(), note->getFieldsMap(), note->getRecordId());
+        if(note->getLastRequestType() == POST){
+            if(postNote(note, this->window->headerMenu->getChosenDataType())){
+                note->setIsLastRequestSucess(true);
+            }
+            else{
+                note->setIsLastRequestSucess(false);
+            }
+        }
+
+        if(repository->saveData(this->window->headerMenu->getChosenDataType(), note->getFieldsMap(), note->getRecordId())){
+            note->setIsLastRequestSucess(true);
+        }
+        else {
+            note->setIsLastRequestSucess(false);
+        }
     }
     else if(requestStatus == DELETE){
         if(repository->deleteData(this->window->headerMenu->getChosenDataType(), note->getRecordId())){
+            note->setIsLastRequestSucess(true);
             this->window->dataDemonstrator->deleteNoteFromList(note);
             delete note;
             this->window->dataDemonstrator->showData(this->window->dataDemonstrator->getListOfNotes());
+        }
+        else{
+            note->setIsLastRequestSucess(false);
         }
     }
 
@@ -120,16 +138,17 @@ void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANC
             BaseNote* note = createNoteBasedOnType(dataType, query);
             note->addObserver(this);
             listOfNotesInfo.push_back(note);
+            note->setIsLastRequestSucess(true);
         }
+
         delete query;
     }
     else{
         BaseNote* note = createNoteBasedOnType(dataType, query);
         note->addObserver(this);
         note->setNoteViewType(WRITE);
-        if(postNote(note, dataType)){
-            listOfNotesInfo.push_back(note);
-        }
+        note->setLastRequestType(POST);
+
         listOfNotesInfo.append(this->window->dataDemonstrator->getListOfNotes());
     }
     this->window->dataDemonstrator->showData(listOfNotesInfo);
@@ -179,8 +198,12 @@ void WindowManager::sendTournamentNames(BaseNote* const& note)
 {
     QSqlQuery* query = repository->getTournNamesQuery();
     if(query != nullptr){
+        note->setIsLastRequestSucess(true);
         note->setTournamentComboList(*query);
         delete query;
+    }
+    else{
+        note->setIsLastRequestSucess(false);
     }
 }
 
@@ -188,8 +211,12 @@ void WindowManager::sendStageNames(BaseNote * const &note)
 {
     QSqlQuery* query = repository->getStageNamesQuery();
     if(query != nullptr){
+        note->setIsLastRequestSucess(true);
         note->setStagesComboList(*query);
         delete query;
+    }
+    else{
+        note->setIsLastRequestSucess(false);
     }
 }
 
@@ -197,8 +224,12 @@ void WindowManager::sendTeamTypeNames(BaseNote * const &note)
 {
     QSqlQuery* query = repository->getTeamTypeNamesQuery();
     if(query != nullptr){
+        note->setIsLastRequestSucess(true);
         note->setTeamTypesComboList(*query);
         delete query;
+    }
+    else{
+        note->setIsLastRequestSucess(false);
     }
 }
 
@@ -206,8 +237,12 @@ void WindowManager::sendClubNames(BaseNote * const &note)
 {
     QSqlQuery* query = repository->getClubNamesQuery();
     if(query != nullptr){
+        note->setIsLastRequestSucess(true);
         note->setClubsComboList(*query);
         delete query;
+    }
+    else{
+        note->setIsLastRequestSucess(false);
     }
 }
 
@@ -215,8 +250,12 @@ void WindowManager::sendStadiumNames(BaseNote * const &note)
 {
     QSqlQuery* query = repository->getStadiumNamesQuery();
     if(query != nullptr){
+        note->setIsLastRequestSucess(true);
         note->setStadiumsComboList(*query);
         delete query;
+    }
+    else{
+        note->setIsLastRequestSucess(false);
     }
 }
 
@@ -224,8 +263,12 @@ void WindowManager::sendCountryNames(BaseNote * const &note)
 {
     QSqlQuery* query = repository->getCountryNamesQuery();
     if(query != nullptr){
+        note->setIsLastRequestSucess(true);
         note->setCountryComboList(*query);
         delete query;
+    }
+    else{
+        note->setIsLastRequestSucess(false);
     }
 }
 
@@ -233,8 +276,12 @@ void WindowManager::sendPlayerPositionNames(BaseNote * const &note)
 {
     QSqlQuery* query = repository->getPlayerPositionNamesQuery();
     if(query != nullptr){
+        note->setIsLastRequestSucess(true);
         note->setPlayerPositionComboList(*query);
         delete query;
+    }
+    else{
+        note->setIsLastRequestSucess(false);
     }
 }
 
