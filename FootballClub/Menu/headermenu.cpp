@@ -81,7 +81,7 @@ void HeaderMenu::createMenu()
     addMenuLabel(new StandartLabel("Matches", MATCHES));
     //addMenuLabel(new StandartLabel("Goals", GOALS));
     //addMenuLabel(new AuthorizationLabel("Authorization", AUTHO));
-
+    notifyObservers(SEND_CHOSEN_DATA_TYPE, nullptr);
     insertLabelsInLayout();
 }
 

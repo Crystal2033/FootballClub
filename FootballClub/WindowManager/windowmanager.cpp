@@ -24,6 +24,7 @@ WindowManager::~WindowManager()
 void WindowManager::show()
 {
     window->show();
+    window->headerMenu->notifyObservers(SEND_CHOSEN_DATA_TYPE);
 }
 
 

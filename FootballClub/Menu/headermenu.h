@@ -28,17 +28,17 @@ public:
     void removeObserver(InterfaceObserver* observer) override;
     void removeObservers() override;
     LABEL_TYPE getChosenDataType() const;
-
+    void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
 private:
     QHBoxLayout* horLay = nullptr;
-    LABEL_TYPE chosenDataType;
+    LABEL_TYPE chosenDataType = CLUB;
     void createMenu();
     void insertLabelsInLayout();
     void addMenuLabel(MenuLabel* const& menuLabel);
     QList<MenuLabel*> menuLabels;
 
-    void notifyObservers(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
+
     QList<InterfaceObserver*> observers;
 
 signals:
