@@ -15,43 +15,43 @@ MatchNote::MatchNote(QSqlQuery* query, QWidget* parent)
     :BaseNote(parent)
 {
     tournInfoLbl = new QLabel("Tournament");
-    tournInfoLbl->setStyleSheet("color: #3A40B0;"
-                                               "font-size:10px;"
+    tournInfoLbl->setStyleSheet("color: #95A5A6;"
+                                               "font-size:15px;"
                                                ""
                                                "");
     stageInfoLbl = new QLabel("Stage");
-    stageInfoLbl->setStyleSheet("color: #3A40B0;"
-                                               "font-size:10px;"
+    stageInfoLbl->setStyleSheet("color: #95A5A6;"
+                                               "font-size:15px;"
                                                ""
                                                "");
     teamTypeLbl = new QLabel("Team type");
-    teamTypeLbl->setStyleSheet("color: #3A40B0;"
-                                               "font-size:10px;"
+    teamTypeLbl->setStyleSheet("color: #95A5A6;"
+                                               "font-size:15px;"
                                                ""
                                                "");
     firstClubLbl = new QLabel("Team");
-    firstClubLbl->setStyleSheet("color: #3A40B0;"
-                                               "font-size:10px;"
+    firstClubLbl->setStyleSheet("color: #95A5A6;"
+                                               "font-size:15px;"
                                                ""
                                                "");
     finalScoreLbl = new QLabel("Score");
-    finalScoreLbl->setStyleSheet("color: #3A40B0;"
-                                               "font-size:10px;"
+    finalScoreLbl->setStyleSheet("color: #95A5A6;"
+                                               "font-size:15px;"
                                                ""
                                                "");
     secondClubLbl = new QLabel("Team");
-    secondClubLbl->setStyleSheet("color: #3A40B0;"
-                                               "font-size:10px;"
+    secondClubLbl->setStyleSheet("color: #95A5A6;"
+                                               "font-size:15px;"
                                                ""
                                                "");
     stadiumLbl = new QLabel("Stadium");
-    stadiumLbl->setStyleSheet("color: #3A40B0;"
-                                               "font-size:10px;"
+    stadiumLbl->setStyleSheet("color: #95A5A6;"
+                                               "font-size:15px;"
                                                ""
                                                "");
     dateLbl = new QLabel("Date");
-    dateLbl->setStyleSheet("color: #3A40B0;"
-                                               "font-size:10px;"
+    dateLbl->setStyleSheet("color: #95A5A6;"
+                                               "font-size:15px;"
                                                ""
                                                "");
 
@@ -259,13 +259,19 @@ void MatchNote::onCancelModifyingClicked()
 
 void MatchNote::onDeleteButtonClicked()
 {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Delete note", "Are you sure that you want to delete this note?",
-                                QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        notifyObservers(DELETE, this);
-    }
-    else{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Delete note");
+    msgBox.setText("Are you sure that you want to delete this note?");
+    msgBox.setStyleSheet("background-color:#3d4c78;"
+                         "color: white;"
+                         "font-size: 20px;"
+                         "");
+    msgBox.setStandardButtons(QMessageBox::Yes);
+    msgBox.addButton(QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+    if(msgBox.exec() == QMessageBox::Yes){
+      notifyObservers(DELETE, this);
+    }else {
 
     }
 
@@ -273,10 +279,28 @@ void MatchNote::onDeleteButtonClicked()
 
 void MatchNote::setStyles()
 {
-    tournament->setStyleSheet("font-size: 40px;"
+    club1->setStyleSheet("font-size: 35px;"
                               "color: white;"
-                              "font-weight: bold;"
-                              "font-family: Goudy Old Style;"
+                              "");
+    teamType1->setStyleSheet("font-size: 25px;"
+                              "color: white;"
+                              "");
+    club2->setStyleSheet("font-size: 35px;"
+                              "color: white;"
+                              "");
+    finalScore->setStyleSheet("font-size: 35px;"
+                              "color: white;"
+                              "");
+    stadium->setStyleSheet("font-size: 25px;"
+                              "color: white;"
+                              "");
+    gameDate->setStyleSheet("font-size: 25px;"
+                              "color: white;"
+                              "");
+    tournament->setStyleSheet("font-size: 35px;"
+                              "color:white");
+    stage->setStyleSheet("font-size: 30px;"
+                              "color: white;"
                               "");
 }
 

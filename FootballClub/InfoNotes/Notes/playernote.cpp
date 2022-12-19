@@ -17,58 +17,58 @@ PlayerNote::PlayerNote(QSqlQuery* query, QWidget *parent)
     :BaseNote(parent)
 {
     gameNumberLbl = new QLabel("Number");
-    gameNumberLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    gameNumberLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     playerNameLbl= new QLabel("Name");
-    playerNameLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    playerNameLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     posLbl = new QLabel("Position");
-    posLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    posLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     birthdayLbl  = new QLabel("Birthday");
-    birthdayLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    birthdayLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     heightLbl = new QLabel("Height (m)");
-    heightLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    heightLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     weightLbl  = new QLabel("Weight (kg)");
-    weightLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    weightLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     countryLbl= new QLabel("Nationality");
-    countryLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    countryLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     teamTypeLbl = new QLabel("Team type");
-    teamTypeLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    teamTypeLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     inClubSinceLbl = new QLabel("Signed at PSG");
-    inClubSinceLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    inClubSinceLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     contractEndsAtLbl = new QLabel("Contract ends at");
-    contractEndsAtLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    contractEndsAtLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     salaryLbl = new QLabel("Salary per year ($)");
-    salaryLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    salaryLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
 
@@ -261,7 +261,28 @@ void PlayerNote::setNoteViewType(const NOTE_VIEW_TYPE type)
 
 void PlayerNote::setStyles()
 {
-
+    gameNumber->setStyleSheet("color:white;"
+                              "font-size: 25px;");
+    name->setStyleSheet("color:white;"
+                              "font-size: 45px;");
+    position->setStyleSheet("color:white;"
+                              "font-size: 25px;");
+    birthdayDate->setStyleSheet("color:white;"
+                              "font-size: 25px;");
+    height->setStyleSheet("color:white;"
+                              "font-size: 25px;");
+    weight->setStyleSheet("color:white;"
+                              "font-size: 25px;");
+    countryFrom->setStyleSheet("color:white;"
+                              "font-size: 25px;");
+    teamType->setStyleSheet("color:white;"
+                              "font-size: 25px;");
+    sinceInClub->setStyleSheet("color:white;"
+                              "font-size: 25px;");
+    contractEndsAt->setStyleSheet("color:white;"
+                              "font-size: 25px;");
+    salary->setStyleSheet("color:green;"
+                              "font-size: 25px;");
 }
 
 void PlayerNote::insertFieldsInMap()
@@ -441,13 +462,19 @@ void PlayerNote::onCancelModifyingClicked()
 
 void PlayerNote::onDeleteButtonClicked()
 {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Delete note", "Are you sure that you want to delete this note?",
-                                QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        notifyObservers(DELETE, this);
-    }
-    else{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Delete note");
+    msgBox.setText("Are you sure that you want to delete this note?");
+    msgBox.setStyleSheet("background-color:#3d4c78;"
+                         "color: white;"
+                         "font-size: 20px;"
+                         "");
+    msgBox.setStandardButtons(QMessageBox::Yes);
+    msgBox.addButton(QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+    if(msgBox.exec() == QMessageBox::Yes){
+      notifyObservers(DELETE, this);
+    }else {
 
     }
 }

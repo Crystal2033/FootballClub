@@ -17,8 +17,14 @@ DateTimeText::DateTimeText(const QString & text)
     lineEdit = new LineEdit(text, validator);
     calendar = new Calendar;
     callCalendarBtn = new QPushButton;
-    callCalendarBtn->setIcon(QIcon(":/pictures/Pics/calendarIcon.jpg"));
-    callCalendarBtn->setFixedSize(40, 40);
+    QIcon icon(":/pictures/Pics/calendarIcon.png");
+    callCalendarBtn->setIcon(icon);
+    callCalendarBtn->setFixedSize(35, 35);
+    callCalendarBtn->setIconSize(callCalendarBtn->size());
+    callCalendarBtn->setStyleSheet("border: none;"
+                                   ""
+                                   "");
+
 
     lay->addWidget(lineEdit);
     lay->addWidget(callCalendarBtn);

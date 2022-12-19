@@ -185,7 +185,7 @@ bool DBRepository::savePlayerData(const std::map<QString, TextField *> &fieldsMa
 
     QSqlQuery query;
     query.prepare(getPlayerUpdateSQLRequest());
-    QString gameNumber = fieldsMap.find("gamenumber")->second->getText();
+    int gameNumber = fieldsMap.find("gamenumber")->second->getText().toInt();
     QString playerName = fieldsMap.find("name")->second->getText();
 
     ComboBox* playerPosComboBox = (ComboBox*)fieldsMap.find("pos")->second;
@@ -213,6 +213,7 @@ bool DBRepository::savePlayerData(const std::map<QString, TextField *> &fieldsMa
         return false;
     }
 
+    qInfo() << "player game number" << gameNumber;
     query.bindValue(":id", id);
     query.bindValue(":name", playerName);
     query.bindValue(":player_pos", playerPosId);
@@ -222,7 +223,7 @@ bool DBRepository::savePlayerData(const std::map<QString, TextField *> &fieldsMa
     query.bindValue(":country", countryId);
     query.bindValue(":weight", weight);
     query.bindValue(":birthday", birthday);
-    query.bindValue(":gamenumber", gameNumber);
+    query.bindValue(":gameNumber", gameNumber);
 
     if(!query.exec()){
         QMessageBox::critical(nullptr, "Player request to database error",
@@ -375,7 +376,8 @@ int DBRepository::postPlayerData(const std::map<QString, TextField *> &fieldsMap
 
     QSqlQuery query;
     query.prepare(getPlayerPostSQLRequest());
-    QString gameNumber = fieldsMap.find("gamenumber")->second->getText();
+    int gameNumber = fieldsMap.find("gamenumber")->second->getText().toInt();
+
     QString playerName = fieldsMap.find("name")->second->getText();
 
     ComboBox* playerPosComboBox = (ComboBox*)fieldsMap.find("pos")->second;
@@ -411,7 +413,7 @@ int DBRepository::postPlayerData(const std::map<QString, TextField *> &fieldsMap
     query.bindValue(":country", countryId);
     query.bindValue(":weight", weight);
     query.bindValue(":birthday", birthday);
-    query.bindValue(":gamenumber", gameNumber);
+    query.bindValue(":gameNumber", gameNumber);
 
     if(!query.exec()){
         QMessageBox::critical(nullptr, "Player request to database error",

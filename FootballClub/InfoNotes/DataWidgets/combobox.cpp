@@ -78,7 +78,7 @@ QStringList ComboBox::fromMapToStringList() const
 void ComboBox::setStyles()
 {
     comboBox->setStyleSheet("color: white;"
-                            "font-size: 20px;"
+                            "font-size: 25px;"
                             "font-family: Goudy Old Style;"
                             "font-weight: bold;");
 }

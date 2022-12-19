@@ -19,11 +19,19 @@ BaseNote::BaseNote(QWidget *parent)
     :QWidget(parent)
 {
     modifyButton = new QPushButton;
-    modifyButton->setFixedSize(75, 55);
-    modifyButton->setIconSize(QSize(0.75 * modifyButton->size().width(), 0.75 * modifyButton->size().height()));
+
     modifyButton->setIcon(QIcon(":/pictures/Pics/modifyData.png"));
-    modifyButton->setStyleSheet("background-color: grey;"
-                                );
+    modifyButton->setFixedSize(75, 75);
+    modifyButton->setIconSize(modifyButton->size());
+    modifyButton->setStyleSheet("QPushButton{"
+                                "border: none;"
+                                "border-radius:10px;"
+                                "}"
+                                "QPushButton:hover{"
+                                "background-color: #212e3c;"
+                                "}"
+                                ""
+                                "");
 
     saveChangesButton = new QPushButton("Save");
     saveChangesButton->setStyleSheet("background-color: darkgreen;"
@@ -39,13 +47,25 @@ BaseNote::BaseNote(QWidget *parent)
                                 "font-weight: bold;"
                                 "");
 
-    deleteNoteButton = new QPushButton("X");
-    deleteNoteButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    deleteNoteButton->setStyleSheet("background-color: #D54B7F;"
-                                    "color:white;"
-                                    "font-size: 15px;"
-                                    "font-weight: bold;"
+    deleteNoteButton = new QPushButton();
+    deleteNoteButton->setIcon(QIcon(":/pictures/Pics/closeIcon.png"));
+    deleteNoteButton->setFixedSize(50, 50);
+    deleteNoteButton->setIconSize(deleteNoteButton->size());
+    deleteNoteButton->setStyleSheet("QPushButton{"
+                                    "border: none;"
+                                    "border-radius:20px;"
+                                    "}"
+                                    "QPushButton:hover{"
+                                    "background-color: #212e3c;"
+                                    "}"
+                                    ""
                                     "");
+
+//    deleteNoteButton->setStyleSheet("background-color: #D54B7F;"
+//                                    "color:white;"
+//                                    "font-size: 15px;"
+//                                    "font-weight: bold;"
+//                                    "");
 }
 
 void BaseNote::setNoteViewType(const NOTE_VIEW_TYPE type)

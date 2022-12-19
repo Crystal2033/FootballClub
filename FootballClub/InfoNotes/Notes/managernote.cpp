@@ -6,43 +6,43 @@ ManagerNote::ManagerNote(QSqlQuery* query, QWidget* parent)
     :BaseNote(parent)
 {
     titleLbl = new QLabel("Title");
-    titleLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    titleLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     nameLbl = new QLabel("Name");
-    nameLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    nameLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     teamTypeLbl = new QLabel("Team type");
-    teamTypeLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    teamTypeLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     countryLbl = new QLabel("Nationality");
-    countryLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    countryLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     birthdayLbl = new QLabel("Birthday");
-    birthdayLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    birthdayLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     inClubSinceLbl = new QLabel("Signed at PSG");
-    inClubSinceLbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    inClubSinceLbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     contractEndslbl = new QLabel("Contract ends at");
-    contractEndslbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    contractEndslbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
     salarylbl = new QLabel("Salary per year ($)");
-    salarylbl->setStyleSheet("color: #3A40B0;"
-                                 "font-size:10px;"
+    salarylbl->setStyleSheet("color: #95A5A6;"
+                                 "font-size:15px;"
                                  ""
                                  "");
 
@@ -126,8 +126,8 @@ ManagerNote::ManagerNote(QSqlQuery* query, QWidget* parent)
 
     teamTypeInfoLay->addLayout(teamTypeLay);
 
-    personInfoLay->addLayout(personNameLay);
     personInfoLay->addLayout(personCountryLay);
+    personInfoLay->addLayout(personNameLay);
     personInfoLay->addLayout(personBirthdayLay);
 
     clubInfoLay->addLayout(clubInfoSinceLay);
@@ -178,7 +178,30 @@ void ManagerNote::extend()
 
 void ManagerNote::setStyles()
 {
-
+    title->setStyleSheet("font-size: 35px;"
+                              "color: white;"
+                              "");
+    teamType->setStyleSheet("font-size: 25px;"
+                              "color: white;"
+                              "");
+    name->setStyleSheet("font-size: 45px;"
+                              "color: white;"
+                              "");
+    country->setStyleSheet("font-size: 25px;"
+                              "color: white;"
+                              "");
+    birthdayDate->setStyleSheet("font-size: 25px;"
+                              "color: white;"
+                              "");
+    sinceInClub->setStyleSheet("font-size: 25px;"
+                              "color: white;"
+                              "");
+    contractEndsAt->setStyleSheet("font-size: 25px;"
+                              "color: white;"
+                              "");
+    salary->setStyleSheet("font-size: 25px;"
+                              "color: green;"
+                              "");
 }
 
 QString ManagerNote::deleteNotNeedSymbolsInSalaryValue(QString salaryValue) const
@@ -366,13 +389,21 @@ void ManagerNote::onCancelModifyingClicked()
 
 void ManagerNote::onDeleteButtonClicked()
 {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Delete note", "Are you sure that you want to delete this note?",
-                                QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        notifyObservers(DELETE, this);
-    }
-    else{
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Delete note");
+    msgBox.setText("Are you sure that you want to delete this note?");
+    msgBox.setStyleSheet("background-color:#3d4c78;"
+                         "color: white;"
+                         "font-size: 20px;"
+                         "");
+    msgBox.setStandardButtons(QMessageBox::Yes);
+    msgBox.addButton(QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+    if(msgBox.exec() == QMessageBox::Yes){
+      notifyObservers(DELETE, this);
+    }else {
 
     }
+
 }

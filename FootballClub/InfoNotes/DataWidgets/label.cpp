@@ -19,7 +19,6 @@ Label::Label(const QString& text)
 void Label::setStyles()
 {
     label->setStyleSheet(""
-                         "font-size: 20px;"
                          "font-family: Goudy Old Style;"
                          "font-weight: bold;");
 }

@@ -9,8 +9,21 @@
 
 Calendar::Calendar()
 {
+
     lay = new QVBoxLayout;
     calendar = new QCalendarWidget();
+    calendar->setStyleSheet("QCalendarWidget QToolButton"
+                            "{"
+                            "background-color : #1F618D;"
+                            "}"
+                            "QCalendarWidget QToolButton::hover"
+                            "{"
+                            "background-color : #2C6CA4;"
+                            "}"
+                            "QCalendarWidget QToolButton::pressed"
+                            "{"
+                            "background-color : #212e3c;"
+                            "}");
     saveBtn = new QPushButton("Save date");
     lay->addWidget(calendar);
     lay->addWidget(saveBtn);

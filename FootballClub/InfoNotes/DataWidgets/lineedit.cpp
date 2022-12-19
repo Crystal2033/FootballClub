@@ -13,7 +13,7 @@ LineEdit::LineEdit(const QString& text, QValidator* validator)
     lineEdit = new QLineEdit(text);
     lineEdit->setValidator(validator);
     lineEdit->setAlignment(Qt::AlignCenter);
-    lineEdit->setFixedWidth((text.size() <= 3 )? 80 : text.size() * 12);
+    lineEdit->setFixedWidth((text.size() <= 3 ) ? 100 : text.size() * 20);
     lay->addWidget(lineEdit);
     setLayout(lay);
     setStyles();
@@ -35,7 +35,7 @@ void LineEdit::setStyles()
     lineEdit->setStyleSheet("border: 1px solid black;"
                             "border-radius: 5px;"
                             "color: white;"
-                            "font-size: 20px;"
+                            "font-size: 25px;"
                             "font-family: Goudy Old Style;"
                             "font-weight: bold;");
 }

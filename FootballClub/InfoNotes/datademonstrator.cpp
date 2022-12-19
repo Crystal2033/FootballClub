@@ -22,21 +22,30 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     this->setLayout(layout);
-    addNoteButton = new QPushButton("Add");
-    addNoteButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-    addNoteButton->setStyleSheet("background-color: #33683D;"
-                                 "color: white;"
-                                 "font-size: 25px;"
-                                 "font-weight: bold;"
+    addNoteButton = new QPushButton();
+    QIcon addIcon(":/pictures/Pics/addNote.png");
+    addNoteButton->setIcon(addIcon);
+    addNoteButton->setFixedSize(100, 100);
+    addNoteButton->setIconSize(addNoteButton->size());
+    //addNoteButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    addNoteButton->setStyleSheet("QPushButton{"
+                                 "border: none;"
+                                 "border-radius:15px;"
+                                 "}"
+                                 "QPushButton:hover{"
+                                 "background-color: #212e3c;"
+                                 "}"
+                                 ""
                                  "");
     connect(addNoteButton, &QPushButton::clicked, this, &DataDemonstrator::onAddNoteButtonClicked);
-    layout->addWidget(addNoteButton, Qt::AlignTop);
+    layout->addWidget(addNoteButton, 0, Qt::AlignHCenter);
     addNoteButton->setVisible(false);
 
     scrollArea->setWidgetResizable(true);
 
     scrollArea->setStyleSheet(""
-                              "background-color: #7C98B1;"//008B8B
+                              "background-color:#2E4053;"
                               ""
                               "");
     scrollArea->setWidget(this);
@@ -44,8 +53,7 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 
     parentLay->addWidget(scrollArea);
 
-    clubAndDevInfoLay = new QVBoxLayout;
-    parentLay->addLayout(clubAndDevInfoLay);
+
     logoIcon = QIcon(":/pictures/Pics/psg-icon.png");
 
 }
@@ -140,7 +148,11 @@ void DataDemonstrator::showClubData(const QString &createdDate)
         iconLabel = new QLabel();
         iconLabel->setPixmap(logoIcon.pixmap(iconLabel->size()));
     }
-    //clubAndDevInfoLay->setContentsMargins(width()/4, height()/4, width()/4, height()/4);
+    if(clubAndDevInfoLay == nullptr){
+        clubAndDevInfoLay = new QVBoxLayout;
+        parentLay->addLayout(clubAndDevInfoLay);
+    }
+
     dataOfClubCreation->setStyleSheet("color: white;"
                                       "font-size: 60px;"
                                       "font-weight: bold;"
@@ -153,10 +165,11 @@ void DataDemonstrator::showClubData(const QString &createdDate)
     dataOfClubCreation->setText("PSG created at " + createdDate);
     developerInfo->setText("Developed with love by Kulikov Pavel.");
 
+    clubAndDevInfoLay->setContentsMargins(0, 100, 0,0);
     clubAndDevInfoLay->addWidget(iconLabel, 0, Qt::AlignCenter);
     clubAndDevInfoLay->addWidget(dataOfClubCreation, 0, Qt::AlignCenter);
     clubAndDevInfoLay->addWidget(developerInfo, 0, Qt::AlignCenter);
-    clubAndDevInfoLay->setSpacing(100);
+    //clubAndDevInfoLay->setSpacing(100);
 
 }
 
@@ -174,6 +187,10 @@ void DataDemonstrator::deleteClubAndDevInfo()
     if(iconLabel != nullptr){
         delete iconLabel;
         iconLabel = nullptr;
+    }
+    if(clubAndDevInfoLay != nullptr){
+        delete clubAndDevInfoLay;
+        clubAndDevInfoLay = nullptr;
     }
 }
 

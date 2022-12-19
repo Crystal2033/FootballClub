@@ -40,7 +40,7 @@ private:
     QScrollArea* scrollArea = nullptr;
     QBoxLayout* layout = nullptr;
     QList<BaseNote*> listOfNotes;
-    QBoxLayout* clubAndDevInfoLay;
+    QBoxLayout* clubAndDevInfoLay = nullptr;
     QLabel* iconLabel = nullptr;
     QIcon logoIcon;
     QLabel* dataOfClubCreation = nullptr;
