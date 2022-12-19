@@ -30,6 +30,7 @@ public:
     REQUEST_TYPE lastRequestType;
     REQUEST_TYPE getLastRequestType() const;
     void setLastRequestType(const REQUEST_TYPE newType);
+    void setDeleteButtonVisability(const bool isVisible);
 
 protected:
     std::map<QString, TextField*> fieldsMap;

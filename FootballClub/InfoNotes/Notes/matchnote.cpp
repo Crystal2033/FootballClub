@@ -235,6 +235,7 @@ void MatchNote::onSaveChangesClicked()
         notifyObservers(UPDATE, this);
         if(isLastRequestSuccess){
             setSaveCancelButtonsVisability(false);
+            setDeleteButtonVisability(true);
             modifyButton->setVisible(true);
             transformNoteInLabelView();
             setStyles();
@@ -249,6 +250,7 @@ void MatchNote::onCancelModifyingClicked()
         return;
     }
     setSaveCancelButtonsVisability(false);
+    setDeleteButtonVisability(true);
     modifyButton->setVisible(true);
     setSavedDataBack();
     transformNoteInLabelView();
@@ -390,5 +392,6 @@ void MatchNote::createModifyView()
     notifyObservers(GET_STADIUMS, this);
     setAllDataOnLayout();
     setSaveCancelButtonsVisability(true);
+    setDeleteButtonVisability(false);
     modifyButton->setVisible(false);
 }

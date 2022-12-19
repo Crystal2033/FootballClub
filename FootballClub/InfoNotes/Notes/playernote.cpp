@@ -401,6 +401,7 @@ void PlayerNote::createModifyView()
 
     setAllDataOnLayout();
     setSaveCancelButtonsVisability(true);
+    setDeleteButtonVisability(false);
     modifyButton->setVisible(false);
 }
 
@@ -416,6 +417,7 @@ void PlayerNote::onSaveChangesClicked()
         notifyObservers(UPDATE, this);
         if(isLastRequestSuccess){
             setSaveCancelButtonsVisability(false);
+            setDeleteButtonVisability(true);
             modifyButton->setVisible(true);
             transformNoteInLabelView();
             setStyles();
@@ -430,6 +432,7 @@ void PlayerNote::onCancelModifyingClicked()
         return;
     }
     setSaveCancelButtonsVisability(false);
+    setDeleteButtonVisability(true);
     modifyButton->setVisible(true);
     setSavedDataBack();
     transformNoteInLabelView();

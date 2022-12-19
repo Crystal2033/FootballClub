@@ -125,6 +125,11 @@ void BaseNote::setLastRequestType(const REQUEST_TYPE newType)
     lastRequestType = newType;
 }
 
+void BaseNote::setDeleteButtonVisability(const bool isVisible)
+{
+    deleteNoteButton->setVisible(isVisible);
+}
+
 
 void BaseNote::notifyObservers(const REQUEST_TYPE requestStatus, BaseNote *note)
 {
