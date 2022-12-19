@@ -80,7 +80,7 @@ void HeaderMenu::createMenu()
     addMenuLabel(new StandartLabel("Coaches", COACHES));
     addMenuLabel(new StandartLabel("Matches", MATCHES));
     //addMenuLabel(new StandartLabel("Goals", GOALS));
-    addMenuLabel(new AuthorizationLabel("Authorization", AUTHO));
+    //addMenuLabel(new AuthorizationLabel("Authorization", AUTHO));
 
     insertLabelsInLayout();
 }

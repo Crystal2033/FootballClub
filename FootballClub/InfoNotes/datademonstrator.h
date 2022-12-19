@@ -41,6 +41,8 @@ private:
     QBoxLayout* layout = nullptr;
     QList<BaseNote*> listOfNotes;
     QBoxLayout* clubAndDevInfoLay;
+    QLabel* iconLabel = nullptr;
+    QIcon logoIcon;
     QLabel* dataOfClubCreation = nullptr;
     QLabel* developerInfo = nullptr;
     void deleteClubAndDevInfo();

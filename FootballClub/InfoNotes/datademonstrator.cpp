@@ -46,6 +46,7 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 
     clubAndDevInfoLay = new QVBoxLayout;
     parentLay->addLayout(clubAndDevInfoLay);
+    logoIcon = QIcon(":/pictures/Pics/psg-icon.png");
 
 }
 
@@ -58,7 +59,7 @@ void DataDemonstrator::showData(const QList<BaseNote*> &notes)
 
     listOfNotes = notes;
     for(unsigned i = 0; i < listOfNotes.size(); i++){
-        layout->addWidget((QWidget*)listOfNotes[i]);
+        layout->addWidget((QWidget*)listOfNotes[i], 0, Qt::AlignTop);
     }
 }
 
@@ -135,6 +136,10 @@ void DataDemonstrator::showClubData(const QString &createdDate)
         developerInfo = new QLabel();
         qInfo() << "developer info is:";
     }
+    if(iconLabel == nullptr){
+        iconLabel = new QLabel();
+        iconLabel->setPixmap(logoIcon.pixmap(iconLabel->size()));
+    }
     //clubAndDevInfoLay->setContentsMargins(width()/4, height()/4, width()/4, height()/4);
     dataOfClubCreation->setStyleSheet("color: white;"
                                       "font-size: 60px;"
@@ -148,6 +153,7 @@ void DataDemonstrator::showClubData(const QString &createdDate)
     dataOfClubCreation->setText("PSG created at " + createdDate);
     developerInfo->setText("Developed with love by Kulikov Pavel.");
 
+    clubAndDevInfoLay->addWidget(iconLabel, 0, Qt::AlignCenter);
     clubAndDevInfoLay->addWidget(dataOfClubCreation, 0, Qt::AlignCenter);
     clubAndDevInfoLay->addWidget(developerInfo, 0, Qt::AlignCenter);
     clubAndDevInfoLay->setSpacing(100);
@@ -164,6 +170,10 @@ void DataDemonstrator::deleteClubAndDevInfo()
     if(developerInfo != nullptr){
         delete developerInfo;
         developerInfo = nullptr;
+    }
+    if(iconLabel != nullptr){
+        delete iconLabel;
+        iconLabel = nullptr;
     }
 }
 
