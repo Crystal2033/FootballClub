@@ -78,13 +78,14 @@ QSqlQuery *DBRepository::getStadiumNamesQuery() const
     return getQuery(getStadiumNamesSQLRequest());
 }
 
-bool DBRepository::saveData(const LABEL_TYPE type, const std::map<QString, TextField *> &fieldsMap, const unsigned id)
+bool DBRepository::saveData(const LABEL_TYPE type, const std::map<QString, TextField *> &fieldsMap,
+                            const unsigned id, const REQUEST_TYPE reqType)
 {
     switch (type) {
     case PLAYERS:
         return savePlayerData(fieldsMap, id);
     case COACHES:
-        return saveManagerData(fieldsMap, id);
+        return saveManagerData(fieldsMap, id, reqType);
     case MATCHES:
         return saveMatchData(fieldsMap, id);
     case CLUB:
@@ -660,8 +661,10 @@ int DBRepository::postManagerData(const std::map<QString, TextField *> &fieldsMa
     }
 }
 
-bool DBRepository::saveManagerData(const std::map<QString, TextField *> &fieldsMap, const unsigned id)
+bool DBRepository::saveManagerData(const std::map<QString, TextField *> &fieldsMap,
+                                   const unsigned id, const REQUEST_TYPE reqType)
 {
+
     ComboBox* teamTypeComboBox = (ComboBox*)fieldsMap.find("teamtype")->second;
     int teamId = getTeamIdByClubIdAndTeamTypeId(PSG_CLUB_ID, teamTypeComboBox, fieldsMap);
     if(teamId == -1){
@@ -676,13 +679,17 @@ bool DBRepository::saveManagerData(const std::map<QString, TextField *> &fieldsM
         return false;
     }
 
-    if(fieldsMap.find("title")->second->getText() == "Main coach"){// equals postId == 6
-        if(isMainCoachInPSGExist(teamId)){
-            QMessageBox::critical(nullptr, "Manager request to database error",
-                                  "Main coach of PSG already exists.");
-            return false;
+    if(reqType != POST){// If post than it wont work. Because we added new note with Main coach and
+                        //again checking after click on "Save"
+        if(fieldsMap.find("title")->second->getText() == "Main coach"){// equals postId == 6
+            if(isMainCoachInPSGExist(teamId)){
+                QMessageBox::critical(nullptr, "Manager request to database error",
+                                      "Main coach of PSG already exists.");
+                return false;
+            }
         }
     }
+
 
 
     int newContractId;

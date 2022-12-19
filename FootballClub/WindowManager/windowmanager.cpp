@@ -108,7 +108,8 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
             }
         }
 
-        if(repository->saveData(this->window->headerMenu->getChosenDataType(), note->getFieldsMap(), note->getRecordId())){
+        if(repository->saveData(this->window->headerMenu->getChosenDataType(), note->getFieldsMap(),
+                                note->getRecordId(), note->getLastRequestType())){
             note->setIsLastRequestSucess(true);
             note->setLastRequestType(UPDATE);
         }

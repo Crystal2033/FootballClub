@@ -34,7 +34,8 @@ private:
     QSqlQuery* getTeamTypeNamesQuery() const;
     QSqlQuery* getClubNamesQuery() const;
     QSqlQuery* getStadiumNamesQuery() const;
-    bool saveData(const LABEL_TYPE type, const std::map<QString, TextField*>& fieldsMap, const unsigned id);
+    bool saveData(const LABEL_TYPE type, const std::map<QString, TextField*>& fieldsMap,
+                  const unsigned id, const REQUEST_TYPE reqType=GET);
     int postData(const LABEL_TYPE type, const std::map<QString, TextField*>& fieldsMap);
     bool deleteData(const LABEL_TYPE type, const unsigned id);
     bool saveMatchData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
@@ -64,7 +65,8 @@ private:
     QSqlQuery* getManagersQuery() const;
     QSqlQuery* getManagerTitlesQuery() const;
     int postManagerData(const std::map<QString, TextField*>& fieldsMap);
-    bool saveManagerData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
+    bool saveManagerData(const std::map<QString, TextField*>& fieldsMap,
+                         const unsigned id, const REQUEST_TYPE reqType);
     bool deleteManagerData(const unsigned id);
 
     bool isMainCoachInPSGExist(const unsigned team_id);
