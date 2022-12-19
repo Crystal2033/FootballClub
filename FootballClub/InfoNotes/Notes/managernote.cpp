@@ -287,7 +287,7 @@ void ManagerNote::createModifyView()
     fromLabelToDateTimeText(sinceInClub);
     fromLabelToDateTimeText(contractEndsAt);
 
-    QRegularExpression regularExprSalary("[1-9]\\d*,\\d\\d");
+    QRegularExpression regularExprSalary("\\d*,\\d\\d");
     QValidator *validatorSalary = new QRegularExpressionValidator(regularExprSalary);
     fromLabelToLineEdit(salary, validatorSalary);
 
@@ -298,19 +298,19 @@ void ManagerNote::createModifyView()
 
 bool ManagerNote::isInsertingDataCorrect() const
 {
-    QDateTime dateTimeCheck = QDateTime::fromString(birthdayDate->getText(), "yyyy-MM-dd");
+    QDateTime dateTimeCheck = QDateTime::fromString(birthdayDate->getText().replace(" ", ""), "yyyy-MM-dd");
     if(!dateTimeCheck.isValid()){
         QMessageBox::warning(nullptr, "Bad inserted value", "Manager`s birthday is wrong. Example: 2022-16-12");
         return false;
     }
 
-    dateTimeCheck = QDateTime::fromString(sinceInClub->getText(), "yyyy-MM-dd");
+    dateTimeCheck = QDateTime::fromString(sinceInClub->getText().replace(" ", ""), "yyyy-MM-dd");
     if(!dateTimeCheck.isValid()){
         QMessageBox::warning(nullptr, "Bad inserted value", "Since in club date is wrong. Example: 2022-16-12");
         return false;
     }
 
-    dateTimeCheck = QDateTime::fromString(contractEndsAt->getText(), "yyyy-MM-dd");
+    dateTimeCheck = QDateTime::fromString(contractEndsAt->getText().replace(" ", ""), "yyyy-MM-dd");
     if(!dateTimeCheck.isValid()){
         QMessageBox::warning(nullptr, "Bad inserted value", "Contract ends data is wrong. Example: 2022-16-12");
         return false;
@@ -325,6 +325,7 @@ bool ManagerNote::isInsertingDataCorrect() const
         QMessageBox::warning(nullptr, "Bad inserted value", "Salary value is empty. Example: 1234,56");
         return false;
     }
+
     return true;
 }
 

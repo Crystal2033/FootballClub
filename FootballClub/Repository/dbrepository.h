@@ -67,7 +67,10 @@ private:
     bool saveManagerData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
     bool deleteManagerData(const unsigned id);
 
+    bool isMainCoachInPSGExist(const unsigned team_id);
+
     bool deleteContractById(const unsigned id);
+    QSqlQuery* getMainCoachOfPSG();
     //Club
     QSqlQuery* getClubQuery() const;
     //SQL REQUESTS
@@ -102,6 +105,7 @@ private:
     QString getClubSQLRequest() const;
 
     QString getContractDeleteSQLRequest() const;
+    QString getMainCoachOfPSGSQLRequest() const;
 
 
 

@@ -337,6 +337,27 @@ bool PlayerNote::isInsertingDataCorrect() const
         QMessageBox::warning(nullptr, "Bad inserted value", "Your date is incorrect. Example: 2022-16-12");
         return false;
     }
+    if(name->getText().size() == 0){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Player`s name is empty");
+        return false;
+    }
+
+    if(salary->getText().size() == 0){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Salary value is empty. Example: 1234,56");
+        return false;
+    }
+    if(gameNumber->getText().size() == 0){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Game number is empty.");
+        return false;
+    }
+    if(height->getText().size() == 0){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Height value is empty. Example: 1.85");
+        return false;
+    }
+    if(weight->getText().size() == 0){
+        QMessageBox::warning(nullptr, "Bad inserted value", "Weight value is empty.");
+        return false;
+    }
     return true;
 }
 
@@ -374,7 +395,7 @@ void PlayerNote::createModifyView()
     fromLabelToDateTimeText(contractEndsAt);
     notifyObservers(GET_TEAM_TYPES, this);
 
-    QRegularExpression regularExprSalary("[1-9]\\d*,\\d\\d");
+    QRegularExpression regularExprSalary("\\d*,\\d\\d");
     QValidator *validatorSalary = new QRegularExpressionValidator(regularExprSalary);
     fromLabelToLineEdit(salary, validatorSalary);
 
