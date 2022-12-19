@@ -58,3 +58,32 @@ void MainWindow::createDataDemonstrator()
 }
 
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Escape)
+        {
+            // handle the key press, perhaps giving the item text a default value
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Close window");
+        msgBox.setText("Are you want close the programm?");
+        msgBox.setStyleSheet("background-color:#3d4c78;"
+                             "color: white;"
+                             "font-size: 20px;"
+                             "");
+        msgBox.setStandardButtons(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        if(msgBox.exec() == QMessageBox::Yes){
+          this->close();
+        }else {
+
+        }
+
+        }
+        else
+        {
+             // call the default implementation
+        }
+}
+
+

@@ -8,7 +8,7 @@
 #include "windowmanager.h"
 #include "InfoNotes/Notes/managernote.h"
 #include "InfoNotes/Notes/matchnote.h"
-
+#include "InfoNotes/Notes/playernote.h"
 
 WindowManager::WindowManager()
 {
@@ -24,6 +24,7 @@ WindowManager::~WindowManager()
 void WindowManager::show()
 {
     window->show();
+    window->setWindowState(Qt::WindowFullScreen);
     window->headerMenu->notifyObservers(SEND_CHOSEN_DATA_TYPE);
 }
 
@@ -342,6 +343,7 @@ void WindowManager::showClubData(const LABEL_TYPE &dataType)
     this->window->dataDemonstrator->showClubData(clubCreatedAt);
     delete query;
 }
+
 
 
 

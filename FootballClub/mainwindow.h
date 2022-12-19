@@ -12,6 +12,7 @@
 #include <QMainWindow>
 #include <QBoxLayout>
 #include "InfoNotes/datademonstrator.h"
+#include <QKeyEvent>
 
 //class WindowManager;
 
@@ -41,5 +42,6 @@ private:
     void createHeaderMenu();
     void createDataDemonstrator();
     friend class WindowManager;
+    void keyPressEvent(QKeyEvent *event);
 };
 #endif // MAINWINDOW_H

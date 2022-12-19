@@ -10,9 +10,8 @@
 #pragma once
 #include "mainwindow.h"
 #include "Repository/dbrepository.h"
-#include "InfoNotes/Notes/matchnote.h"
+#include <QKeyEvent>
 
-#include "InfoNotes/Notes/playernote.h"
 
 class WindowManager : public InterfaceObserver
 {
