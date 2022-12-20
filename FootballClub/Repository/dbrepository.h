@@ -34,14 +34,17 @@ private:
     QSqlQuery* getTeamTypeNamesQuery() const;
     QSqlQuery* getClubNamesQuery() const;
     QSqlQuery* getStadiumNamesQuery() const;
+    QSqlQuery* getCountryNamesQuery() const;
+
     bool saveData(const LABEL_TYPE type, const std::map<QString, TextField*>& fieldsMap,
                   const unsigned id, const REQUEST_TYPE reqType=GET);
     int postData(const LABEL_TYPE type, const std::map<QString, TextField*>& fieldsMap);
     bool deleteData(const LABEL_TYPE type, const unsigned id);
+
+
     bool saveMatchData(const std::map<QString, TextField*>& fieldsMap, const unsigned id);
     int postMatchData(const std::map<QString, TextField*>& fieldsMap);
-    int postPlayerData(const std::map<QString, TextField*>& fieldsMap);
-    int postContractData(const std::map<QString, TextField*>& fieldsMap);
+
     bool deleteMatchData(const unsigned id);
     int getTeamIdByClubIdAndTeamTypeId(ComboBox* clubBox, ComboBox* teamTypeBox,
                                             const std::map<QString, TextField*>& fieldsMap, const QString& whichTeam) const;
@@ -49,9 +52,11 @@ private:
                                             const std::map<QString, TextField*>& fieldsMap) const;
 
 
-    QSqlQuery* getCountryNamesQuery() const;
+
 
     //Players
+    int postContractData(const std::map<QString, TextField*>& fieldsMap);
+    int postPlayerData(const std::map<QString, TextField*>& fieldsMap);
     QSqlQuery* getPlayersQuery() const;
     QSqlQuery* getPlayerPositionNamesQuery() const;
 
@@ -61,6 +66,7 @@ private:
     bool isNeedToUpdateContractId(const std::map<QString, TextField*>& newValues);
 
     int getContractIdByPersonId(const unsigned playerId, const LABEL_TYPE whoseIdType);
+
     //Managers
     QSqlQuery* getManagersQuery() const;
     QSqlQuery* getManagerTitlesQuery() const;
@@ -73,48 +79,47 @@ private:
 
     bool deleteContractById(const unsigned id);
     QSqlQuery* getMainCoachOfPSG();
+
     //Club
     QSqlQuery* getClubQuery() const;
-    //SQL REQUESTS
 
+
+    //SQL REQUESTS
     QString getMatchesSQLRequest() const;
+    QString getMatchUpdateSQLRequest() const;
+    QString getMatchPostSQLRequest() const;
+    QString getMatchDeleteSQLRequest() const;
+
     QString getTournNamesSQLRequest() const;
     QString getStageNamesSQLRequest() const;
     QString getTeamTypeNamesSQLRequest() const;
     QString getClubNamesSQLRequest() const;
     QString getStadiumNamesSQLRequest() const;
-    QString getMatchUpdateSQLRequest() const;
-    QString getMatchPostSQLRequest() const;
-    QString getMatchDeleteSQLRequest() const;
     QString getTeamIdByClubAndTeamTypeSQLRequest() const;
 
     QString getPlayersSQLRequest() const;
-    QString getPlayerPositionNamesSQLRequest() const;
-    QString getCountriesSQLRequest() const;
     QString getPlayerUpdateSQLRequest() const;
     QString getPlayerPostSQLRequest() const;
     QString getPlayerDeleteSQLRequest() const;
+
+    QString getPlayerPositionNamesSQLRequest() const;
+    QString getCountriesSQLRequest() const;
+
     QString getContractPostSQLRequest() const;
+    QString getContractDeleteSQLRequest() const;
     QString getContractIdByPlayerSQLRequest()const;
 
     QString getManagersSQLRequest() const;
+
     QString getManagerTitleNamesSQLRequest() const;
     QString getManagerPostSQLRequest() const;
-    QString getContractIdByManagerSQLRequest() const;
     QString getManagerUpdateSQLRequest() const;
     QString getManagerDeleteSQLRequest() const;
+    QString getMainCoachOfPSGSQLRequest() const;
+    QString getContractIdByManagerSQLRequest() const;
 
     QString getClubSQLRequest() const;
 
-    QString getContractDeleteSQLRequest() const;
-    QString getMainCoachOfPSGSQLRequest() const;
-
-
-
-
-
-
-    void testPrint();
     DataBase* database = nullptr;
     bool createConnection();
     friend class WindowManager;

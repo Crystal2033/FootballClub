@@ -980,8 +980,6 @@ QString DBRepository::getManagerPostSQLRequest() const
 
 
 
-
-
 QString DBRepository::getPlayerDeleteSQLRequest() const
 {
     return "delete from player where id=:id;";

@@ -64,10 +64,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         this->setWindowState(Qt::WindowMaximized);
     }
-    else
+    else if(event->key() == Qt::Key_F11)
     {
+        this->setWindowState(Qt::WindowFullScreen);
+    }
+    else{
 
     }
+
 }
 
 
