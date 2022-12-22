@@ -7,6 +7,7 @@
  ***************************************************************************/
 #ifndef DATADEMONSTRATOR_H
 #define DATADEMONSTRATOR_H
+#include "InfoNotes/DataWidgets/lineedit.h"
 #pragma once
 #include "InfoNotes/Notes/BaseNote.h"
 #include "Enums/Enums.h"
@@ -23,9 +24,10 @@ class DataDemonstrator : public QWidget, public InterfaceSubject
 public:
     bool isAdmin = false;
     explicit DataDemonstrator(QBoxLayout* parentLay, QWidget *parent = nullptr);
-    void showData(const QList<BaseNote*>& notes);
+    void showData(const QList<BaseNote*>& notes, const LABEL_TYPE& currDataType);
     void setVisibleScrollArea(const bool visibility);
     QList<BaseNote*> getListOfNotes() const;
+
     void deleteDataFromListIfNotNeed(const QList<BaseNote*>& newNotes);
     void addObserver(InterfaceObserver* observer) override;
     void removeObserver(InterfaceObserver* observer) override;
@@ -33,7 +35,16 @@ public:
     void deleteNoteFromList(const BaseNote* note);
     void showClubData(const QString& createdDate);
 
+    QString getSearchText() const;
+    LABEL_TYPE getCurrShowingData() const;
+    LABEL_TYPE currShowingDataType;
+
 private:
+    QBoxLayout* searchLay = nullptr;
+    QLabel* seacrhLabel = nullptr;
+    QIcon searchIcon;
+    LineEdit* searchLineEdit = nullptr;
+
     QBoxLayout* parentLay;
     QList<InterfaceObserver*> observers;
     QPushButton* addNoteButton = nullptr;
@@ -50,6 +61,7 @@ private:
 
 private slots:
     void onAddNoteButtonClicked();
+    void searchEditingFinished();
 
 };
 

@@ -123,13 +123,13 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         if(note->getLastRequestType() == POST){ //react on Added and pressed "cancel" Don`t need to get id from DB, need just clear visual
             this->window->dataDemonstrator->deleteNoteFromList(note);
             delete note;
-            this->window->dataDemonstrator->showData(this->window->dataDemonstrator->getListOfNotes());
+            this->window->dataDemonstrator->showData(this->window->dataDemonstrator->getListOfNotes(), this->window->headerMenu->getChosenDataType());
         }
         else{
             if(repository->deleteData(this->window->headerMenu->getChosenDataType(), note->getRecordId())){
                 this->window->dataDemonstrator->deleteNoteFromList(note);
                 delete note;
-                this->window->dataDemonstrator->showData(this->window->dataDemonstrator->getListOfNotes());
+                this->window->dataDemonstrator->showData(this->window->dataDemonstrator->getListOfNotes(), this->window->headerMenu->getChosenDataType());
             }
             else{
                 note->setIsLastRequestSucess(false);
@@ -165,7 +165,7 @@ void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANC
 
         listOfNotesInfo.append(this->window->dataDemonstrator->getListOfNotes());
     }
-    this->window->dataDemonstrator->showData(listOfNotesInfo);
+    this->window->dataDemonstrator->showData(listOfNotesInfo, this->window->headerMenu->getChosenDataType());
 }
 
 QSqlQuery *WindowManager::getNeededQuery(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus)

@@ -12,6 +12,7 @@
 
 class LineEdit : public TextField
 {
+    Q_OBJECT
 public:
     LineEdit(const QString& text, QValidator* validator = nullptr);
     void setText(const QString& text) override;
@@ -19,10 +20,13 @@ public:
 private:
     QLineEdit* lineEdit = nullptr;
     QBoxLayout* lay = nullptr;
-
-
     void setStyles();
 
+private slots:
+    void editFinished();
+
+signals:
+    void emitEditingFinished();
 };
 
 #endif // LINEEDIT_H

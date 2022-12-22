@@ -17,17 +17,20 @@ LineEdit::LineEdit(const QString& text, QValidator* validator)
     lay->addWidget(lineEdit);
     setLayout(lay);
     setStyles();
+    connect(lineEdit, &QLineEdit::editingFinished, this, &LineEdit::editFinished);
 
 }
 
 void LineEdit::setText(const QString &text)
 {
     lineEdit->setText(text);
+
 }
 
 QString LineEdit::getText() const
 {
     return lineEdit->text();
+
 }
 
 void LineEdit::setStyles()
@@ -38,4 +41,9 @@ void LineEdit::setStyles()
                             "font-size: 25px;"
                             "font-family: Goudy Old Style;"
                             "font-weight: bold;");
+}
+
+void LineEdit::editFinished()
+{
+    emit emitEditingFinished();
 }

@@ -14,6 +14,7 @@
 DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     : QWidget{parent}
 {
+    //connect(searchLineEdit, &LineEdit::editingFinished, this, &DataDemonstrator::searchEditingFinished);
     this->parentLay = parentLay;
     layout = new QVBoxLayout;
     layout->setSpacing(75);
@@ -58,8 +59,9 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
 
 }
 
-void DataDemonstrator::showData(const QList<BaseNote*> &notes)
+void DataDemonstrator::showData(const QList<BaseNote*> &notes, const LABEL_TYPE& currDataType)
 {
+    currShowingDataType = currDataType;
     deleteClubAndDevInfo();
 
     addNoteButton->setVisible(true);
@@ -163,7 +165,7 @@ void DataDemonstrator::showClubData(const QString &createdDate)
                                       "");
 
     dataOfClubCreation->setText("PSG created at " + createdDate);
-    developerInfo->setText("Developed with love by Kulikov Pavel.");
+    developerInfo->setText("Developed with soul by Kulikov Pavel.");
 
     clubAndDevInfoLay->setContentsMargins(0, 100, 0,0);
     clubAndDevInfoLay->addWidget(iconLabel, 0, Qt::AlignCenter);
@@ -171,6 +173,19 @@ void DataDemonstrator::showClubData(const QString &createdDate)
     clubAndDevInfoLay->addWidget(developerInfo, 0, Qt::AlignCenter);
     //clubAndDevInfoLay->setSpacing(100);
 
+}
+
+QString DataDemonstrator::getSearchText() const
+{
+    if(searchLineEdit != nullptr){
+        return searchLineEdit->getText();
+    }
+    return "NullPtr";
+}
+
+LABEL_TYPE DataDemonstrator::getCurrShowingData() const
+{
+    return currShowingDataType;
 }
 
 
@@ -204,4 +219,9 @@ void DataDemonstrator::notifyObservers(const REQUEST_TYPE requestStatus, BaseNot
 void DataDemonstrator::onAddNoteButtonClicked()
 {
     notifyObservers(ADD_NEW_NOTE);
+}
+
+void DataDemonstrator::searchEditingFinished()
+{
+
 }
