@@ -269,14 +269,9 @@ bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap,
     ComboBox* teamTypeComboBox = (ComboBox*)fieldsMap.find("teamtype")->second;
     ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("club1")->second;
     ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("club2")->second;
-    if(firstClubComboBox->getText() == secondClubComboBox->getText()){
-        QMessageBox::warning(nullptr, "Teams are the same error.", "You have to choose different teams");
-        return false;
-    }
+
     unsigned firstTeamId = getTeamIdByClubIdAndTeamTypeId(firstClubComboBox, teamTypeComboBox, fieldsMap, "club1");
     qInfo() << "First team id = " << firstTeamId;
-
-
 
     unsigned secondTeamId = getTeamIdByClubIdAndTeamTypeId(secondClubComboBox, teamTypeComboBox, fieldsMap, "club2");
     qInfo() << "Second team id = " << secondTeamId;
@@ -291,7 +286,6 @@ bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap,
     ComboBox* tournamentComboBox = (ComboBox*)fieldsMap.find("tournament")->second;
     unsigned tournId = tournamentComboBox->getIdByValue(fieldsMap.find("tournament")->second->getText());
 
-
     query.bindValue(":id", id);
     query.bindValue(":stadium_id", stadiumId);
     query.bindValue(":first_team", firstTeamId);
@@ -303,7 +297,7 @@ bool DBRepository::saveMatchData(const std::map<QString, TextField*>& fieldsMap,
 
     if(!query.exec()){
         QMessageBox::critical(nullptr, "Matches request to database error",
-                              "There is a problem with sending request about matches information.");
+                              "There is a problem with sending request about matches information." + query.lastError().text());
         return false;
     }
     else{
