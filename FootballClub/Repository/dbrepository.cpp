@@ -48,9 +48,23 @@ QSqlQuery *DBRepository::getQuery(const QString request) const
     }
 }
 
-QSqlQuery* DBRepository::getMatchesQuery() const
+QSqlQuery* DBRepository::getMatchesQuery(const QString& searchDataText) const
 {
-    return getQuery(getMatchesSQLRequest());
+
+    QSqlQuery* queryMatches = new QSqlQuery;
+
+    queryMatches->prepare(getMatchesSQLRequest());
+    queryMatches->bindValue(":partOfTeamName", searchDataText);
+
+    if(!queryMatches->exec()){
+        QMessageBox::critical(nullptr, "Get matches error",
+                              "There is a problem with sending request about matches.");
+        return nullptr;
+    }
+    else{
+        qInfo() << "Success request";
+        return queryMatches;
+    }
 }
 
 QSqlQuery *DBRepository::getTournNamesQuery() const
@@ -603,9 +617,23 @@ QSqlQuery *DBRepository::getClubQuery() const
 }
 
 
-QSqlQuery *DBRepository::getManagersQuery() const
+QSqlQuery *DBRepository::getManagersQuery(const QString& searchDataText) const
 {
-    return getQuery(getManagersSQLRequest());
+
+    QSqlQuery* queryManagers = new QSqlQuery;
+
+    queryManagers->prepare(getManagersSQLRequest());
+    queryManagers->bindValue(":partOfName", searchDataText);
+
+    if(!queryManagers->exec()){
+        QMessageBox::critical(nullptr, "Get managers error",
+                              "There is a problem with sending request about managers.");
+        return nullptr;
+    }
+    else{
+        qInfo() << "Success request";
+        return queryManagers;
+    }
 }
 
 QSqlQuery *DBRepository::getManagerTitlesQuery() const
@@ -854,23 +882,7 @@ QSqlQuery *DBRepository::getMainCoachOfPSG()
 
 QString DBRepository::getMatchesSQLRequest() const
 {
-    return  "select gameid, club1, teamType1, finalscore, club.club_name as club2,"
-            "team_type.name as teamType2, stadium.name as stadium,"
-            "gameDate, tournament.name as tournName, tourn_stage.name as stage "
-            "from club, stadium,"
-            "(select game.id as gameid, club.club_name as club1, club.id as team1id,"
-            " team_type.name as teamType1, game.final_score as finalscore,"
-            "game.second_team as team2, game.starts_at as gameDate, game.stadium_id as stadiumid,"
-            "game.tourn_id as tournId, game.stage_id as tournStageId "
-            "from club, game, team, stadium, team_type "
-            "where game.first_team=team.id and team.club_id=club.id "
-            "and game.stadium_id=stadium.id and team.team_type_id=team_type.id) as subReq "
-            "left join tournament on tournId=tournament.id "
-            "left join tourn_stage on subReq.tournStageId=tourn_stage.id "
-            "left join team on team2 = team.id "
-            "left join team_type on team_type.id = team.team_type_id "
-            "where subReq.team2=team.id and team.club_id=club.id and stadiumid=stadium.id and (subReq.team1id=1 or club.id=1) "
-            "order by gameDate asc;";
+    return  "select * from searchmatch(:partOfTeamName);";
 }
 
 QString DBRepository::getTournNamesSQLRequest() const
@@ -969,14 +981,7 @@ QString DBRepository::getMainCoachOfPSGSQLRequest() const
 
 QString DBRepository::getManagersSQLRequest() const
 {
-    return "select manager.id, manager.name as name, manager.birthday as birthday, country.name as borncountry,"
-           "post.title as title, football_contract.begin_at as inclubsince,"
-           "football_contract.end_at as leftfromclub, football_contract.salary_per_year as yearsalary,"
-           "team_type.name as teamtype "
-           "from manager, team, club, country, post, football_contract, team_type "
-           "where manager.post_id=post.id and manager.team_id=team.id and "
-           "manager.born_country_id=country.id and team_type.id =manager.team_id and "
-           "manager.contract_id=football_contract.id and club.id=1;";
+    return "select * from searchmanager(:partOfName);";
 }
 
 QString DBRepository::getManagerTitleNamesSQLRequest() const

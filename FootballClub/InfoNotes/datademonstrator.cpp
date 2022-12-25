@@ -204,6 +204,11 @@ QString DataDemonstrator::getSearchText() const
     return "NullPtr";
 }
 
+void DataDemonstrator::clearSearchText()
+{
+    searchLineEdit->clearField();
+}
+
 LABEL_TYPE DataDemonstrator::getCurrShowingData() const
 {
     return currShowingDataType;

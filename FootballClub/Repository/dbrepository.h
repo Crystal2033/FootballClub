@@ -28,7 +28,7 @@ private:
     QSqlQuery* getQuery(const QString request) const;
 
     //Matches
-    QSqlQuery* getMatchesQuery() const;
+    QSqlQuery* getMatchesQuery(const QString& searchDataText) const;
     QSqlQuery* getTournNamesQuery() const;
     QSqlQuery* getStageNamesQuery() const;
     QSqlQuery* getTeamTypeNamesQuery() const;
@@ -68,7 +68,7 @@ private:
     int getContractIdByPersonId(const unsigned playerId, const LABEL_TYPE whoseIdType);
 
     //Managers
-    QSqlQuery* getManagersQuery() const;
+    QSqlQuery* getManagersQuery(const QString& searchDataText) const;
     QSqlQuery* getManagerTitlesQuery() const;
     int postManagerData(const std::map<QString, TextField*>& fieldsMap);
     bool saveManagerData(const std::map<QString, TextField*>& fieldsMap,

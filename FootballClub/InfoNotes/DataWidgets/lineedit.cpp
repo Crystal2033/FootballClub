@@ -17,7 +17,7 @@ LineEdit::LineEdit(const QString& text, QValidator* validator)
     lay->addWidget(lineEdit);
     setLayout(lay);
     setStyles();
-    connect(lineEdit, &QLineEdit::editingFinished, this, &LineEdit::editFinished);
+    connect(lineEdit, &QLineEdit::returnPressed, this, &LineEdit::editFinished);
 
 }
 
@@ -36,6 +36,11 @@ QString LineEdit::getText() const
 void LineEdit::setNewFixedSize(unsigned w, unsigned h)
 {
     lineEdit->setFixedSize(w, h);
+}
+
+void LineEdit::clearField()
+{
+    lineEdit->setText("");
 }
 
 void LineEdit::setStyles()

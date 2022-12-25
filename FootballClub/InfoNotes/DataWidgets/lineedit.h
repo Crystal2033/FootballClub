@@ -18,6 +18,7 @@ public:
     void setText(const QString& text) override;
     QString getText() const override;
     void setNewFixedSize(unsigned w, unsigned h);
+    void clearField();
 private:
     QLineEdit* lineEdit = nullptr;
     QBoxLayout* lay = nullptr;

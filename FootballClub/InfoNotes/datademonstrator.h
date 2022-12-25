@@ -36,6 +36,8 @@ public:
     void showClubData(const QString& createdDate);
 
     QString getSearchText() const;
+    void clearSearchText();
+
     LABEL_TYPE getCurrShowingData() const;
     LABEL_TYPE currShowingDataType;
 
