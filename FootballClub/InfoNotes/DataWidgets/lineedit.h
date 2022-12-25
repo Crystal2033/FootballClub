@@ -17,6 +17,7 @@ public:
     LineEdit(const QString& text, QValidator* validator = nullptr);
     void setText(const QString& text) override;
     QString getText() const override;
+    void setNewFixedSize(unsigned w, unsigned h);
 private:
     QLineEdit* lineEdit = nullptr;
     QBoxLayout* lay = nullptr;

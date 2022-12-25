@@ -573,9 +573,22 @@ QSqlQuery *DBRepository::getCountryNamesQuery() const
 }
 
 
-QSqlQuery *DBRepository::getPlayersQuery() const
+QSqlQuery *DBRepository::getPlayersQuery(const QString& searchDataText) const
 {
-    return getQuery(getPlayersSQLRequest());
+    QSqlQuery* queryPlayers = new QSqlQuery;
+
+    queryPlayers->prepare(getPlayersSQLRequest());
+    queryPlayers->bindValue(":partOfName", searchDataText);
+
+    if(!queryPlayers->exec()){
+        QMessageBox::critical(nullptr, "Get players error",
+                              "There is a problem with sending request about players.");
+        return nullptr;
+    }
+    else{
+        qInfo() << "Success request";
+        return queryPlayers;
+    }
 }
 
 QSqlQuery *DBRepository::getPlayerPositionNamesQuery() const
@@ -1020,17 +1033,7 @@ QString DBRepository::getTeamIdByClubAndTeamTypeSQLRequest() const
 
 QString DBRepository::getPlayersSQLRequest() const
 {
-    return  "select player.id, player.name, player_pos.pos as pos, club.club_name as club,"
-            "team_type.name as teamtype,"
-            "player.height as height, player.weight as weight, country.name as country,"
-            "player.birthday as birthday, football_contract.salary_per_year as yearsalary, player.number as gamenumber,"
-            " football_contract.begin_at as inclubsince,"
-            "football_contract.end_at as leftfromclub "
-            "from player, club, team, country, player_pos, football_contract, team_type "
-            "where player.team_id=team.id and team.club_id=club.id and "
-            "player.born_country_id=country.id and player.position_id=player_pos.id "
-            "and football_contract.id = player.contract_id and player.team_id = team_type.id and club.id=1 "
-            "order by yearsalary desc;";
+    return  "select * from searchplayer(:partOfName);";
 
 }
 

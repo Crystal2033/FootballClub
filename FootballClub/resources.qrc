@@ -7,5 +7,6 @@
         <file>Pics/calendarIcon.png</file>
         <file>Pics/closeIcon.png</file>
         <file>Pics/addNote.png</file>
+        <file>Pics/search.png</file>
     </qresource>
 </RCC>

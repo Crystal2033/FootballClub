@@ -33,9 +33,14 @@ QString LineEdit::getText() const
 
 }
 
+void LineEdit::setNewFixedSize(unsigned w, unsigned h)
+{
+    lineEdit->setFixedSize(w, h);
+}
+
 void LineEdit::setStyles()
 {
-    lineEdit->setStyleSheet("border: 1px solid black;"
+    lineEdit->setStyleSheet("border: 1px solid #4d66a4;"
                             "border-radius: 5px;"
                             "color: white;"
                             "font-size: 25px;"

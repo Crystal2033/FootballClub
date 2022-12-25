@@ -42,7 +42,7 @@ public:
 private:
     QBoxLayout* searchLay = nullptr;
     QLabel* seacrhLabel = nullptr;
-    QIcon searchIcon;
+    //QIcon searchIcon;
     LineEdit* searchLineEdit = nullptr;
 
     QBoxLayout* parentLay;

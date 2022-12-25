@@ -14,7 +14,7 @@
 DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     : QWidget{parent}
 {
-    //connect(searchLineEdit, &LineEdit::editingFinished, this, &DataDemonstrator::searchEditingFinished);
+
     this->parentLay = parentLay;
     layout = new QVBoxLayout;
     layout->setSpacing(75);
@@ -23,12 +23,30 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     this->setLayout(layout);
+
+    searchLay = new QHBoxLayout;
+    //need to add icon
+    QIcon searchIcon(":/pictures/Pics/search.png");
+    seacrhLabel = new QLabel;
+    seacrhLabel->setFixedSize(50, 50);
+    seacrhLabel->setPixmap(searchIcon.pixmap(seacrhLabel->size()));
+    searchLineEdit = new LineEdit("");
+    searchLineEdit->setNewFixedSize(300, 50);
+
+    searchLay->setSpacing(0);
+    searchLay->setAlignment(Qt::AlignCenter);
+    searchLay->addWidget(seacrhLabel, 0, Qt::AlignHCenter);
+    searchLay->addWidget(searchLineEdit, 0, Qt::AlignLeft);
+
+
+    connect(searchLineEdit, &LineEdit::emitEditingFinished, this, &DataDemonstrator::searchEditingFinished);
+
+
     addNoteButton = new QPushButton();
     QIcon addIcon(":/pictures/Pics/addNote.png");
     addNoteButton->setIcon(addIcon);
     addNoteButton->setFixedSize(100, 100);
     addNoteButton->setIconSize(addNoteButton->size());
-    //addNoteButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
     addNoteButton->setStyleSheet("QPushButton{"
                                  "border: none;"
@@ -42,6 +60,9 @@ DataDemonstrator::DataDemonstrator(QBoxLayout* parentLay, QWidget *parent)
     connect(addNoteButton, &QPushButton::clicked, this, &DataDemonstrator::onAddNoteButtonClicked);
     layout->addWidget(addNoteButton, 0, Qt::AlignHCenter);
     addNoteButton->setVisible(false);
+
+    layout->addLayout(searchLay);
+    layout->setAlignment(Qt::AlignTop);
 
     scrollArea->setWidgetResizable(true);
 
@@ -223,5 +244,6 @@ void DataDemonstrator::onAddNoteButtonClicked()
 
 void DataDemonstrator::searchEditingFinished()
 {
-
+    qInfo() << getSearchText();
+    notifyObservers(SEND_CHOSEN_DATA_TYPE);
 }

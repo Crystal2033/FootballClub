@@ -141,9 +141,9 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
 }
 
 
-void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus)
+void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus, const QString& searchDataText)
 {
-    QSqlQuery* query = getNeededQuery(dataType, existStatus);
+    QSqlQuery* query = getNeededQuery(dataType, existStatus, searchDataText);
     QList<BaseNote*> listOfNotesInfo;
     if(query != nullptr){
         while(query->next()){
@@ -168,7 +168,7 @@ void WindowManager::createAndShowData(const LABEL_TYPE &dataType, const EXISTANC
     this->window->dataDemonstrator->showData(listOfNotesInfo, this->window->headerMenu->getChosenDataType());
 }
 
-QSqlQuery *WindowManager::getNeededQuery(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus)
+QSqlQuery *WindowManager::getNeededQuery(const LABEL_TYPE &dataType, const EXISTANCE_STATUS& existStatus, const QString& searchDataText)
 {
     if(existStatus == NOT_EXIST){
         return nullptr;
@@ -176,7 +176,7 @@ QSqlQuery *WindowManager::getNeededQuery(const LABEL_TYPE &dataType, const EXIST
     else{
         switch (dataType) {
         case PLAYERS:
-            return repository->getPlayersQuery();
+            return repository->getPlayersQuery(window->dataDemonstrator->getSearchText());
         case COACHES:
             return repository->getManagersQuery();
         case MATCHES:

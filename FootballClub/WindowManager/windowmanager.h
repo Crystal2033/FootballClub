@@ -24,8 +24,8 @@ private:
     DBRepository* repository = nullptr;
     void updateByObserver(const REQUEST_TYPE requestStatus, BaseNote* note = nullptr) override;
 
-    void createAndShowData(const LABEL_TYPE& dataType, const EXISTANCE_STATUS& existStatus);
-    QSqlQuery* getNeededQuery(const LABEL_TYPE& dataType, const EXISTANCE_STATUS& existStatus);
+    void createAndShowData(const LABEL_TYPE& dataType, const EXISTANCE_STATUS& existStatus, const QString& searchDataText="");
+    QSqlQuery* getNeededQuery(const LABEL_TYPE& dataType, const EXISTANCE_STATUS& existStatus, const QString& searchDataText="");
     BaseNote* createNoteBasedOnType(const LABEL_TYPE& dataType, QSqlQuery* const& query);
 
     void sendTournamentNames(BaseNote* const& note);

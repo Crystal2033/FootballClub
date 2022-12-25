@@ -57,7 +57,7 @@ private:
     //Players
     int postContractData(const std::map<QString, TextField*>& fieldsMap);
     int postPlayerData(const std::map<QString, TextField*>& fieldsMap);
-    QSqlQuery* getPlayersQuery() const;
+    QSqlQuery* getPlayersQuery(const QString& searchDataText) const;
     QSqlQuery* getPlayerPositionNamesQuery() const;
 
     bool deletePlayerData(const unsigned id);
