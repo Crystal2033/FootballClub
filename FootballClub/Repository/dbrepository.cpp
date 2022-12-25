@@ -322,10 +322,10 @@ int DBRepository::postMatchData(const std::map<QString, TextField *> &fieldsMap)
 
     ComboBox* firstClubComboBox = (ComboBox*)fieldsMap.find("club1")->second;
     ComboBox* secondClubComboBox = (ComboBox*)fieldsMap.find("club2")->second;
-    if(firstClubComboBox->getText() == secondClubComboBox->getText()){
-        QMessageBox::warning(nullptr, "Teams are the same error.", "You have to choose different teams");
-        return false;
-    }
+//    if(firstClubComboBox->getText() == secondClubComboBox->getText()){
+//        QMessageBox::warning(nullptr, "Teams are the same error.", "You have to choose different teams");
+//        return false;
+//    } //WE HAVE TRIGGER FOR THIS
 
     ComboBox* teamTypeComboBox = (ComboBox*)fieldsMap.find("teamtype")->second;
 
@@ -364,11 +364,13 @@ int DBRepository::postMatchData(const std::map<QString, TextField *> &fieldsMap)
 
     if(!query.exec()){
         QMessageBox::critical(nullptr, "Matches request to database error",
-                              "There is a problem with sending request about matches information.");
+                              "There is a problem with sending request about matches information." + query.lastError().text());
         return 0;
     }
     else{
         qInfo() << "Success request";
+        qInfo() << "Size: " << query.size();
+        qInfo() << query.lastInsertId().toInt();
         return query.lastInsertId().toInt();
     }
 }
