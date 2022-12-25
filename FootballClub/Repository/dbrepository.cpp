@@ -135,7 +135,6 @@ bool DBRepository::deleteData(const LABEL_TYPE type, const unsigned id)
         return deletePlayerData(id);
     case COACHES:
         return deleteManagerData(id);
-        break;
     case MATCHES:
         return deleteMatchData(id);
     case CLUB:
@@ -151,25 +150,19 @@ bool DBRepository::deleteData(const LABEL_TYPE type, const unsigned id)
 
 bool DBRepository::deletePlayerData(const unsigned id)
 {
-    int contractId = getContractIdByPersonId(id, PLAYERS);
-    if(contractId == -1){
-        QMessageBox::critical(nullptr, "Request to database error",
-                              "Player contract id from database is wrong.");
-    }
-
+    qInfo() << id;
     QSqlQuery query;
-    query.prepare(getPlayerDeleteSQLRequest());
+    //QSQL can do only update, select, insert, delete...
+    QString procedureRequest = "call deleteplayer(" + QString::number(id) + ");";
 
-    query.bindValue(":id", id);
-
-    if(!query.exec()){
+    if(!query.exec(procedureRequest)){
         QMessageBox::critical(nullptr, "Player request to database error",
-                              "There is a problem with sending request about player information.");
+                              "There is a problem with deleting player information.");
+        qInfo() << query.lastError();
         return false;
     }
     else{
         qInfo() << "Success request";
-        deleteContractById(contractId);
         return true;
     }
 }
@@ -802,25 +795,19 @@ bool DBRepository::saveManagerData(const std::map<QString, TextField *> &fieldsM
 
 bool DBRepository::deleteManagerData(const unsigned id)
 {
-    int contractId = getContractIdByPersonId(id, COACHES);
-    if(contractId == -1){
-        QMessageBox::critical(nullptr, "Request to database error",
-                              "Player contract id from database is wrong.");
-    }
-
+    qInfo() << id;
     QSqlQuery query;
-    query.prepare(getManagerDeleteSQLRequest());
+    //QSQL can do only update, select, insert, delete...
+    QString procedureRequest = "call deletemanager(" + QString::number(id) + ");";
 
-    query.bindValue(":id", id);
-
-    if(!query.exec()){
+    if(!query.exec(procedureRequest)){
         QMessageBox::critical(nullptr, "Manager request to database error",
-                              "There is a problem with sending request DELETE about manager information.");
+                              "There is a problem with deleting manager information.");
+        qInfo() << query.lastError();
         return false;
     }
     else{
         qInfo() << "Success request";
-        deleteContractById(contractId);
         return true;
     }
 }
@@ -874,11 +861,6 @@ QSqlQuery *DBRepository::getMainCoachOfPSG()
 {
     return getQuery(getMainCoachOfPSGSQLRequest());
 }
-
-
-
-
-
 
 QString DBRepository::getMatchesSQLRequest() const
 {
@@ -1000,7 +982,7 @@ QString DBRepository::getManagerPostSQLRequest() const
 
 QString DBRepository::getPlayerDeleteSQLRequest() const
 {
-    return "delete from player where id=:id;";
+    return "call deleteplayer(:id);";
 }
 
 QString DBRepository::getContractPostSQLRequest() const

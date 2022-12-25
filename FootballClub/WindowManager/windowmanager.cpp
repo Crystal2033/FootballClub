@@ -120,7 +120,7 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         }
     }
     else if(requestStatus == DELETE){
-        if(note->getLastRequestType() == POST){ //react on Added and pressed "cancel" Don`t need to get id from DB, need just clear visual
+        if(note->getLastRequestType() == POST){ //react on Added button and pressed "cancel" Don`t need to get id from DB, need just clear visual
             this->window->dataDemonstrator->deleteNoteFromList(note);
             delete note;
             this->window->dataDemonstrator->showData(this->window->dataDemonstrator->getListOfNotes(), this->window->headerMenu->getChosenDataType());
