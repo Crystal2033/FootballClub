@@ -36,7 +36,7 @@ void WindowManager::updateByObserver(const REQUEST_TYPE requestStatus, BaseNote*
         switch (chosenDataType) {
         case PLAYERS:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
-            createAndShowData(chosenDataType, EXIST);
+            createAndShowData(chosenDataType, EXIST, this->window->dataDemonstrator->getSearchText());
             break;
         case COACHES:
             this->window->dataDemonstrator->setVisibleScrollArea(true);
@@ -176,7 +176,7 @@ QSqlQuery *WindowManager::getNeededQuery(const LABEL_TYPE &dataType, const EXIST
     else{
         switch (dataType) {
         case PLAYERS:
-            return repository->getPlayersQuery(window->dataDemonstrator->getSearchText());
+            return repository->getPlayersQuery(searchDataText);
         case COACHES:
             return repository->getManagersQuery();
         case MATCHES:
